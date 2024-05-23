@@ -1,0 +1,9 @@
+game_compiles_build_1:
+  name: package
+  record: one (GameCompile)
+  blob: webGL_build_1
+
+game_compiles_build_2:
+  name: package
+  record: two (GameCompile)
+  blob: webGL_build_2

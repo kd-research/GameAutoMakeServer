@@ -1,0 +1,2 @@
+webGL_build_1: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGL.zip") %>
+webGL_build_2: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGL.zip") %>
