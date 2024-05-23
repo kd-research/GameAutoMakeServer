@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_project: default
+  platform: webGL
+
+two:
+  game_project: default
+  platform: android
+
+three:
+  game_project: sample_project
+  platform: iOS
+

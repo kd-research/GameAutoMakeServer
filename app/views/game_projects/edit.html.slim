@@ -1,0 +1,10 @@
+h1 Editing game project
+
+== render "form", game_project: @game_project
+
+br
+
+div
+  => link_to "Show this game project", @game_project
+  '|
+  =< link_to "Back to game projects", game_projects_path

@@ -1,0 +1,16 @@
+div id="#{dom_id game_project}" class="block my-4"
+  p
+    strong Name:
+    =< game_project.name
+  p
+    strong Description:
+    =< game_project.description
+  p
+    strong Privacy:
+    =< game_project.privacy
+  p
+    | There are #{game_project.game_compiles.count} game compiles
+  - game_project.game_compiles.each do |game_compile|
+    hr
+      = render game_compile
+

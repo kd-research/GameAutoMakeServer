@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @game_compile
+
+div
+  => link_to "Edit this game compile", edit_game_compile_path(@game_compile)
+  '|
+  =< link_to "Back to game compiles", game_compiles_path
+
+  = button_to "Destroy this game compile", @game_compile, method: :delete

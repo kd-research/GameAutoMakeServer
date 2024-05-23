@@ -1,0 +1,2 @@
+module GameCompilesHelper
+end

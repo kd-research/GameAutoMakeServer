@@ -1,0 +1,13 @@
+div id="#{dom_id game_compile}" class="block my-4"
+  p
+    strong Game project:
+    =< game_compile.game_project_id
+  p
+    strong Platform:
+    =< game_compile.platform
+  p
+    strong Package:
+    - if game_compile.package.attached?
+      = link_to game_compile.package.filename, game_compile.package
+    - else
+      = "No package attached"

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+default:
+  name: Default Game Project
+  description: The default game project
+  privacy: unlisted
+
+sample_project:
+  name: A Sample Project
+  description: A sample project for testing
+  privacy: public

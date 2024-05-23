@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Game compiles
+
+#game_compiles
+  - @game_compiles.each do |game_compile|
+    == render game_compile
+    p
+      = link_to "Show this game compile", game_compile
+
+= link_to "New game compile", new_game_compile_path

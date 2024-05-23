@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @game_project
+
+div
+  => link_to "Edit this game project", edit_game_project_path(@game_project)
+  '|
+  =< link_to "Back to game projects", game_projects_path
+
+  = button_to "Destroy this game project", @game_project, method: :delete

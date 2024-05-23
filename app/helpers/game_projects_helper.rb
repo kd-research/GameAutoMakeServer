@@ -1,0 +1,2 @@
+module GameProjectsHelper
+end

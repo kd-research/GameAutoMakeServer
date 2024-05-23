@@ -1,0 +1,23 @@
+div id="#{dom_id game_compile}" class="block my-4"
+  = form_with(model: game_compile) do |form|
+    - if game_compile.errors.any?
+      div style="color: red"
+        h2 = "#{pluralize(game_compile.errors.count, "error")} prohibited this game_compile from being saved:"
+        ul
+          - game_compile.errors.each do |error|
+            li = error.full_message
+
+    div
+      = form.label :game_project_id, style: "display: block"
+      = form.text_field :game_project_id
+
+    div
+      = form.label :platform, style: "display: block"
+      = form.select :platform, options_for_select(game_compile.class.platforms)
+
+    div
+      = form.label :package, style: "display: block"
+      = form.file_field :package
+
+    div
+      = form.submit
