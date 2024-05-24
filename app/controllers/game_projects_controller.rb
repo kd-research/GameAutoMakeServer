@@ -1,5 +1,5 @@
 class GameProjectsController < ApplicationController
-  before_action :set_game_project, only: %i[ show edit update destroy ]
+  before_action :set_game_project, only: %i[ show edit update destroy webgl_build ]
 
   # GET /game_projects or /game_projects.json
   def index
@@ -17,6 +17,21 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects/1/edit
   def edit
+  end
+
+  # POST /game_projects/1/webgl_build
+  def webgl_build
+    build_path = "/home/kaidong/Downloads/minimial-build/minimal/Build"
+    sample = WebglGameCompile.new_from_build(build_path, "minimal")
+    sample.game_project = @game_project
+
+    respond_to do |format|
+      if sample.save
+        format.html { redirect_to game_project_url(@game_project), notice: "WebGL build was successfully created." }
+      else
+        format.html { redirect_to game_project_url(@game_project), alert: "WebGL build was not created." }
+      end
+    end
   end
 
   # POST /game_projects or /game_projects.json

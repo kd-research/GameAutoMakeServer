@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+h1 Webgl game compiles
+
+#webgl_game_compiles
+  - @webgl_game_compiles.each do |webgl_game_compile|
+    hr
+    == render webgl_game_compile, serving: false
+    p
+      = link_to "Show this webgl game compile", webgl_game_compile

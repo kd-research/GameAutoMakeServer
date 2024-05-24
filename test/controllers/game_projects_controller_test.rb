@@ -2,7 +2,7 @@ require "test_helper"
 
 class GameProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @game_project = game_projects(:one)
+    @game_project = game_projects(:default)
   end
 
   test "should get index" do

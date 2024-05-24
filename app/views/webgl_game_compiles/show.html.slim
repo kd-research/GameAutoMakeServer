@@ -1,0 +1,8 @@
+p style="color: green" = notice
+
+== render @webgl_game_compile, serving: true
+
+div
+  =< link_to "Back to webgl game compiles", webgl_game_compiles_path
+
+  = button_to "Destroy this webgl game compile", @webgl_game_compile, method: :delete

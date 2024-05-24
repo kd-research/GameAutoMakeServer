@@ -1,2 +1,9 @@
-webGL_build_1: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGL.zip") %>
-webGL_build_2: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGL.zip") %>
+webGL_build_1_data: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGLBuild-Build.data.unityweb") %>
+webGL_build_1_framework: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGLBuild-Build.framework.js.unityweb") %>
+webGL_build_1_loader: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGLBuild-Build.loader.js") %>
+webGL_build_1_code: <%= ActiveStorage::FixtureSet.blob(filename: "EnemyChasingPlayerWebGLBuild-Build.wasm.unityweb") %>
+
+webGL_build_2_data: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.data.unityweb") %>
+webGL_build_2_framework: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.framework.js.unityweb") %>
+webGL_build_2_loader: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.loader.js") %>
+webGL_build_2_code: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.wasm.unityweb") %>

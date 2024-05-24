@@ -1,9 +1,39 @@
-game_compiles_build_1:
-  name: package
-  record: one (GameCompile)
-  blob: webGL_build_1
+webgl_game_compile_1_data:
+  name: data_file
+  record: one (WebglGameCompile)
+  blob: webGL_build_1_data
 
-game_compiles_build_2:
-  name: package
-  record: two (GameCompile)
-  blob: webGL_build_2
+webgl_game_compile_1_framework:
+  name: framework_file
+  record: one (WebglGameCompile)
+  blob: webGL_build_1_framework
+
+webgl_game_compile_1_code:
+  name: code_file
+  record: one (WebglGameCompile)
+  blob: webGL_build_1_code
+
+webgl_game_compile_1_loader:
+  name: loader_file
+  record: one (WebglGameCompile)
+  blob: webGL_build_1_loader
+
+webgl_game_compile_2_data:
+  name: data_file
+  record: two (WebglGameCompile)
+  blob: webGL_build_2_data
+
+webgl_game_compile_2_framework:
+  name: framework_file
+  record: two (WebglGameCompile)
+  blob: webGL_build_2_framework
+
+webgl_game_compile_2_code:
+  name: code_file
+  record: two (WebglGameCompile)
+  blob: webGL_build_2_code
+
+webgl_game_compile_2_loader:
+  name: loader_file
+  record: two (WebglGameCompile)
+  blob: webGL_build_2_loader

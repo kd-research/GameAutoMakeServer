@@ -72,3 +72,6 @@ end
 gem "slim-rails", "~> 3.6"
 
 gem "byebug", "~> 11.1"
+
+
+gem "sass-embedded", "~> 1.77"

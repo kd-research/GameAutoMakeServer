@@ -1,8 +1,9 @@
 p style="color: green" = notice
+p style="color: red" = alert
 
 == render @game_project
 
-div
+div class="content"
   => link_to "Edit this game project", edit_game_project_path(@game_project)
   '|
   =< link_to "Back to game projects", game_projects_path

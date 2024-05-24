@@ -1,0 +1,18 @@
+= form_with(model: webgl_game_compile) do |form|
+  - if webgl_game_compile.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(webgl_game_compile.errors.count, "error")} prohibited this webgl_game_compile from being saved:"
+      ul
+        - webgl_game_compile.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :game_project_id, style: "display: block"
+    = form.text_field :game_project_id
+
+  div
+    = form.label :data_file, style: "display: block"
+    = form.file_field :data_file
+
+  div
+    = form.submit

@@ -1,0 +1,8 @@
+div id="#{dom_id webgl_game_compile}" class="content"
+  p
+    strong Game project:
+    =< webgl_game_compile.game_project_id
+
+  - if serving
+    = render 'webgl_game_compile_serving', package: webgl_game_compile
+
