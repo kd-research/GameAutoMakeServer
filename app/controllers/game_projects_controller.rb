@@ -19,6 +19,11 @@ class GameProjectsController < ApplicationController
   def edit
   end
 
+  def reset_all
+    system("rails db:fixtures:load")
+    redirect_to root_path, notice: "All data has been reset."
+  end
+
   # POST /game_projects/1/webgl_build
   def webgl_build
     build_path = "/home/kaidong/Downloads/minimial-build/minimal/Build"

@@ -1,12 +1,18 @@
-p style="color: green" = notice
+div class="container is-max-desktop"
+  p style="color: green" = notice
 
-h1 Game projects
+  p class="has-text-centered title"
+    strong Game projects
+  = link_to "New game project", new_game_project_path
 
-#game_projects
-  - @game_projects.each do |game_project|
-    hr
-    == render game_project
-    p
-      = link_to "Show this game project", game_project
+  #game_projects
+    - @game_projects.each do |game_project|
+      hr
+      = render game_project
+div class="container is-max-desktop"
+  hr
+  p class="has-text-centered title"
+    strong Danger zone
 
-= link_to "New game project", new_game_project_path
+  = form_with url: reset_all_path, method: :post do |f|
+    = submit_tag "Reset all game projects", class: "button is-danger is-medium is-dark"

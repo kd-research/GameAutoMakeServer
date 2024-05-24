@@ -1,5 +1,4 @@
 canvas#unity-canvas width=960 height=600 tabindex="-1" class="unity-canvas my-3"
-script src="#{url_for package.loader_file}"
 
 sass:
   .unity-canvas 
@@ -23,6 +22,11 @@ javascript:
     document.body.style.textAlign = "left";
   }
 
-  createUnityInstance(
-    document.querySelector("#unity-canvas"), #{raw webgl_unity_create_configs(package).to_json});
+  var script = document.createElement("script");
+  script.src = "#{url_for package.loader_file}";
+  script.onload = () => {
+    createUnityInstance(
+      document.querySelector("#unity-canvas"), #{raw webgl_unity_create_configs(package).to_json});
+  };
 
+  document.body.appendChild(script);

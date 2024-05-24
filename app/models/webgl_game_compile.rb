@@ -1,11 +1,21 @@
 class WebglGameCompile < ApplicationRecord
   def self.new_from_build(path, project_name='Build')
-    path = Pathname.new(path)
+    file_attribute = lambda do |name, **attributes|
+      custom_attributes = attributes.delete(:custom) || {}
+      path = Pathname.new(path)
+      {
+        io: File.open(path.join(name)),
+        filename: name,
+        metadata: {custom: custom_attributes},
+        **attributes
+      }
+    end
+
     new(
-      loader_file: File.open(path.join("#{project_name}.loader.js")),
-      data_file: File.open(path.join("#{project_name}.data.unityweb")),
-      framework_file: File.open(path.join("#{project_name}.framework.js.unityweb")),
-      code_file: File.open(path.join("#{project_name}.wasm.unityweb")),
+      loader_file: file_attribute["#{project_name}.loader.js"],
+      data_file: file_attribute[ "#{project_name}.data.unityweb", custom: {content_encoding: "gzip"} ],
+      framework_file: file_attribute[ "#{project_name}.framework.js.unityweb", content_type: "application/javascript", identify: false, custom: {content_encoding: "gzip"} ],
+      code_file: file_attribute[ "#{project_name}.wasm.unityweb", content_type: "application/wasm", identify: false, custom: {content_encoding: "gzip"} ],
     )
   end
 

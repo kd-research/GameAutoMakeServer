@@ -10,11 +10,13 @@ div id="#{dom_id game_project}" class="block my-4"
     =< game_project.privacy
 
   - if game_project.webgl_game_compile.present?
-    div class="block m-4"
+    p
       strong WebGL Game Compile:
-      = render game_project.webgl_game_compile, serving: false
-      = link_to "Show this WebGL Game", game_project.webgl_game_compile
+      div class="block my-1 mx-4"
+        = render game_project.webgl_game_compile, serving: false
+        = link_to "Show this WebGL Game", game_project.webgl_game_compile
   - else
-    = form_with model: game_project, url: webgl_build_game_project_path(game_project), method: :post do |f|
-      = f.submit "Compile Sample WebGL Game"
+    div class="block my-1 mx-4"
+      = form_with model: game_project, url: webgl_build_game_project_path(game_project), method: :post do |f|
+        = f.submit "Compile Sample WebGL Game", class: "button is-primary is-small"
 

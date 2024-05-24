@@ -75,3 +75,5 @@ gem "byebug", "~> 11.1"
 
 
 gem "sass-embedded", "~> 1.77"
+
+gem "pry", "~> 0.14.2", :group => :development
