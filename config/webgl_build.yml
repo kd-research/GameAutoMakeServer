@@ -1,0 +1,5 @@
+shared:
+  strategy: local
+  executable: /home/kaidong/Projects/UnityProjects/GameGenerator/bin/unity-headless-game-generator
+  project_name: Build
+

@@ -23,5 +23,6 @@ module GameAutoMakerServer
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.webgl_build = config_for(:webgl_build)
   end
 end

@@ -26,8 +26,19 @@ class GameProjectsController < ApplicationController
 
   # POST /game_projects/1/webgl_build
   def webgl_build
-    build_path = "/home/kaidong/Downloads/minimial-build/minimal/Build"
-    sample = WebglGameCompile.new_from_build(build_path, "minimal")
+    build_command = [Rails.configuration.webgl_build.executable]
+    sample = Dir.mktmpdir do |dir|
+      build_command << "--output"
+      build_command << dir
+      build_command << "--quiet"
+      system(*build_command)
+
+      WebglGameCompile.new_from_build(
+        File.join(dir, 'build'),
+        Rails.configuration.webgl_build.project_name,
+      )
+    end
+
     sample.game_project = @game_project
 
     respond_to do |format|
