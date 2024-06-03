@@ -7,16 +7,19 @@ class WebglGameCompilesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get webgl_game_compiles_url
+
     assert_response :success
   end
 
   test "should get new" do
     get new_webgl_game_compile_url
+
     assert_response :success
   end
 
   test "should show webgl_game_compile" do
     get webgl_game_compile_url(@webgl_game_compile)
+
     assert_response :success
   end
 

@@ -7,6 +7,7 @@ class GameCompilesTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit game_compiles_url
+
     assert_selector "h1", text: "Game compiles"
   end
 

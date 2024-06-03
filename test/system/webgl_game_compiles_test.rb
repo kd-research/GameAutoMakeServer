@@ -7,6 +7,7 @@ class WebglGameCompilesTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit webgl_game_compiles_url
+
     assert_selector "h1", text: "Webgl game compiles"
   end
 
