@@ -1,5 +1,5 @@
 class GameProjectsController < ApplicationController
-  before_action :set_game_project, only: %i[ show edit update destroy webgl_build ]
+  before_action :set_game_project, only: %i[show edit update destroy webgl_build]
 
   # GET /game_projects or /game_projects.json
   def index
@@ -7,8 +7,7 @@ class GameProjectsController < ApplicationController
   end
 
   # GET /game_projects/1 or /game_projects/1.json
-  def show
-  end
+  def show; end
 
   # GET /game_projects/new
   def new
@@ -16,8 +15,7 @@ class GameProjectsController < ApplicationController
   end
 
   # GET /game_projects/1/edit
-  def edit
-  end
+  def edit; end
 
   def reset_all
     system("rails db:fixtures:load")
@@ -34,8 +32,8 @@ class GameProjectsController < ApplicationController
       system(*build_command)
 
       WebglGameCompile.new_from_build(
-        File.join(dir, 'build'),
-        Rails.configuration.webgl_build.project_name,
+        File.join(dir, "build"),
+        Rails.configuration.webgl_build.project_name
       )
     end
 
@@ -89,13 +87,14 @@ class GameProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game_project
-      @game_project = GameProject.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def game_project_params
-      params.require(:game_project).permit(:name, :description, :privacy)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game_project
+    @game_project = GameProject.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def game_project_params
+    params.require(:game_project).permit(:name, :description, :privacy)
+  end
 end

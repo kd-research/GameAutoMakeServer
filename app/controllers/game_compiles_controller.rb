@@ -1,5 +1,5 @@
 class GameCompilesController < ApplicationController
-  before_action :set_game_compile, only: %i[ show edit update destroy ]
+  before_action :set_game_compile, only: %i[show edit update destroy]
 
   # GET /game_compiles or /game_compiles.json
   def index
@@ -7,8 +7,7 @@ class GameCompilesController < ApplicationController
   end
 
   # GET /game_compiles/1 or /game_compiles/1.json
-  def show
-  end
+  def show; end
 
   # GET /game_compiles/new
   def new
@@ -16,8 +15,7 @@ class GameCompilesController < ApplicationController
   end
 
   # GET /game_compiles/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /game_compiles or /game_compiles.json
   def create
@@ -58,13 +56,14 @@ class GameCompilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game_compile
-      @game_compile = GameCompile.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def game_compile_params
-      params.require(:game_compile).permit(:game_project_id, :platform, :package)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game_compile
+    @game_compile = GameCompile.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def game_compile_params
+    params.require(:game_compile).permit(:game_project_id, :platform, :package)
+  end
 end

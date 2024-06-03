@@ -1,5 +1,5 @@
 class WebglGameCompilesController < ApplicationController
-  before_action :set_webgl_game_compile, only: %i[ show destroy ]
+  before_action :set_webgl_game_compile, only: %i[show destroy]
 
   # GET /webgl_game_compiles or /webgl_game_compiles.json
   def index
@@ -7,14 +7,16 @@ class WebglGameCompilesController < ApplicationController
   end
 
   # GET /webgl_game_compiles/1 or /webgl_game_compiles/1.json
-  def show
-  end
+  def show; end
 
   # PATCH/PUT /webgl_game_compiles/1 or /webgl_game_compiles/1.json
   def update
     respond_to do |format|
       if @webgl_game_compile.update(webgl_game_compile_params)
-        format.html { redirect_to webgl_game_compile_url(@webgl_game_compile), notice: "Webgl game compile was successfully updated." }
+        format.html do
+          redirect_to webgl_game_compile_url(@webgl_game_compile),
+                      notice: "Webgl game compile was successfully updated."
+        end
         format.json { render :show, status: :ok, location: @webgl_game_compile }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -34,13 +36,14 @@ class WebglGameCompilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_webgl_game_compile
-      @webgl_game_compile = WebglGameCompile.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def webgl_game_compile_params
-      params.require(:webgl_game_compile).permit(:game_project_id, :data_file)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_webgl_game_compile
+    @webgl_game_compile = WebglGameCompile.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def webgl_game_compile_params
+    params.require(:webgl_game_compile).permit(:game_project_id, :data_file)
+  end
 end
