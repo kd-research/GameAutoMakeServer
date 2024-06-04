@@ -1,0 +1,8 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% 5.times do |i| %>
+user_auth_<%= i %>:
+  provider: developer
+  uid: "oauthed_<%= i %>@<%= Rails.application.class.name.split('::').first.downcase %>"
+  user: oauthed_<%= i %>
+<% end %>

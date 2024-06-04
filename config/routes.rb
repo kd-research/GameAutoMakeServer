@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  get "unity_storage_disk/show"
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+
+  namespace :users do
+    get "dashboard/index"
+  end
+
   resources :game_projects do
     member do
       post :webgl_build
@@ -10,14 +15,19 @@ Rails.application.routes.draw do
     resources :webgl_game_compiles, only: %i[index show destroy]
     resources :game_compiles
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  post "reset_all", to: "game_projects#reset_all"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "unity_storage_disk/show"
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "/rails/active_storage/disk/:encoded_key/*filename" => "unity_storage_disk#show"
 
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  scope :admin do
+    post "reset_all", to: "game_projects#reset_all"
+  end
+
   # Defines the root path route ("/")
-  root "game_projects#index"
+  root "users/dashboard#index"
 end

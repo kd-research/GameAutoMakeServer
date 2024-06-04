@@ -4,13 +4,16 @@ default:
   name: Default Game Project
   description: The default game project
   privacy: unlisted
+  user: orphans
 
 sample_project:
   name: A Sample Project
   description: A sample project for testing
   privacy: public
+  user: orphans
 
 no_webgl_project:
   name: A Project with no game bulid
   description: A project with no game build
   privacy: public
+  user: orphans
