@@ -74,3 +74,5 @@ Metrics/PerceivedComplexity:
 Rails/I18nLocaleTexts:
   Enabled: false
 
+Rails/NotNullColumn:
+  Enabled: false
