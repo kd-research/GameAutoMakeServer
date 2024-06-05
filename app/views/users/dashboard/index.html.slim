@@ -1,2 +1,11 @@
 h1 Users::Dashboard#index
-p Find me in app/views/users/dashboard/index.html.slim
+
+.container
+  - if (name = current_profile.name).present?
+    p Hello, #{name}
+  - else
+    p Hello, #{current_user.email}
+
+  = image_tag image_or_default, class: 'image is-64x64 is-rounded'
+
+= button_to 'Logout', destroy_user_session_path, method: :delete

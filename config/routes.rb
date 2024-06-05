@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :guests do
+    get "dashboard/index"
+  end
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   namespace :users do
@@ -29,5 +32,5 @@ Rails.application.routes.draw do
   end
 
   # Defines the root path route ("/")
-  root "users/dashboard#index"
+  root "guests/dashboard#index"
 end

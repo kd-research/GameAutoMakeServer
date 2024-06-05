@@ -34,7 +34,12 @@ module Omniauthable
     # Fill in user details from the auth hash
     def fill_in_details(user, auth)
       fill_in_name(user, auth.dig(:info, :name))
-      fill_in_avatar(user, auth.dig(:info, :image))
+      %i[avatar_url image].each do |key|
+        if (value = auth.dig(:info, key))
+          fill_in_avatar(user, value)
+          break
+        end
+      end
       user
     end
 
@@ -52,8 +57,8 @@ module Omniauthable
       response = RestClient.get image_url
       return unless response.code == 200 && response.headers[:content_type].start_with?("image/")
 
-      filename = "#{auth.provider}-avatar.#{response.headers[:content_type].split('/').last}"
-      user.avatar.attach(io: response.body, filename:)
+      filename = "user-avatar.#{response.headers[:content_type].split('/').last}"
+      user.user_profile.image.attach(io: StringIO.new(response.body), filename:)
     end
   end
 end

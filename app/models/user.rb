@@ -5,11 +5,11 @@ class User < ApplicationRecord
   omniauth_providers << :developer unless Rails.env.production?
 
   devise(:database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :omniauthable,
-         omniauth_providers:)
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers:)
 
+  has_one :user_profile, dependent: :destroy
   has_many :user_oauths, dependent: :destroy
-  has_many :user_profiles, dependent: :destroy
   has_many :game_projects, dependent: :destroy
 
   after_create :create_user_profile
@@ -17,6 +17,6 @@ class User < ApplicationRecord
   private
 
   def create_user_profile
-    user_profiles.create!
+    self.user_profile = UserProfile.create!(user: self)
   end
 end
