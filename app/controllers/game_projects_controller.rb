@@ -1,9 +1,12 @@
 class GameProjectsController < ApplicationController
-  before_action :set_game_project, only: %i[show edit update destroy webgl_build]
+  before_action :authenticate_user!, only: %i[new create]
+  before_action :validate_game_project_showable, only: %i[show webgl_build]
+  before_action :validate_game_project_owner, only: %i[edit update destroy]
 
   # GET /game_projects or /game_projects.json
   def index
-    @game_projects = GameProject.all
+    @user_projects = current_user.game_projects if user_signed_in?
+    @public_projects = GameProject.privacy_public
   end
 
   # GET /game_projects/1 or /game_projects/1.json
@@ -16,11 +19,6 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects/1/edit
   def edit; end
-
-  def reset_all
-    system("rails db:fixtures:load")
-    redirect_to root_path, notice: "All data has been reset."
-  end
 
   # POST /game_projects/1/webgl_build
   def webgl_build
@@ -51,6 +49,7 @@ class GameProjectsController < ApplicationController
   # POST /game_projects or /game_projects.json
   def create
     @game_project = GameProject.new(game_project_params)
+    @game_project.user = current_user
 
     respond_to do |format|
       if @game_project.save
@@ -91,6 +90,19 @@ class GameProjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_game_project
     @game_project = GameProject.find(params[:id])
+  end
+
+  def validate_game_project_showable
+    set_game_project
+    authenticate_user! if @game_project.privacy_private?
+
+    head :not_found if @game_project.privacy_private? && @game_project.user != current_user
+  end
+
+  def validate_game_project_owner
+    set_game_project
+
+    head :unauthorized unless @game_project.user == current_user
   end
 
   # Only allow a list of trusted parameters through.

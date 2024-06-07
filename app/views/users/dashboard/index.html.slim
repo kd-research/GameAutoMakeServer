@@ -1,11 +1,12 @@
-h1 Users::Dashboard#index
-
-.container
-  - if (name = current_profile.name).present?
-    p Hello, #{name}
-  - else
-    p Hello, #{current_user.email}
+div class="container is-max-desktop"
+  p class="has-text-centered title"
+    - if (name = current_profile.name).present?
+      | Hello, #{name}
+    - else
+      | Hello, #{current_user.email}
 
   = image_tag image_or_default, class: 'image is-64x64 is-rounded'
 
-= button_to 'Logout', destroy_user_session_path, method: :delete
+  = link_to 'My Games', game_projects_path
+
+  = button_to 'Logout', destroy_user_session_path, method: :delete
