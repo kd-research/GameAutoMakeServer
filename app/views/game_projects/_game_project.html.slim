@@ -6,6 +6,9 @@ div id="#{dom_id game_project}" class="block my-4"
     strong Description:
     =< game_project.description
   p
+    strong Creator:
+    =< game_project.user.email
+  p
     strong Privacy:
     =< game_project.privacy
 

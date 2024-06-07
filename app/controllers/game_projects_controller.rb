@@ -5,8 +5,12 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects or /game_projects.json
   def index
-    @user_projects = current_user.game_projects if user_signed_in?
-    @public_projects = GameProject.privacy_public
+    if user_signed_in?
+      @user_projects = current_user.game_projects
+      @public_projects = GameProject.privacy_public.where.not(user: current_user)
+    else
+      @public_projects = GameProject.privacy_public
+    end
   end
 
   # GET /game_projects/1 or /game_projects/1.json

@@ -14,7 +14,9 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  config.secret_key = Rails.application.credentials.devise.secret_key!
+  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+    config.secret_key = Rails.application.credentials.devise.secret_key!
+  end
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +128,9 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  config.pepper = Rails.application.credentials.devise.pepper!
+  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+    config.pepper = Rails.application.credentials.devise.pepper!
+  end
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -272,7 +276,12 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :developer unless Rails.env.production?
-  config.omniauth :github, ENV.fetch("GITHUB_OAUTH_KEY"), ENV.fetch("GITHUB_OAUTH_SECRET"), scope: "read:user, user:email"
+  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+    config.omniauth :github,
+                    Rails.application.credentials.github.oauth_key!,
+                    Rails.application.credentials.github.oauth_secret!,
+                    scope: "read:user, user:email"
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

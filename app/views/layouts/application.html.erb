@@ -17,10 +17,13 @@
       <%= yield %>
     </div>
     <div class="footer is-max-desktop">
-      <p class="has-text-centered title">
-        <strong>Development zone</strong>
-      </p>
-      <%= button_to "Reset database", reset_all_path, method: :post, class: "button is-danger is-medium is-dark" %>
+      <% if Rails.env.development? %>
+        <p class="has-text-centered title">
+          <strong>Development zone</strong>
+        </p>
+        <%= button_to "Reset database", reset_all_path, method: :post, class: "button is-danger is-medium is-dark" %>
+      <% end %>
+      GameAutoMaker &copy; 2021
     </div>
   </body>
 </html>
