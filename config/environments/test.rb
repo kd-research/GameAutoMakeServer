@@ -61,4 +61,12 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Allow generate absolute URL
+  host_name = ENV.fetch("HOST_NAME", "localhost:3000")
+
+  config.action_mailer.default_url_options = { host: host_name }
+  config.action_mailer.asset_host = "http://#{host_name}"
+
+  Rails.application.routes.default_url_options = { host: host_name }
 end

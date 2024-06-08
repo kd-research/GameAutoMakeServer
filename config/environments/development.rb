@@ -41,8 +41,6 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -76,10 +74,19 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # Run rubocop after generate from templates
   config.generators.after_generate do |files|
     parsable_files = files.filter { |file| file.end_with?(".rb") }
     unless parsable_files.empty?
       system("bundle exec rubocop -A --fail-level=E #{parsable_files.shelljoin}", exception: true)
     end
   end
+
+  # Allow generate absolute URL
+  host_name = ENV.fetch("HOST_NAME", "localhost:3000")
+
+  config.action_mailer.default_url_options = { host: host_name }
+  config.action_mailer.asset_host = "http://#{host_name}"
+
+  Rails.application.routes.default_url_options = { host: host_name }
 end
