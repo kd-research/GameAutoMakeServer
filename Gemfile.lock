@@ -119,24 +119,32 @@ GEM
       net-http
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.27.0)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.27.0-aarch64-linux)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.27.0-arm64-darwin)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.27.0-x86-linux)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.27.0-x86_64-darwin)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.27.0-x86_64-linux)
-      bigdecimal
-      rake (>= 13)
+    google-protobuf (3.25.3)
+    google-protobuf (3.25.3-aarch64-linux)
+    google-protobuf (3.25.3-arm64-darwin)
+    google-protobuf (3.25.3-x86-linux)
+    google-protobuf (3.25.3-x86_64-darwin)
+    google-protobuf (3.25.3-x86_64-linux)
+    googleapis-common-protos-types (1.14.0)
+      google-protobuf (~> 3.18)
+    grpc (1.64.0)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.64.0-aarch64-linux)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.64.0-arm64-darwin)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.64.0-x86-linux)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.64.0-x86_64-darwin)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.64.0-x86_64-linux)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
     hashie (5.0.0)
     http-accept (1.7.0)
     http-cookie (1.0.6)
@@ -405,6 +413,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise (~> 4.9)
+  grpc (~> 1.64)
   jbuilder
   jsbundling-rails
   omniauth-github (~> 2.0)

@@ -1,4 +1,5 @@
 class WebglGameCompile < ApplicationRecord
+  # @deprecated
   def self.new_from_build(path, project_name = "Build")
     file_attribute = lambda do |name, **attributes|
       custom_attributes = attributes.delete(:custom) || {}
@@ -18,6 +19,43 @@ class WebglGameCompile < ApplicationRecord
                                                                               identify: false, custom: { content_encoding: "gzip" }],
       code_file: file_attribute["#{project_name}.wasm.unityweb", content_type: "application/wasm", identify: false,
                                                                  custom: { content_encoding: "gzip" }]
+    )
+  end
+
+  self.class.deprecate :new_from_build, deprecator: Rails.application.deprecator
+
+  # @param loader [String] The content of the loader file
+  # @param data [String] The content of the data file
+  # @param framework [String] The content of the framework file
+  # @param code [String] The content of the code file
+  # @return [WebglGameCompile]  
+  def self.new_from_bytes(loader:, data:, framework:, code:, worker: nil, symbol: nil)
+    if [worker, symbol].any?
+      raise ArgumentError, "Worker and symbol files are not supported yet"
+    end
+
+    file_attribute = lambda do |name, file_data, **attributes|
+      custom_attributes = attributes.delete(:custom) || {}
+      {
+        io: StringIO.new(file_data),
+        filename: name,
+        metadata: { custom: custom_attributes },
+        **attributes
+      }
+    end
+
+    new(
+      loader_file: file_attribute["Build.loader.js", loader,
+                                  content_type: "application/javascript"],
+
+      data_file: file_attribute["Build.data.unityweb", data,
+                                custom: { content_encoding: "gzip" }],
+
+      framework_file: file_attribute["Build.framework.js.unityweb", framework,
+                                     content_type: "application/javascript", identify: false, custom: { content_encoding: "gzip" }],
+
+      code_file: file_attribute["Build.wasm.unityweb", code,
+                                content_type: "application/wasm", identify: false, custom: { content_encoding: "gzip" }]
     )
   end
 

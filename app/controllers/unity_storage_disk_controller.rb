@@ -1,4 +1,5 @@
 class UnityStorageDiskController < ActiveStorage::DiskController
+  # @deprecated
   def show
     if (key = decode_verified_key)
       super
@@ -11,4 +12,8 @@ class UnityStorageDiskController < ActiveStorage::DiskController
       head :not_found
     end
   end
+
+  deprecate show: <<~MSG.squish, deprecator: Rails.application.deprecator
+    Local file serving is deprecated. Please use a web server for this functionality, or use a service like S3 to store and serve files.
+  MSG
 end

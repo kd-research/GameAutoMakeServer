@@ -90,3 +90,5 @@ gem "omniauth-github", "~> 2.0"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 
 gem "rest-client", "~> 2.1"
+
+gem "grpc", "~> 1.64"

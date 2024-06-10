@@ -26,18 +26,21 @@ class GameProjectsController < ApplicationController
 
   # POST /game_projects/1/webgl_build
   def webgl_build
-    build_command = [Rails.configuration.webgl_build.executable]
-    sample = Dir.mktmpdir do |dir|
-      build_command << "--output"
-      build_command << dir
-      build_command << "--quiet"
-      system(*build_command)
-
-      WebglGameCompile.new_from_build(
-        File.join(dir, "build"),
-        Rails.configuration.webgl_build.project_name
-      )
+    begin
+      response = GameGenerator::Client.new.generate_game
+    rescue GRPC::Unavailable
+      respond_to do |format|
+        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
+      end
+      return
     end
+
+    sample = WebglGameCompile.new_from_bytes(
+      loader: response.loader.data,
+      data: response.data.data,
+      framework: response.framework.data,
+      code: response.code.data
+    )
 
     sample.game_project = @game_project
 
