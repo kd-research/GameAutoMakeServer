@@ -92,3 +92,5 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "rest-client", "~> 2.1"
 
 gem "grpc", "~> 1.64"
+
+gem "google-cloud-storage", "~> 1.52"
