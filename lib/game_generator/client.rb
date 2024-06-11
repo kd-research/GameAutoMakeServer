@@ -8,7 +8,8 @@ module GameGenerator
         "grpc.max_receive_message_length" => -1
       }
 
-      @stub = GameGenerator::Stub.new("localhost:9451", :this_channel_is_insecure, channel_args:)
+      server_host = ENV.fetch("GENERATOR_HOST", "localhost:9451")
+      @stub = GameGenerator::Stub.new(server_host, :this_channel_is_insecure, channel_args:)
     end
 
     def generate_game
