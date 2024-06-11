@@ -94,3 +94,9 @@ gem "rest-client", "~> 2.1"
 gem "grpc", "~> 1.64"
 
 gem "google-cloud-storage", "~> 1.52"
+
+group :production do
+  gem "pg", "~> 1.5"
+
+  gem "appengine", "~> 0.3.0"
+end
