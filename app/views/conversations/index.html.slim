@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Conversations
+
+#conversations
+  - @conversations.each do |conversation|
+    == render conversation
+    p
+      = link_to "Show this conversation", conversation
+
+= link_to "New conversation", new_conversation_path

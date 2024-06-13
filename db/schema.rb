@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_04_193613) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_04_193613) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.text "system_message"
+    t.integer "previous_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["previous_id"], name: "index_conversations_on_previous_id"
+  end
+
+  create_table "dialogs", force: :cascade do |t|
+    t.string "request_role"
+    t.text "request_message"
+    t.string "response_role"
+    t.text "response_message"
+    t.integer "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_dialogs_on_conversation_id"
   end
 
   create_table "game_compiles", force: :cascade do |t|
@@ -95,6 +114,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_04_193613) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversations", "conversations", column: "previous_id"
+  add_foreign_key "dialogs", "conversations"
   add_foreign_key "game_compiles", "game_projects"
   add_foreign_key "game_projects", "users"
   add_foreign_key "user_oauths", "users"

@@ -1,0 +1,18 @@
+= form_with(model: conversation) do |form|
+  - if conversation.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(conversation.errors.count, "error")} prohibited this conversation from being saved:"
+      ul
+        - conversation.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :system_message, style: "display: block"
+    = form.text_field :system_message
+
+  div
+    = form.label :previous_id, style: "display: block"
+    = form.text_field :previous_id
+
+  div
+    = form.submit

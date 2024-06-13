@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :conversations
   namespace :guests do
     get "dashboard/index"
   end
