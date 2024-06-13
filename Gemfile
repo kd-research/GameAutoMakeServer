@@ -100,3 +100,5 @@ group :production do
 
   gem "appengine", "~> 0.3.0"
 end
+
+gem "ruby-openai", "~> 7.1"
