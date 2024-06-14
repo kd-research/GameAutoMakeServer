@@ -14,7 +14,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+  if ENV["SECRET_KEY_BASE_DUMMY"].blank?
     config.secret_key = Rails.application.credentials.devise.secret_key!
   end
 
@@ -128,7 +128,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+  if ENV["SECRET_KEY_BASE_DUMMY"].blank?
     config.pepper = Rails.application.credentials.devise.pepper!
   end
 
@@ -276,7 +276,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :developer unless Rails.env.production?
-  unless ENV["SECRET_KEY_BASE_DUMMY"].present?
+  if ENV["SECRET_KEY_BASE_DUMMY"].blank?
     config.omniauth :github,
                     Rails.application.credentials.github.oauth_key!,
                     Rails.application.credentials.github.oauth_secret!,

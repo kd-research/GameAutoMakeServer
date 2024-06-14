@@ -28,7 +28,7 @@ class WebglGameCompile < ApplicationRecord
   # @param data [String] The content of the data file
   # @param framework [String] The content of the framework file
   # @param code [String] The content of the code file
-  # @return [WebglGameCompile]  
+  # @return [WebglGameCompile]
   def self.new_from_bytes(loader:, data:, framework:, code:, worker: nil, symbol: nil)
     if [worker, symbol].any?
       raise ArgumentError, "Worker and symbol files are not supported yet"
