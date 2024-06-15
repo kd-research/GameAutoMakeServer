@@ -1,7 +1,13 @@
-div id="#{dom_id conversation}"
-  p
-    strong System message:
-    =< conversation.system_message
-  p
-    strong Previous:
-    =< conversation.previous_id
+div id="#{dom_id conversation}" class="box content"
+  h5 System message
+  p  =< conversation.system_message
+  - if conversation.previous_id.present?
+    h5 Previous 
+    p  =< conversation.previous_id
+
+  - conversation.dialogs.each do |d|
+    = render d
+
+  - if conversation.dialog.present?
+    = render conversation.dialog
+

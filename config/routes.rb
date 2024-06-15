@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  resources :conversations
+  resources :conversations do
+    member do
+      get :continue
+      post :send_message
+    end
+  end
+
   namespace :guests do
     get "dashboard/index"
   end

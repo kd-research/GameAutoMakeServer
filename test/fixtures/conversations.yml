@@ -2,8 +2,7 @@
 
 one:
   system_message: MyString
-  previous: one
 
 two:
   system_message: MyString
-  previous: two
+  previous: one

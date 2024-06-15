@@ -1,9 +1,9 @@
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: %i[show edit update destroy]
+  before_action :set_conversation, only: %i[show edit update destroy continue send_message]
 
   # GET /conversations or /conversations.json
   def index
-    @conversations = Conversation.all
+    @conversations = Conversation.where.missing(:replies)
   end
 
   # GET /conversations/1 or /conversations/1.json
@@ -12,6 +12,7 @@ class ConversationsController < ApplicationController
   # GET /conversations/new
   def new
     @conversation = Conversation.new
+    @conversation.system_message = @conversation.default_system_message
   end
 
   # GET /conversations/1/edit
@@ -52,6 +53,17 @@ class ConversationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to conversations_url, notice: "Conversation was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def continue; end
+
+  def send_message
+    to_send = params[:message]
+    if (new_conversation = @conversation.send_message(to_send))
+      redirect_to conversation_url(new_conversation)
+    else
+      redirect_to conversation_url(@conversation), alert: "Something went wrong."
     end
   end
 

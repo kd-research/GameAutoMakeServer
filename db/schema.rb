@@ -47,6 +47,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
     t.index ["previous_id"], name: "index_conversations_on_previous_id"
   end
 
+  create_table "conversations_dialogs", id: false, force: :cascade do |t|
+    t.integer "conversation_id", null: false
+    t.integer "dialog_id", null: false
+  end
+
   create_table "dialogs", force: :cascade do |t|
     t.string "request_role"
     t.text "request_message"

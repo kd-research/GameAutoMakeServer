@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  request_role: MyString
+  request_role: user
   request_message: MyText
-  response_role: MyString
+  response_role: assistant
   response_message: MyText
-  conversation_creator: one
+  conversation: one
 
 two:
-  request_role: MyString
+  request_role: user
   request_message: MyText
-  response_role: MyString
+  response_role: assistant
   response_message: MyText
-  conversation_creator: two
+  conversation: two

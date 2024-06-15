@@ -6,13 +6,12 @@
         - conversation.errors.each do |error|
           li = error.full_message
 
-  div
-    = form.label :system_message, style: "display: block"
-    = form.text_field :system_message
+  div class="field"
+    = form.label :system_message, class: "label"
+    = form.text_field :system_message, class: "input"
 
-  div
-    = form.label :previous_id, style: "display: block"
-    = form.text_field :previous_id
+  div class="field"
+    = form.text_field :previous_id, hidden: true
 
-  div
-    = form.submit
+  div class="field"
+    = form.submit class: "button"
