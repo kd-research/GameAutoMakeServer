@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
     t.integer "conversation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conversation_id"], name: "index_dialogs_on_conversation_id"
+    t.index ["conversation_id"], name: "index_dialogs_on_conversation_id", unique: true
   end
 
   create_table "game_compiles", force: :cascade do |t|

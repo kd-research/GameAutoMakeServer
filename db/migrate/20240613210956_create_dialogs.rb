@@ -5,7 +5,7 @@ class CreateDialogs < ActiveRecord::Migration[7.1]
       t.text :request_message
       t.string :response_role
       t.text :response_message
-      t.references :conversation, null: false, foreign_key: true
+      t.references :conversation, null: false, foreign_key: true, index: { unique: true }
 
       t.timestamps
     end
