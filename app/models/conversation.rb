@@ -9,12 +9,16 @@ class Conversation < ApplicationRecord
   has_and_belongs_to_many :dialogs # rubocop:disable Rails/HasAndBelongsToMany
   has_one :dialog, dependent: :destroy
 
-  def send_message(message, role: nil, chat_system_message: nil)
+  def send_message(message, role: nil, chat_system_message: nil, json_mode: false)
     @role = role || "user"
-    @chat_system_message = chat_system_message || default_system_message
+    chat_system_message = chat_system_message ||
+                          @chat_system_message ||
+                          default_system_message
 
     client = OpenAI::Client.new
-    response = client.chat parameters: chat_parameters(message)
+    p = chat_parameters(message)
+    p[:response_format] = { type: "json_object" } if json_mode
+    response = client.chat(parameters: p)
 
     request_role = @role
     request_message = message
@@ -23,7 +27,7 @@ class Conversation < ApplicationRecord
 
     history_dialogs = dialogs.to_a + [dialog].compact
     Conversation.create(
-      system_message: @chat_system_message,
+      system_message: chat_system_message,
       previous: self,
       dialogs: history_dialogs
     ).tap do |c|
@@ -41,6 +45,7 @@ class Conversation < ApplicationRecord
     chat_messages << { role: "system", content: @chat_system_message }
     chat_messages.concat(all_messages)
     chat_messages << { role: @role, content: message }
+    chat_messages.reject! { |m| m[:content].nil? || m[:content].empty? }
 
     {
       model: "gpt-4o",
@@ -52,10 +57,10 @@ class Conversation < ApplicationRecord
     return [] if dialog.nil?
 
     (dialogs + [dialog]).flat_map do |d|
-      [
-        { role: d.request_role, content: d.request_message },
-        { role: d.response_role, content: d.response_message }
-      ]
+      [].tap do |a|
+        a << { role: d.request_role, content: d.request_message }
+        a << { role: d.response_role, content: d.response_message }
+      end
     end
   end
 

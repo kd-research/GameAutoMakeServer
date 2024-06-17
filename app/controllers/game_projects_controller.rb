@@ -1,7 +1,8 @@
 class GameProjectsController < ApplicationController
+  include CrewFlavored
   before_action :authenticate_user!, only: %i[new create]
   before_action :validate_game_project_showable, only: %i[show webgl_build]
-  before_action :validate_game_project_owner, only: %i[edit update destroy]
+  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec]
 
   # GET /game_projects or /game_projects.json
   def index
@@ -89,6 +90,35 @@ class GameProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to game_projects_url, notice: "Game project was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def send_message
+    to_send = params[:message]
+    @game_project.chat_conversation =
+      @game_project.chat_conversation.send_message(
+        to_send,
+        chat_system_message: game_consultant_flavored
+      )
+    @game_project.save!
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: game_project_url(@game_project)) }
+      format.js { render json: @game_project }
+    end
+  end
+
+  def request_game_spec
+    @game_project.game_generate_conversation =
+      @game_project.chat_conversation.send_message(
+        game_developer_message,
+        chat_system_message: game_developer_flavored,
+        role: "system",
+        json_mode: true
+      )
+    @game_project.save!
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: game_project_url(@game_project)) }
+      format.js { render json: @game_project }
     end
   end
 

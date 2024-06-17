@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :game_projects do
     member do
       post :webgl_build
+      post :send_message
+      post :request_game_spec
     end
   end
 

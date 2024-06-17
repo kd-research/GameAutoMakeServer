@@ -1,8 +1,2 @@
-= form_with url: send_message_conversation_path(@conversation), method: :post do |f|
-  div class="field"
-    = f.label :message, class: "label"
-    = f.text_area :message, class: "input"
-
-  div class="field is-grouped"
-    = f.submit "Send", class: "button is-primary"
-    = link_to "Cancel", conversation_path(@conversation), class: "button"
+= render "continue", conversation: @conversation, allow_chat_action: send_message_conversation_path(@conversation)
+= link_to "Cancel", conversation_path(@conversation), class: "button"

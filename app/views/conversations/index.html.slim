@@ -3,7 +3,7 @@ div class="content"
 
   #conversations
     - @conversations.each do |conversation|
-      == render conversation
+      == render conversation, allow_chats: false
       p
         = link_to "Show this conversation", conversation
 

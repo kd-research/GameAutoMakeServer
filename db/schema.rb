@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_17_020549) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -78,6 +78,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.integer "chat_conversation_id", null: false
+    t.integer "game_generate_conversation_id"
+    t.index ["chat_conversation_id"], name: "index_game_projects_on_chat_conversation_id"
+    t.index ["game_generate_conversation_id"], name: "index_game_projects_on_game_generate_conversation_id"
     t.index ["user_id"], name: "index_game_projects_on_user_id"
   end
 
@@ -122,6 +126,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_211127) do
   add_foreign_key "conversations", "conversations", column: "previous_id"
   add_foreign_key "dialogs", "conversations"
   add_foreign_key "game_compiles", "game_projects"
+  add_foreign_key "game_projects", "conversations", column: "chat_conversation_id"
+  add_foreign_key "game_projects", "conversations", column: "game_generate_conversation_id"
   add_foreign_key "game_projects", "users"
   add_foreign_key "user_oauths", "users"
   add_foreign_key "user_profiles", "users"

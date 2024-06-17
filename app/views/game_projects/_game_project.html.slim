@@ -1,16 +1,25 @@
 div id="#{dom_id game_project}" class="block my-4"
-  p
-    strong Name:
-    =< game_project.name
-  p
-    strong Description:
-    =< game_project.description
-  p
-    strong Creator:
-    =< game_project.user.email
-  p
-    strong Privacy:
-    =< game_project.privacy
+  div class="content"
+    = link_to game_project do
+      h3 class="title has-text-link is-3"
+        = game_project.name
+    p
+      strong Description:
+      =< game_project.description
+    p
+      strong Creator:
+      =< game_project.user.email
+    p
+      strong Privacy:
+      =< game_project.privacy
+
+  = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
+
+  div class="box"
+    = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-link"
+
+    - if (generator = game_project.game_generate_conversation).present?
+      == render plain: generator.dialog.response_message
 
   - if game_project.webgl_game_compile.present?
     p
