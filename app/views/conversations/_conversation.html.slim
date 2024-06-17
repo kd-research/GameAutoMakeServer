@@ -1,14 +1,10 @@
-div id="#{dom_id conversation}" class="box content"
-  h5 System message
-  p  =< conversation.system_message
-  - if conversation.previous_id.present?
-    h5 Previous 
-    p  =< conversation.previous_id
-
-  - conversation.dialogs.each do |d|
-    == render d
+div id="#{dom_id conversation}" class="box content is-small"
+  p Hi there! What can I help you with today?
 
   - if conversation.dialog.present?
+    - conversation.dialogs.each do |d|
+      == render d
+
     == render conversation.dialog
 
   - if (allow_chat_action = local_assigns[:allow_chat_action])
