@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Wordle Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .game-container { display: grid; grid-template-rows: repeat(6, 1fr); grid-template-columns: repeat(5, 1fr); gap: 5px; }
+        .cell { width: 60px; height: 60px; border: 2px solid #ccc; display: flex; justify-content: center; align-items: center; font-size: 2rem; }
+        .cell.green { background-color: green; color: white; }
+        .cell.yellow { background-color: yellow; color: white; }
+        .cell.grey { background-color: grey; color: white; }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <!-- Grid cells will be dynamically generated here -->
+    </div>
+    <input type="text" id="guess-input" maxlength="5" />
+    <button id="submit-guess">Submit Guess</button>
+    <p id="feedback"></p>
+    <script>
+        const validWords = ['apple', 'berry', 'charm', 'delta', 'eagle']; // Example list of valid words
+        const correctWord = validWords[Math.floor(Math.random() * validWords.length)];
+        let attempts = 0;
+
+        // Function to create the grid
+        function createGrid() {
+            const container = document.getElementById('game-container');
+            for (let i = 0; i < 30; i++) { // 5 columns * 6 rows = 30 cells
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                container.appendChild(cell);
+            }
+        }
+
+        // Function to handle guess submission
+        function handleGuess() {
+            const input = document.getElementById('guess-input');
+            const guess = input.value.toLowerCase();
+            if (guess.length !== 5 || !validWords.includes(guess)) {
+                document.getElementById('feedback').textContent = 'Invalid word. Please try again.';
+                return;
+            }
+
+            const guessArray = guess.split('');
+            const correctArray = correctWord.split('');
+            const container = document.getElementById('game-container');
+            const cells = container.getElementsByClassName('cell');
+
+            // Create a map to count occurrences of each letter in the correct word
+            const letterCount = {};
+            correctArray.forEach(letter => {
+                letterCount[letter] = (letterCount[letter] || 0) + 1;
+            });
+
+            // First pass to handle green cells
+            for (let i = 0; i < 5; i++) {
+                const cell = cells[attempts * 5 + i];
+                cell.textContent = guessArray[i];
+                if (guessArray[i] === correctArray[i]) {
+                    cell.classList.add('green');
+                    letterCount[guessArray[i]]--; // Decrement count for correct letter
+                }
+            }
+
+            // Second pass to handle yellow and grey cells
+            for (let i = 0; i < 5; i++) {
+                const cell = cells[attempts * 5 + i];
+                if (!cell.classList.contains('green')) {
+                    if (letterCount[guessArray[i]]) {
+                        cell.classList.add('yellow');
+                        letterCount[guessArray[i]]--; // Decrement count for yellow letter
+                    } else {
+                        cell.classList.add('grey');
+                    }
+                }
+            }
+
+            attempts++;
+            input.value = '';
+
+            if (guess === correctWord) {
+                document.getElementById('feedback').textContent = 'Congratulations! You guessed the word!';
+                document.getElementById('submit-guess').disabled = true;
+            } else if (attempts === 6) {
+                document.getElementById('feedback').textContent = `Sorry, you've used all attempts. The correct word was '${correctWord}'.`;
+                document.getElementById('submit-guess').disabled = true;
+            }
+        }
+
+        document.getElementById('submit-guess').addEventListener('click', handleGuess);
+        createGrid();
+    </script>
+</body>
+</html>

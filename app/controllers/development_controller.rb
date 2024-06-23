@@ -9,6 +9,15 @@ class DevelopmentController < ApplicationController
     redirect_to root_path, alert: "Error: #{e.message}"
   end
 
+  def developer_sign_in
+    user = User.find_or_create_by!(email: "develop@me") do |u|
+      u.password = "password"
+    end
+
+    sign_in(user)
+    redirect_to root_path, notice: "You have been signed in."
+  end
+
   private
 
   def require_development_mode

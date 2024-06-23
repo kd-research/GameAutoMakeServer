@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+h1 Html game compiles
+
+#html_game_compiles
+  - @html_game_compiles.each do |html_game_compile|
+    hr
+    == render html_game_compile, serving: false
+    p
+      = link_to "Show this html game compile", html_game_compile

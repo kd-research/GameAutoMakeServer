@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_17_020549) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_23_203229) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -80,9 +80,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_020549) do
     t.integer "user_id", null: false
     t.integer "chat_conversation_id", null: false
     t.integer "game_generate_conversation_id"
+    t.string "compile_type", default: "unity"
     t.index ["chat_conversation_id"], name: "index_game_projects_on_chat_conversation_id"
     t.index ["game_generate_conversation_id"], name: "index_game_projects_on_game_generate_conversation_id"
     t.index ["user_id"], name: "index_game_projects_on_user_id"
+  end
+
+  create_table "html_game_compiles", force: :cascade do |t|
+    t.integer "game_project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_project_id"], name: "index_html_game_compiles_on_game_project_id"
   end
 
   create_table "user_oauths", force: :cascade do |t|
@@ -129,6 +137,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_020549) do
   add_foreign_key "game_projects", "conversations", column: "chat_conversation_id"
   add_foreign_key "game_projects", "conversations", column: "game_generate_conversation_id"
   add_foreign_key "game_projects", "users"
+  add_foreign_key "html_game_compiles", "game_projects"
   add_foreign_key "user_oauths", "users"
   add_foreign_key "user_profiles", "users"
   add_foreign_key "webgl_game_compiles", "game_projects"

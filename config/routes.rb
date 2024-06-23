@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :game_projects do
     member do
       post :webgl_build
+      post :html_build
+      post :change_compile_type
       post :send_message
       post :request_game_spec
     end
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
 
   scope :compiled_game do
     resources :webgl_game_compiles, only: %i[index show destroy]
+    resources :html_game_compiles, only: %i[index show destroy]
     resources :game_compiles
   end
 
@@ -39,6 +42,7 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   if Rails.env.development?
+    post "developer_sign_in", to: "development#developer_sign_in"
     post "reset_all", to: "development#reset_all"
   end
 

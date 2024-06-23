@@ -1,8 +1,8 @@
 class GameProjectsController < ApplicationController
   include CrewFlavored
   before_action :authenticate_user!, only: %i[new create]
-  before_action :validate_game_project_showable, only: %i[show webgl_build]
-  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec]
+  before_action :validate_game_project_showable, only: %i[show webgl_build html_build]
+  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type]
 
   # GET /game_projects or /game_projects.json
   def index
@@ -54,6 +54,19 @@ class GameProjectsController < ApplicationController
     end
   end
 
+  def html_build
+    sample = HtmlGameCompile.new_from_bytes(Rails.root.join("test/fixtures/files/Wordle.html").read)
+    sample.game_project = @game_project
+
+    respond_to do |format|
+      if sample.save
+        format.html { redirect_to game_project_url(@game_project), notice: "HTML build was successfully created." }
+      else
+        format.html { redirect_to game_project_url(@game_project), alert: "HTML build was not created." }
+      end
+    end
+  end
+
   # POST /game_projects or /game_projects.json
   def create
     @game_project = GameProject.new(game_project_params)
@@ -90,6 +103,18 @@ class GameProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to game_projects_url, notice: "Game project was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def change_compile_type
+    @game_project.compile_type = params[:compile_type]
+    @game_project.webgl_game_compile&.destroy
+    @game_project.html_game_compile&.destroy
+
+    if @game_project.save
+      redirect_back(fallback_location: game_project_url(@game_project), notice: "Compile type was successfully changed.")
+    else
+      redirect_back(fallback_location: game_project_url(@game_project), alert: "Compile type was not changed.")
     end
   end
 

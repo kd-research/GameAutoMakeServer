@@ -12,25 +12,50 @@ div id="#{dom_id game_project}" class="block my-4"
     p
       strong Privacy:
       =< game_project.privacy
+    .is-flex.is-align-items-center
+      p.mb-0.mr-2
+        strong Compile Type:
+        =<> game_project.compile_type.upcase
+      - case game_project.compile_type
+      - when "unity"
+        = button_to "Switch to HTML Game", change_compile_type_game_project_path(game_project, compile_type: "html"), 
+          method: :post, class: "button is-info is-small is-light"
+      - when "html"
+        = button_to "Switch to Unity Game", change_compile_type_game_project_path(game_project, compile_type: "unity"), 
+          method: :post, class: "button is-info is-small is-light"
+
 
   - if local_assigns[:show_details]
-    = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
+    .columns
+      .column
+        = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
+      .column
+        = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, 
+          class: "button is-ghost"
+        .box
+          - if (generator = game_project.game_generate_conversation).present?
+            div class="content is-small has-text-monospace"
+              pre == json_retouch(generator.dialog.response_message)
+    .columns
+      .column
+        - if game_project.compile_type_unity?
+          - if game_project.webgl_game_compile.present?
+            p
+              strong WebGL Game Compile:
+              div class="block my-1 mx-4"
+                = render game_project.webgl_game_compile, serving: false
+                = link_to "Show this WebGL Game", game_project.webgl_game_compile
+          - else
+            div class="block my-1 mx-4"
+              = button_to "Compile Sample WebGL Game", webgl_build_game_project_path(game_project), method: :post, class: "button is-primary is-small"
 
-    div class="box"
-      p = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-link"
-
-      - if (generator = game_project.game_generate_conversation).present?
-        div class="content is-small has-text-monospace"
-          pre == json_retouch(generator.dialog.response_message)
-
-    - if game_project.webgl_game_compile.present?
-      p
-        strong WebGL Game Compile:
-        div class="block my-1 mx-4"
-          = render game_project.webgl_game_compile, serving: false
-          = link_to "Show this WebGL Game", game_project.webgl_game_compile
-    - else
-      div class="block my-1 mx-4"
-        = form_with model: game_project, url: webgl_build_game_project_path(game_project), method: :post do |f|
-          = f.submit "Compile Sample WebGL Game", class: "button is-primary is-small"
-
+        - elsif game_project.compile_type_html?
+          - if game_project.html_game_compile.present?
+            p
+              strong HTML Game Compile:
+              div class="block my-1 mx-4"
+                = render game_project.html_game_compile, serving: false
+                = link_to "Show this HTML Game", game_project.html_game_compile
+          - else
+            div class="block my-1 mx-4"
+              = button_to "Compile Sample HTML Game", html_build_game_project_path(game_project), method: :post, class: "button is-primary is-small"
