@@ -62,6 +62,11 @@ class GameProjectsController < ApplicationController
         format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
       end
       return
+    rescue GRPC::Unknown
+      respond_to do |format|
+        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Generated game is not playable. Please try it again." }
+      end
+      return
     end
 
     sample = HtmlGameCompile.new_from_bytes(response.html.data)
