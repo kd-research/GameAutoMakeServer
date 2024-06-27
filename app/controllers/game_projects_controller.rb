@@ -28,7 +28,7 @@ class GameProjectsController < ApplicationController
   # POST /game_projects/1/webgl_build
   def webgl_build
     begin
-      response = GameGenerator::Client.new.generate_game
+      response = GameGenerator::UnityClient.new.generate_game
     rescue GRPC::Unavailable
       respond_to do |format|
         format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
@@ -55,7 +55,16 @@ class GameProjectsController < ApplicationController
   end
 
   def html_build
-    sample = HtmlGameCompile.new_from_bytes(Rails.root.join("test/fixtures/files/Wordle.html").read)
+    begin
+      response = GameGenerator::CrewClient.new.generate_game
+    rescue GRPC::Unavailable
+      respond_to do |format|
+        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
+      end
+      return
+    end
+
+    sample = HtmlGameCompile.new_from_bytes(response.html.data)
     sample.game_project = @game_project
 
     respond_to do |format|

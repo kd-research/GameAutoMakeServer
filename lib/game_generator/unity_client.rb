@@ -1,7 +1,8 @@
 require "proto/gamegenerator_services_pb"
 
 module GameGenerator
-  class Client
+  class UnityClient
+    include Unitygen
     def initialize
       channel_args = {
         "grpc.max_send_message_length" => -1,
