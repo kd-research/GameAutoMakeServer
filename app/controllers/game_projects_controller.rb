@@ -56,7 +56,7 @@ class GameProjectsController < ApplicationController
 
   def html_build
     begin
-      response = GameGenerator::CrewClient.new.generate_game
+      response = GameGenerator::CrewClient.new.generate_html_game
     rescue GRPC::Unavailable
       respond_to do |format|
         format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
