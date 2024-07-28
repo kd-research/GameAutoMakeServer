@@ -5,7 +5,7 @@
 
 require "google/protobuf"
 
-descriptor_data = "\n\x19proto/crewgenerator.proto\x12\x07\x63rewgen\"\x19\n\x17GenerateHtmlGameRequest\"?\n\x18GenerateHtmlGameResponse\x12#\n\x04html\x18\x01 \x01(\x0b\x32\x15.crewgen.FileResponse\"\x1c\n\x0c\x46ileResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x32h\n\rCrewGenerator\x12W\n\x10GenerateHtmlGame\x12 .crewgen.GenerateHtmlGameRequest\x1a!.crewgen.GenerateHtmlGameResponseb\x06proto3"
+descriptor_data = "\n\x19proto/crewgenerator.proto\x12\x07\x63rewgen\"<\n\x17GenerateHtmlGameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"?\n\x18GenerateHtmlGameResponse\x12#\n\x04html\x18\x01 \x01(\x0b\x32\x15.crewgen.FileResponse\"\x1c\n\x0c\x46ileResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x32h\n\rCrewGenerator\x12W\n\x10GenerateHtmlGame\x12 .crewgen.GenerateHtmlGameRequest\x1a!.crewgen.GenerateHtmlGameResponseb\x06proto3"
 
 pool = Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)

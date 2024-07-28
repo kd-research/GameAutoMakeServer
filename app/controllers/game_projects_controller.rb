@@ -56,7 +56,13 @@ class GameProjectsController < ApplicationController
 
   def html_build
     begin
-      response = GameGenerator::CrewClient.new.generate_html_game
+      unless @game_project.game_generate_conversation.present?
+        format.html { redirect_back(fallback_location: game_project_url(@game_project), alert: "'Conclude Chat' is required to build the game.") }
+        return
+      end
+
+      generated_description = @game_project.game_generate_conversation.dialog.response_message
+      response = GameGenerator::CrewClient.new.generate_html_game(name: @game_project.name, description: generated_description)
     rescue GRPC::Unavailable
       respond_to do |format|
         format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
