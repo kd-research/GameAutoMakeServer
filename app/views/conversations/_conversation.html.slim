@@ -1,11 +1,12 @@
 div id="#{dom_id conversation}" class="box content is-small"
-  p Hi there! What can I help you with today?
+  div style="max-height: 500px; overflow-y: auto"
+    p Hi there! What can I help you with today?
 
-  - if conversation.dialog.present?
-    - conversation.dialogs.each do |d|
-      == render d
+    - if conversation.dialog.present?
+      - conversation.dialogs.each do |d|
+        == render d
 
-    == render conversation.dialog
+      == render conversation.dialog
 
   - if (allow_chat_action = local_assigns[:allow_chat_action])
     == render 'conversations/continue', conversation: conversation, allow_chat_action: allow_chat_action

@@ -35,7 +35,7 @@ div id="#{dom_id game_project}" class="block my-4"
         .box
           - if (generator = game_project.game_generate_conversation).present?
             div class="content is-small has-text-monospace"
-              pre == json_retouch(generator.dialog.response_message)
+              p == generator.dialog.response_message
     .columns
       .column
         - if game_project.compile_type_unity?

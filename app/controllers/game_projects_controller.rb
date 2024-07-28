@@ -151,8 +151,7 @@ class GameProjectsController < ApplicationController
       @game_project.chat_conversation.send_message(
         game_developer_message,
         chat_system_message: game_developer_flavored,
-        role: "system",
-        json_mode: true
+        role: "system"
       )
     @game_project.save!
     respond_to do |format|
@@ -178,7 +177,11 @@ class GameProjectsController < ApplicationController
   def validate_game_project_owner
     set_game_project
 
-    head :unauthorized unless @game_project.user == current_user
+    return if @game_project.user == current_user
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: game_project_url(@game_project), alert: "Only account owner can perform this action.") }
+    end
   end
 
   # Only allow a list of trusted parameters through.
