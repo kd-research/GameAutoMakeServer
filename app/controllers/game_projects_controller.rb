@@ -2,7 +2,7 @@ class GameProjectsController < ApplicationController
   include CrewFlavored
   before_action :authenticate_user!, only: %i[new create]
   before_action :validate_game_project_showable, only: %i[show webgl_build html_build]
-  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type]
+  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
 
   # GET /game_projects or /game_projects.json
   def index
@@ -150,6 +150,12 @@ class GameProjectsController < ApplicationController
       format.html { redirect_back(fallback_location: game_project_url(@game_project)) }
       format.js { render json: @game_project }
     end
+  end
+
+  def reset_conversation
+    @game_project.chat_conversation = Conversation.new
+    @game_project.save!
+    redirect_back(fallback_location: game_project_url(@game_project), notice: "Conversation was successfully reset.")
   end
 
   def request_game_spec

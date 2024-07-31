@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       post :html_build
       post :change_compile_type
       post :send_message
+      post :reset_conversation
       post :request_game_spec
     end
   end

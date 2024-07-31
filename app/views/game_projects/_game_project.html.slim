@@ -1,40 +1,41 @@
 div id="#{dom_id game_project}" class="block my-4"
-  div class="content"
-    = link_to game_project do
-      h3 class="title has-text-link is-3"
-        = game_project.name
-    p
-      strong Description:
-      =< game_project.description
-    p
-      strong Creator:
-      =< game_project.user.email
-    p
-      strong Privacy:
-      =< game_project.privacy
-
   - if local_assigns[:show_details]
-    .is-flex.is-align-items-center
-      p.mb-0.mr-2
+    div class="content is-flex is-justify-content-space-between is-align-items-center"
+      = link_to game_project do
+        div class="title has-text-link is-1"
+          = game_project.name
+      div
+        strong Description:
+        =< game_project.description
+      div
+        strong Creator:
+        =< game_project.user.email
+      div
+        strong Privacy:
+        =< game_project.privacy
+
+      div class="is-flex is-justify-content-space-between is-align-items-center"
         strong Compile Type:
         =<> game_project.compile_type.upcase
-      - case game_project.compile_type
-      - when "unity"
-        = button_to "Switch to HTML Game", change_compile_type_game_project_path(game_project, compile_type: "html"), 
-          method: :post, class: "button is-info is-small is-light"
-      - when "html"
-        = button_to "Switch to Unity Game", change_compile_type_game_project_path(game_project, compile_type: "unity"), 
-          method: :post, class: "button is-info is-small is-light"
+        - case game_project.compile_type
+        - when "unity"
+          = button_to "Switch to HTML Game", change_compile_type_game_project_path(game_project, compile_type: "html"), 
+            method: :post, class: "button is-info is-small is-light"
+        - when "html"
+          = button_to "Switch to Unity Game", change_compile_type_game_project_path(game_project, compile_type: "unity"), 
+            method: :post, class: "button is-info is-small is-light"
 
     .columns
       .column
         = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
       .column
-        = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, 
-          class: "button is-ghost"
+        .is-flex.is-justify-content-space-between.mb-4
+          = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
+          = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-ghost"
         .box
           - if (generator = game_project.game_generate_conversation).present?
             div class="content is-small has-text-monospace"
+              h3.has-text-primary Current Conclusion
               p == generator.dialog.response_message
     .columns
       .column
@@ -59,3 +60,18 @@ div id="#{dom_id game_project}" class="block my-4"
           - else
             div class="block my-1 mx-4"
               = button_to "Compile Sample HTML Game", html_build_game_project_path(game_project), method: :post, class: "button is-primary is-small"
+  - else
+      .content
+        p = link_to game_project do
+          div class="title has-text-link"
+            = game_project.name
+        div
+          strong Description:
+          =< game_project.description
+        div
+          strong Creator:
+          =< game_project.user.email
+        div
+          strong Privacy:
+          =< game_project.privacy
+

@@ -1,10 +1,10 @@
 div class="content"
   p
-    h5 = dialog.request_role
-    div = dialog.request_message
+    span class="tag is-primary is-light" = dialog.request_role
+    div == Commonmarker.to_html(dialog.request_message)
 
   p
-    h5 = dialog.response_role
-    div = dialog.response_message
+    span class="tag is-primary is-light" = dialog.response_role
+    div == Commonmarker.to_html(dialog.response_message)
 
   = link_to 'resume from here', continue_conversation_path(dialog.conversation)
