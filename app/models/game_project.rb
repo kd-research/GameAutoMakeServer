@@ -1,6 +1,7 @@
 class GameProject < ApplicationRecord
   include CrewFlavored
   before_validation :build_chat_conversation, on: :create
+  before_validation :fill_default_instructions, on: :create
 
   has_many :game_compiles, dependent: :destroy
   has_one :webgl_game_compile, dependent: :destroy

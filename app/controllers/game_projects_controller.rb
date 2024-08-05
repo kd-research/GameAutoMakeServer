@@ -197,6 +197,6 @@ class GameProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def game_project_params
-    params.require(:game_project).permit(:name, :description, :privacy)
+    params.require(:game_project).permit(:name, :description, :privacy, :chat_agent_instruction, :summary_agent_instruction)
   end
 end

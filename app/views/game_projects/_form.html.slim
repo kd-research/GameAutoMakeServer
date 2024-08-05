@@ -26,15 +26,15 @@ div id="#{dom_id game_project}" class="block my-4"
         .select
           = form.select :privacy, options_for_select(game_project.class.privacies)
 
-    hr
+    - unless game_project.new_record?
+      hr
+      div class="field"
+        = form.label :chat_instructions, class: "label"
+        = form.text_area :chat_agent_instruction, class: "textarea", rows: 15
 
-    div class="field"
-      = form.label :chat_instructions, class: "label"
-      = form.text_area :chat_agent_instruction, class: "textarea", rows: 15
-
-    div class="field"
-      = form.label :conclude_instructions, class: "label"
-      = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
+      div class="field"
+        = form.label :conclude_instructions, class: "label"
+        = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
 
     div class="field"
       = form.submit class: "button is-info"
