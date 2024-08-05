@@ -1,5 +1,5 @@
 div id="#{dom_id game_project}" class="block my-4"
-  = form_with(model: game_project) do |form|
+  = form_with(model: game_project, class: "form") do |form|
     - if game_project.errors.any?
       div style="color: red"
         h2 = "#{pluralize(game_project.errors.count, "error")} prohibited this game_project from being saved:"
@@ -7,17 +7,34 @@ div id="#{dom_id game_project}" class="block my-4"
           - game_project.errors.each do |error|
             li = error.full_message
 
-    div
-      = form.label :name, style: "display: block"
-      = form.text_field :name
+    div class="field is-horizontal"
+      .field-label.is-normal
+        = form.label :name, class: "label"
+      .field-body
+        = form.text_field :name, class: "input"
 
-    div
-      = form.label :description, style: "display: block"
-      = form.text_area :description
+    div class="field is-horizontal"
+      .field-label.is-normal
+        = form.label :description, class: "label"
+      .field-body
+        = form.text_area :description, class: "textarea", rows: 3
 
-    div
-      = form.label :privacy, style: "display: block"
-      = form.select :privacy, options_for_select(game_project.class.privacies)
+    div class="field is-horizontal"
+      .field-label.is-normal
+        = form.label :privacy, class: "label"
+      .field-body
+        .select
+          = form.select :privacy, options_for_select(game_project.class.privacies)
 
-    div
-      = form.submit
+    hr
+
+    div class="field"
+      = form.label :chat_instructions, class: "label"
+      = form.text_area :chat_agent_instruction, class: "textarea", rows: 15
+
+    div class="field"
+      = form.label :conclude_instructions, class: "label"
+      = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
+
+    div class="field"
+      = form.submit class: "button is-info"

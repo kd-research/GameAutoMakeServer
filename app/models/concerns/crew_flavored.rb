@@ -40,16 +40,10 @@ You are an AI assistant designed to help users brainstorm ideas for creating a n
     SYSTEM_MESSAGE
   end
 
-  def game_developer_message
+  def game_developer_flavored
     <<~MESSAGE
       All conversations with the client have been recorded. You should summarize the client's needs and ideas.
       Describe it as a summary written by professional. Using plain text only. You should consider using less than 500 words.
     MESSAGE
-  end
-
-  def game_developer_flavored
-    <<~SYSTEM_MESSAGE
-      You are a developer in a game company. Today, you received a chat record from a consultant who met with a new client.
-    SYSTEM_MESSAGE
   end
 end

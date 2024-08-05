@@ -1,5 +1,4 @@
 class GameProjectsController < ApplicationController
-  include CrewFlavored
   before_action :authenticate_user!, only: %i[new create]
   before_action :validate_game_project_showable, only: %i[show webgl_build html_build]
   before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
@@ -143,7 +142,7 @@ class GameProjectsController < ApplicationController
     @game_project.chat_conversation =
       @game_project.chat_conversation.send_message(
         to_send,
-        chat_system_message: game_consultant_flavored
+        chat_system_message: chat_agent_instruction,
       )
     @game_project.save!
     respond_to do |format|
@@ -162,7 +161,7 @@ class GameProjectsController < ApplicationController
     @game_project.game_generate_conversation =
       @game_project.chat_conversation.send_message(
         game_developer_message,
-        chat_system_message: game_developer_flavored,
+        chat_system_message: summary_agent_instruction,
         role: "system"
       )
     @game_project.save!
