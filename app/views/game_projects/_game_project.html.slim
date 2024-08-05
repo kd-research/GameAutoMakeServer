@@ -1,14 +1,15 @@
 div id="#{dom_id game_project}" class="block my-4"
   - if local_assigns[:show_details]
-    div class="content is-flex is-justify-content-space-between is-align-items-center"
-      = link_to root_path, class: "is-large" do
-        span.icon-text
-          span.icon
-            i.fas.fa-home
-          span Home
-      = link_to game_project do
-        div class="title has-text-link is-1"
-          = game_project.name
+    nav class="breadcrumb is-large" aria-label="breadcrumbs"
+      ul
+        li = link_to root_path do
+          span.icon-text
+            span.icon.is-medium
+              i.fas.fa-large.fa-home
+        li = link_to game_project do
+          div class="title has-text-link is-3"
+            = game_project.name.titleize
+    div class="content"
       div
         strong Description:
         =< game_project.description
@@ -17,31 +18,28 @@ div id="#{dom_id game_project}" class="block my-4"
         =< game_project.user.email
       div
         strong Privacy:
-        =< game_project.privacy
+        =< game_project.privacy.capitalize
 
-      div class="is-flex is-justify-content-space-between is-align-items-center"
+      div class="is-flex is-align-items-center"
         strong Compile Type:
         =<> game_project.compile_type.upcase
-        - case game_project.compile_type
-        - when "unity"
-          = button_to "Switch to HTML Game", change_compile_type_game_project_path(game_project, compile_type: "html"), 
-            method: :post, class: "button is-info is-small is-light"
-        - when "html"
-          = button_to "Switch to Unity Game", change_compile_type_game_project_path(game_project, compile_type: "unity"), 
-            method: :post, class: "button is-info is-small is-light"
 
+    .field.is-grouped
+      = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-ghost"
+      = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
     .columns
       .column
         = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
       .column
-        .is-flex.is-justify-content-space-between.mb-4
-          = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
-          = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-ghost"
         .box
           - if (generator = game_project.game_generate_conversation).present?
             div class="content is-small has-text-monospace"
               h3.has-text-primary Current Conclusion
               p == generator.dialog.response_message
+          - else
+            div class="content is-small has-text-monospace"
+              h3.has-text-primary Current Conclusion
+              p.has-text-text-80 == "Your conclusion will be displayed here."
     .columns
       .column
         - if game_project.compile_type_unity?

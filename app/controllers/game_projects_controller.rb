@@ -160,7 +160,7 @@ class GameProjectsController < ApplicationController
   def request_game_spec
     @game_project.game_generate_conversation =
       @game_project.chat_conversation.send_message(
-        game_developer_message,
+        "",
         chat_system_message: @game_project.summary_agent_instruction,
         role: "system"
       )
