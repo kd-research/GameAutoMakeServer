@@ -2,6 +2,7 @@ class GameProject < ApplicationRecord
   include CrewFlavored
   before_validation :build_chat_conversation, on: :create
   before_validation :fill_default_instructions, on: :create
+  before_validation :alter_default_compile_type, on: :create
 
   has_many :game_compiles, dependent: :destroy
   has_one :webgl_game_compile, dependent: :destroy
@@ -18,5 +19,9 @@ class GameProject < ApplicationRecord
   def fill_default_instructions
     self.chat_agent_instruction = game_consultant_flavored
     self.summary_agent_instruction = game_developer_flavored
+  end
+
+  def alter_default_compile_type
+    self.compile_type = "html"
   end
 end

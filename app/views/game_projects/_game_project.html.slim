@@ -1,6 +1,11 @@
 div id="#{dom_id game_project}" class="block my-4"
   - if local_assigns[:show_details]
     div class="content is-flex is-justify-content-space-between is-align-items-center"
+      = link_to root_path, class: "is-large" do
+        span.icon-text
+          span.icon
+            i.fas.fa-home
+          span Home
       = link_to game_project do
         div class="title has-text-link is-1"
           = game_project.name
