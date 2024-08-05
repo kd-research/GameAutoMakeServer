@@ -142,7 +142,7 @@ class GameProjectsController < ApplicationController
     @game_project.chat_conversation =
       @game_project.chat_conversation.send_message(
         to_send,
-        chat_system_message: chat_agent_instruction,
+        chat_system_message: @game_project.chat_agent_instruction,
       )
     @game_project.save!
     respond_to do |format|
@@ -161,7 +161,7 @@ class GameProjectsController < ApplicationController
     @game_project.game_generate_conversation =
       @game_project.chat_conversation.send_message(
         game_developer_message,
-        chat_system_message: summary_agent_instruction,
+        chat_system_message: @game_project.summary_agent_instruction,
         role: "system"
       )
     @game_project.save!
