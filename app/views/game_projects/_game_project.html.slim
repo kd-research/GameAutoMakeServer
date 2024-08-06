@@ -34,7 +34,12 @@ div id="#{dom_id game_project}" class="block my-4"
         .box
           - if (generator = game_project.game_generate_conversation).present?
             div class="content is-small has-text-monospace"
-              h3.has-text-primary Current Conclusion
+              div.is-flex.is-justify-content-space-between
+                div.is-flex.is-align-items-center
+                  h3.has-text-primary.mb-0 Current Conclusion
+                = link_to edit_game_project_dialog_path(game_project, generator.dialog), class: "button is-small is-ghost" do
+                  span.icon
+                    i.fas.fa-pen
               p == generator.dialog.response_message
           - else
             div class="content is-small has-text-monospace"

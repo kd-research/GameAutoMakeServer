@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     end
   end
 
+  scope :conversations do
+  end
+
   namespace :guests do
     get "dashboard/index"
   end
@@ -25,6 +28,7 @@ Rails.application.routes.draw do
       post :reset_conversation
       post :request_game_spec
     end
+    resources :dialog, only: %i[edit update]
   end
 
   scope :compiled_game do
