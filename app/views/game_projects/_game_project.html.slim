@@ -3,12 +3,20 @@ div id="#{dom_id game_project}" class="block my-4"
     nav class="breadcrumb is-large" aria-label="breadcrumbs"
       ul
         li = link_to root_path do
-          span.icon-text
+          span.icon.is-medium
+            i.fas.fa-large.fa-home
+          span.has-text-weight-semibold.is-size-5 Home
+        li = link_to game_projects_path do
+          span.icon.is-medium
+            i.fas.fa-large.fa-list
+          span.has-text-weight-semibold.is-size-5 Game Projects
+        li 
+          = link_to game_project do
             span.icon.is-medium
-              i.fas.fa-large.fa-home
-        li = link_to game_project do
-          div class="title has-text-link is-3"
-            = game_project.name.titleize
+              i.fas.fa-large.fa-gamepad
+            span.has-text-weight-bold
+              = game_project.name.titleize
+
     div class="content"
       div
         strong Description:
@@ -31,7 +39,7 @@ div id="#{dom_id game_project}" class="block my-4"
       .column
         = render game_project.chat_conversation, allow_chat_action: send_message_game_project_path(game_project)
       .column
-        .box
+        .box style="max-height: 720px; overflow-y: auto;"
           - if (generator = game_project.game_generate_conversation).present?
             div class="content is-small has-text-monospace"
               div.is-flex.is-justify-content-space-between
@@ -40,34 +48,11 @@ div id="#{dom_id game_project}" class="block my-4"
                 = link_to edit_game_project_dialog_path(game_project, generator.dialog), class: "button is-small is-ghost" do
                   span.icon
                     i.fas.fa-pen
-              p == generator.dialog.response_message
+              p == Commonmarker.to_html generator.dialog.response_message
           - else
             div class="content is-small has-text-monospace"
               h3.has-text-primary Current Conclusion
               p.has-text-text-80 == "Your conclusion will be displayed here."
-    .columns
-      .column
-        - if game_project.compile_type_unity?
-          - if game_project.webgl_game_compile.present?
-            p
-              strong WebGL Game Compile:
-              div class="block my-1 mx-4"
-                = render game_project.webgl_game_compile, serving: false
-                = link_to "Show this WebGL Game", game_project.webgl_game_compile
-          - else
-            div class="block my-1 mx-4"
-              = button_to "Compile Sample WebGL Game", webgl_build_game_project_path(game_project), method: :post, class: "button is-primary is-small"
-
-        - elsif game_project.compile_type_html?
-          - if game_project.html_game_compile.present?
-            p
-              strong HTML Game Compile:
-              div class="block my-1 mx-4"
-                = render game_project.html_game_compile, serving: false
-                = link_to "Show this HTML Game", game_project.html_game_compile
-          - else
-            div class="block my-1 mx-4"
-              = button_to "Compile Sample HTML Game", html_build_game_project_path(game_project), method: :post, class: "button is-primary is-small"
   - else
       .content
         p = link_to game_project do
@@ -75,7 +60,7 @@ div id="#{dom_id game_project}" class="block my-4"
             = game_project.name
         div
           strong Description:
-          =< game_project.description
+          =< game_project.description.truncate(100)
         div
           strong Creator:
           =< game_project.user.email

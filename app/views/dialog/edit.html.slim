@@ -5,4 +5,6 @@
     .field 
       = f.label :response_message, class: 'label'
       = f.text_area :response_message, class: 'textarea', rows: 15
-    .field = f.submit 'Override!', class: 'button is-warning'
+    .field.is-grouped 
+      = f.submit 'Override!', class: 'button is-warning'
+      = link_to 'Cancel', game_project_path(@game_project), class: 'button is-text-90'

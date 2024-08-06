@@ -1,8 +1,25 @@
 == render @game_project, show_details: true
 
-div class="content"
-  => link_to "Edit this game project", edit_game_project_path(@game_project)
-  '|
-  =< link_to "Back to game projects", game_projects_path
+.field.is-grouped.is-grouped-multiline
+  - if @game_project.compile_type_unity?
+    - if @game_project.webgl_game_compile.present?
+      p
+        strong WebGL @game Compile:
+        div class="block my-1 mx-4"
+          = render @game_project.webgl_game_compile, serving: false
+          = link_to "Show this WebGL game", @game_project.webgl_game_compile
+    - else
+      = button_to "Compile Sample WebGL game", webgl_build_game_project_path(@game_project), method: :post, class: "button is-primary is-small"
 
-  = button_to "Destroy this game project", @game_project, method: :delete
+  - elsif @game_project.compile_type_html?
+    - if @game_project.html_game_compile.present?
+      p
+        strong HTML @game Compile:
+        div class="block my-1 mx-4"
+          = render @game_project.html_game_compile, serving: false
+          = link_to "Show this HTML game", @game_project.html_game_compile
+    - else
+      = button_to "Compile Sample HTML game", html_build_game_project_path(@game_project), method: :post, class: "button is-primary is-small"
+
+  = button_to "Edit this game project", edit_game_project_path(@game_project), class: "button is-small is-primary"
+  = button_to "Destroy this game project", @game_project, method: :delete, class: "button is-small is-warning"
