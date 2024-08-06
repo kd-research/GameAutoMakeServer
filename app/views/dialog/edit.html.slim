@@ -1,5 +1,8 @@
-h1 Dialog#edit
-= form_for @dialog do |f|
-  = f.label :response_message
-  = f.text_field :response_message
-  = f.submit 'Update'
+.section
+  .title
+    h1 Overriding Message
+  = form_for [@game_project, @dialog], class: 'form' do |f|
+    .field 
+      = f.label :response_message, class: 'label'
+      = f.text_area :response_message, class: 'textarea', rows: 15
+    .field = f.submit 'Override!', class: 'button is-warning'

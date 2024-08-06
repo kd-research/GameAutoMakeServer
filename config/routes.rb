@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   end
 
   scope :conversations do
-    resources :dialog, only: %i[edit update]
   end
 
   namespace :guests do
@@ -29,6 +28,7 @@ Rails.application.routes.draw do
       post :reset_conversation
       post :request_game_spec
     end
+    resources :dialog, only: %i[edit update]
   end
 
   scope :compiled_game do
