@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope :conversations do
+    resources :dialog, only: %i[edit update]
+  end
+
   namespace :guests do
     get "dashboard/index"
   end

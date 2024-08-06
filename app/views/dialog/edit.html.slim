@@ -1,0 +1,5 @@
+h1 Dialog#edit
+= form_for @dialog do |f|
+  = f.label :response_message
+  = f.text_field :response_message
+  = f.submit 'Update'
