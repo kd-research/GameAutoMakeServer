@@ -19,6 +19,7 @@ class GameProject < ApplicationRecord
   def fill_default_instructions
     self.chat_agent_instruction = game_consultant_flavored
     self.summary_agent_instruction = game_developer_flavored
+    self.summary_agent_task = game_summary_start_note
   end
 
   def alter_default_compile_type

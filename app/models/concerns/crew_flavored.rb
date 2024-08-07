@@ -33,8 +33,17 @@ You are an AI assistant designed to help users to design a new game. Your primar
 
   def game_developer_flavored
     <<~MESSAGE
-      All conversations with the client have been recorded. You should summarize the client's needs and ideas.
-      Describe it as a summary written by professional. Using plain text only. You should consider using less than 500 words.
+All conversations with the client have been recorded. Do not copy the chat's results/outputs. You must formulate a new writeup output based on your input.
+Based on your observations of the chat logs, create a detailed writeup of the game. Your writeup must put into account everything needed to fully implement the game. This means explicitly being aware of all the game's necessary UI, input, and logic/rules.
+Do not perform any coding or technical implementation.
+    MESSAGE
+  end
+
+  def game_summary_start_note
+    <<~MESSAGE
+All conversations with the client have been recorded. Do not copy the chat's results/outputs. You must formulate a new writeup output based on your input.
+Based on your observations of the chat logs, create a detailed writeup of the game. Your writeup must put into account everything needed to fully implement the game. This means explicitly being aware of all the game's necessary UI, input, and logic/rules.
+Do not perform any coding or technical implementation.
     MESSAGE
   end
 end
