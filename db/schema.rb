@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_05_035220) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_05_035220) do
     t.string "compile_type", default: "unity"
     t.text "chat_agent_instruction"
     t.text "summary_agent_instruction"
+    t.text "summary_agent_task"
     t.index ["chat_conversation_id"], name: "index_game_projects_on_chat_conversation_id"
     t.index ["game_generate_conversation_id"], name: "index_game_projects_on_game_generate_conversation_id"
     t.index ["user_id"], name: "index_game_projects_on_user_id"

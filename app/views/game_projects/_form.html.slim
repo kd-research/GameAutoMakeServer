@@ -36,5 +36,9 @@ div id="#{dom_id game_project}" class="block my-4"
         = form.label :conclude_instructions, class: "label"
         = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
 
+      div class="field"
+        = form.label :conclude_start_notion, class: "label"
+        = form.text_area :summary_agent_task, class: "textarea", rows: 15
+
     div class="field"
       = form.submit class: "button is-info"
