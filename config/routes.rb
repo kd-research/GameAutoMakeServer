@@ -29,12 +29,12 @@ Rails.application.routes.draw do
       post :request_game_spec
     end
     resources :dialog, only: %i[edit update]
+    resources :game_compiles, only: %i[index show destroy build]
   end
 
   scope :compiled_game do
     resources :webgl_game_compiles, only: %i[index show destroy]
     resources :html_game_compiles, only: %i[index show destroy]
-    resources :game_compiles
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

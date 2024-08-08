@@ -53,39 +53,6 @@ class GameProjectsController < ApplicationController
     end
   end
 
-  def html_build
-    begin
-      unless @game_project.game_generate_conversation.present?
-        format.html { redirect_back(fallback_location: game_project_url(@game_project), alert: "'Conclude Chat' is required to build the game.") }
-        return
-      end
-
-      generated_description = @game_project.game_generate_conversation.dialog.response_message
-      response = GameGenerator::CrewClient.new.generate_html_game(name: @game_project.name, description: generated_description)
-    rescue GRPC::Unavailable
-      respond_to do |format|
-        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
-      end
-      return
-    rescue GRPC::Unknown
-      respond_to do |format|
-        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Generated game is not playable. Please try it again." }
-      end
-      return
-    end
-
-    sample = HtmlGameCompile.new_from_bytes(response.html.data)
-    sample.game_project = @game_project
-
-    respond_to do |format|
-      if sample.save
-        format.html { redirect_to game_project_url(@game_project), notice: "HTML build was successfully created." }
-      else
-        format.html { redirect_to game_project_url(@game_project), alert: "HTML build was not created." }
-      end
-    end
-  end
-
   # POST /game_projects or /game_projects.json
   def create
     @game_project = GameProject.new(game_project_params)
