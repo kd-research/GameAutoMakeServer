@@ -1,4 +1,8 @@
 class WebglGameCompile < ApplicationRecord
+  def self.build(game_project)
+    raise DeprecationError, "Webgl game type is not supported anymore"
+  end
+
   # @deprecated
   def self.new_from_build(path, project_name = "Build")
     file_attribute = lambda do |name, **attributes|
@@ -60,6 +64,7 @@ class WebglGameCompile < ApplicationRecord
   end
 
   belongs_to :game_project
+  has_one :game_compile, as: :gameable
 
   has_one_attached :loader_file
   has_one_attached :data_file

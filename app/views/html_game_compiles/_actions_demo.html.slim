@@ -1,0 +1,13 @@
+- if gameable.nil?
+  = button_to "Compile HTML game", build_game_project_path(game_project, compile_type: game_project.compile_type), class: "button is-primary is-small"
+- else
+  = form_for gameable, url: html_game_compile_path(gameable), html: {class: 'is-flex is-flex-direction-column'} do |f|
+    .file
+      label.file-label
+        = f.file_field :html_file, class: "file-input"
+        span.file-cta
+          span.file-icon
+            i.fas.fa-upload
+          span.file-label Choose HTML file
+    = f.submit "Upload", class: "button is-primary is-small"
+  = link_to "Show this HTML game", html_game_compile_path(gameable), class: "button is-small is-primary"

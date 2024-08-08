@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,10 +65,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
 
   create_table "game_compiles", force: :cascade do |t|
     t.integer "game_project_id", null: false
-    t.string "platform"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "gameable_id", null: false
+    t.string "gameable_type", null: false
     t.index ["game_project_id"], name: "index_game_compiles_on_game_project_id"
+    t.index ["gameable_id", "gameable_type"], name: "index_game_compiles_on_gameable_id_and_gameable_type"
   end
 
   create_table "game_projects", force: :cascade do |t|
@@ -90,10 +92,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
   end
 
   create_table "html_game_compiles", force: :cascade do |t|
-    t.integer "game_project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["game_project_id"], name: "index_html_game_compiles_on_game_project_id"
+    t.string "model_type"
   end
 
   create_table "user_oauths", force: :cascade do |t|
@@ -126,10 +127,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
   end
 
   create_table "webgl_game_compiles", force: :cascade do |t|
-    t.integer "game_project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["game_project_id"], name: "index_webgl_game_compiles_on_game_project_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -140,8 +139,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_202013) do
   add_foreign_key "game_projects", "conversations", column: "chat_conversation_id"
   add_foreign_key "game_projects", "conversations", column: "game_generate_conversation_id"
   add_foreign_key "game_projects", "users"
-  add_foreign_key "html_game_compiles", "game_projects"
   add_foreign_key "user_oauths", "users"
   add_foreign_key "user_profiles", "users"
-  add_foreign_key "webgl_game_compiles", "game_projects"
 end

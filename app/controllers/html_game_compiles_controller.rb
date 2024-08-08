@@ -1,6 +1,6 @@
 class HtmlGameCompilesController < ApplicationController
   before_action :set_game_project, only: %i[build]
-  before_action :set_html_game_compile, only: %i[show destroy]
+  before_action :set_html_game_compile, only: %i[show destroy update]
 
   # GET /html_game_compiles or /html_game_compiles.json
   def index
@@ -14,6 +14,11 @@ class HtmlGameCompilesController < ApplicationController
 
   # GET /html_game_compiles/1 or /html_game_compiles/1.json
   def show; end
+
+  def update
+    @html_game_compile.update!(html_game_compile_params)
+    redirect_to html_game_compile_path(@html_game_compile)
+  end
 
   # DELETE /html_game_compiles/1 or /html_game_compiles/1.json
   def destroy

@@ -1,6 +1,6 @@
 class GameProjectsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
-  before_action :validate_game_project_showable, only: %i[show webgl_build html_build]
+  before_action :validate_game_project_showable, only: %i[show build build]
   before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
 
   # GET /game_projects or /game_projects.json
@@ -24,34 +24,19 @@ class GameProjectsController < ApplicationController
   # GET /game_projects/1/edit
   def edit; end
 
-  # POST /game_projects/1/webgl_build
-  def webgl_build
-    begin
-      response = GameGenerator::UnityClient.new.generate_game
-    rescue GRPC::Unavailable
-      respond_to do |format|
-        format.html { redirect_to game_project_url(@game_project), alert: "Oops.. Game generator is down. Please come back later." }
-      end
-      return
+  # POST /game_projects/1/build
+  def build
+    message = catch(:build_abort) do
+      @game_project.build_game
     end
 
-    sample = WebglGameCompile.new_from_bytes(
-      loader: response.loader.data,
-      data: response.data.data,
-      framework: response.framework.data,
-      code: response.code.data
-    )
-
-    sample.game_project = @game_project
-
-    respond_to do |format|
-      if sample.save
-        format.html { redirect_to game_project_url(@game_project), notice: "WebGL build was successfully created." }
-      else
-        format.html { redirect_to game_project_url(@game_project), alert: "WebGL build was not created." }
-      end
+    if message.present?
+      redirect_back(fallback_location: game_project_url(@game_project), alert: message)
+    else
+      redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build was successfully created.")
     end
   end
+
 
   # POST /game_projects or /game_projects.json
   def create
@@ -94,14 +79,9 @@ class GameProjectsController < ApplicationController
 
   def change_compile_type
     @game_project.compile_type = params[:compile_type]
-    @game_project.webgl_game_compile&.destroy
-    @game_project.html_game_compile&.destroy
+    @game_project.save!
 
-    if @game_project.save
-      redirect_back(fallback_location: game_project_url(@game_project), notice: "Compile type was successfully changed.")
-    else
-      redirect_back(fallback_location: game_project_url(@game_project), alert: "Compile type was not changed.")
-    end
+    redirect_back(fallback_location: game_project_url(@game_project), notice: "Compile type was successfully changed.")
   end
 
   def send_message
@@ -164,6 +144,6 @@ class GameProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def game_project_params
-    params.require(:game_project).permit(:name, :description, :privacy, :chat_agent_instruction, :summary_agent_instruction, :summary_agent_task)
+    params.require(:game_project).permit(:name, :description, :privacy, :compile_type, :chat_agent_instruction, :summary_agent_instruction, :summary_agent_task)
   end
 end

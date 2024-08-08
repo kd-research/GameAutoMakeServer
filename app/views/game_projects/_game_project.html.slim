@@ -28,9 +28,9 @@ div id="#{dom_id game_project}" class="block my-4"
         strong Privacy:
         =< game_project.privacy.capitalize
 
-      div class="is-flex is-align-items-center"
+      div
         strong Compile Type:
-        =<> game_project.compile_type.upcase
+        =< game_project.compile_type.upcase
 
     .field.is-grouped
       = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-ghost"
