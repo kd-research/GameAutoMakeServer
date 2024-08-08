@@ -1,0 +1,46 @@
+# .yardopts
+
+# Including all Ruby files from the main application directory
+app/**/*.rb
+
+# Including all Ruby files from the library directory
+lib/**/*.rb
+
+# Including all Ruby files from the configuration initializers directory
+config/initializers/**/*.rb
+
+# Including all Ruby files from the tasks directory
+lib/tasks/**/*.rake
+
+# Including all Ruby files from the test directory (for Minitest)
+test/**/*.rb
+
+db/schema.rb
+
+# Excluding specific directories (e.g., temporary files, assets, etc.)
+--exclude tmp/*
+--exclude log/*
+--exclude db/*
+--exclude node_modules/*
+--exclude public/*
+--exclude storage/*
+--exclude vendor/*
+--exclude .git/*
+
+# Specifying the output directory
+--output-dir doc
+
+# Setting the title of the documentation
+--title "My Rails 7 Project Documentation"
+
+# Generating private methods documentation
+--private
+--embed-mixins
+
+# Including plugins
+--plugin yard-activesupport-concern
+--plugin yard-activerecord
+--plugin yard-rails
+
+# Including module in documentation
+#--module ModuleName
