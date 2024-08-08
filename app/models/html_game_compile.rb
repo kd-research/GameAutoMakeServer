@@ -50,7 +50,7 @@ class HtmlGameCompile < ApplicationRecord
   private
 
   def self.compile_by_llm(name, description)
-    GameGenerator::CrewClient.new.generate_html_game(name: @game_project.name, description:)
+    GameGenerator::CrewClient.new.generate_html_game(name:, description:)
   end
 
   def set_model_type
