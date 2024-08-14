@@ -9,9 +9,21 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
-development:
+development-sqlite3: &development-sqlite3
   <<: *default
   database: storage/development.sqlite3
+
+development-pg: &development-pg
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  timeout: 5000
+  database: server_development
+  username: devuser
+  password: devpassword
+
+development:
+  !merge <<: *development-pg
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

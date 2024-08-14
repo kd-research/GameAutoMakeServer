@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_14_152427) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -41,15 +44,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
 
   create_table "conversations", force: :cascade do |t|
     t.text "system_message"
-    t.integer "previous_id"
+    t.bigint "previous_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["previous_id"], name: "index_conversations_on_previous_id"
   end
 
   create_table "conversations_dialogs", id: false, force: :cascade do |t|
-    t.integer "conversation_id", null: false
-    t.integer "dialog_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "dialog_id", null: false
   end
 
   create_table "dialogs", force: :cascade do |t|
@@ -57,20 +60,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
     t.text "request_message"
     t.string "response_role"
     t.text "response_message"
-    t.integer "conversation_id", null: false
+    t.bigint "conversation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["conversation_id"], name: "index_dialogs_on_conversation_id", unique: true
   end
 
   create_table "game_compiles", force: :cascade do |t|
-    t.integer "game_project_id", null: false
+    t.bigint "game_project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "gameable_id", null: false
     t.string "gameable_type", null: false
-    t.index ["game_project_id"], name: "index_game_compiles_on_game_project_id"
-    t.index ["gameable_id", "gameable_type"], name: "index_game_compiles_on_gameable_id_and_gameable_type"
+    t.integer "status"
+    t.text "compile_logs"
+    t.index ["game_project_id"], name: "index_game_compiles_on_game_project_id", unique: true
+    t.index ["gameable_id", "gameable_type"], name: "index_game_compiles_on_gameable_id_and_gameable_type", unique: true
   end
 
   create_table "game_projects", force: :cascade do |t|
@@ -79,9 +84,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
     t.string "privacy"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.integer "chat_conversation_id", null: false
-    t.integer "game_generate_conversation_id"
+    t.bigint "user_id", null: false
+    t.bigint "chat_conversation_id", null: false
+    t.bigint "game_generate_conversation_id"
     t.string "compile_type", default: "unity"
     t.text "chat_agent_instruction"
     t.text "summary_agent_instruction"
@@ -100,7 +105,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
   create_table "user_oauths", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_oauths_on_user_id"
@@ -108,7 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_041905) do
 
   create_table "user_profiles", force: :cascade do |t|
     t.string "name"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
