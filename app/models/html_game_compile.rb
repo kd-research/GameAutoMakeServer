@@ -19,7 +19,7 @@ class HtmlGameCompile < ApplicationRecord
     throw :build_abort, "HTML build was not created." unless sample.save
     puts "project #{game_project.id} compile #{sample.game_compile.id} sample #{sample.id}"
 
-    sample.game_compile.update!(game_project: game_project)
+    game_project.update!(game_compile: sample.game_compile)
     nil
   end
 
@@ -44,7 +44,7 @@ class HtmlGameCompile < ApplicationRecord
     game_compile.game_project
   end
 
-  has_one :game_compile, as: :gameable
+  has_one :game_compile, as: :gameable, dependent: :destroy
   has_one_attached :html_file
 
   private
