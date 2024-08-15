@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       post :request_game_spec
     end
     resources :dialog, only: %i[edit update]
-    resources :game_compiles, only: %i[index show destroy build]
+    resources :game_compiles, only: %i[index show destroy]
   end
 
   scope :compiled_game do

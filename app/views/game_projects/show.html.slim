@@ -3,7 +3,7 @@
 .field.is-grouped.is-grouped-multiline
   - case @game_project.compile_type
   - when "html"
-    = render "html_game_compiles/actions", game_project: @game_project, gameable: @game_project.gameable
+    = render "html_game_compiles/actions", game_project: @game_project, game_compile: @game_project.game_compile, gameable: @game_project.gameable
   - when "html_demo"
     = render "html_game_compiles/actions_demo", game_project: @game_project, gameable: @game_project.gameable
 

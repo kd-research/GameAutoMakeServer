@@ -1,9 +1,0 @@
-- if game_compile.nil?
-  = button_to "Compile HTML game", build_game_project_path(game_project, compile_type: game_project.compile_type), class: "button is-primary is-small"
-- elsif game_compile.status_pending?
-  a.button.is-small.is-primary.is-loading disabled="disabled"
-    | Compiling...
-- else
-  .block
-    = button_to "Recompile this game", build_game_project(game_project, compile_type: game_project.compile_type ), class: "button is-primary is-small"
-    = link_to "Show this HTML game", game_compile, class: "button is-small is-primary"

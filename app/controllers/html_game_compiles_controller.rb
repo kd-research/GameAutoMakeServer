@@ -1,5 +1,4 @@
 class HtmlGameCompilesController < ApplicationController
-  before_action :set_game_project, only: %i[build]
   before_action :set_html_game_compile, only: %i[show destroy]
 
   # GET /html_game_compiles or /html_game_compiles.json
