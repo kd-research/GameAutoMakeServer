@@ -3,9 +3,9 @@
 .field.is-grouped.is-grouped-multiline
   - case @game_project.compile_type
   - when "html"
-    = render "html_game_compiles/actions", game_project: @game_project, gameable: @game_project.gameable
+    = render "html_game_compiles/actions", game_project: @game_project, game_compile: @game_project.game_compile, gameable: @game_project.gameable
   - when "html_demo"
-    = render "html_game_compiles/actions_demo", game_project: @game_project, gameable: @game_project.gameable
+    = render "html_game_compiles/actions_demo", game_project: @game_project, game_compile: @game_project.game_compile, gameable: @game_project.gameable
 
   = link_to "Edit this game project", edit_game_project_path(@game_project), class: "button is-small is-primary"
   = button_to "Destroy this game project", @game_project, method: :delete, class: "button is-small is-warning", form_class: "is-flex"

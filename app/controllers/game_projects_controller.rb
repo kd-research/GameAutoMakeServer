@@ -26,15 +26,22 @@ class GameProjectsController < ApplicationController
 
   # POST /game_projects/1/build
   def build
-    message = catch(:build_abort) do
-      @game_project.build_game
-    end
+    return if @game_project.game_compile&.status_pending? || @game_project.game_compile&.status_compiling?
 
-    if message.present?
-      redirect_back(fallback_location: game_project_url(@game_project), alert: message)
-    else
-      redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build was successfully created.")
-    end
+    @game_project.game_compile&.destroy!
+    game_compile = @game_project.create_game_compile!(status: "pending")
+    CompileJob.perform_later(game_compile.id)
+
+    redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.")
+  end
+
+  def rebuild
+    @game_project.game_compile&.destroy!
+
+    game_compile = @game_project.create_game_compile!(status: "pending")
+    CompileJob.perform_later(game_compile.id)
+
+    redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.")
   end
 
 

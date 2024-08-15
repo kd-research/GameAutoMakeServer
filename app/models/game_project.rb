@@ -23,9 +23,11 @@ class GameProject < ApplicationRecord
     end
   end
 
-
-  def build_game
-    gameklass.build(self)
+  def game_compile_data
+    {
+      name: name,
+      description: game_generate_conversation.dialog.response_message
+    }
   end
 
   private

@@ -1,6 +1,23 @@
-- if gameable.nil?
+- if game_compile.nil?
   = button_to "Compile HTML game", build_game_project_path(game_project, compile_type: game_project.compile_type), class: "button is-primary is-small"
 - else
-  .is-flex.is-flex-direction-column
-    = button_to "Recompile this game", build_game_project_path(game_project, compile_type: game_project.compile_type ), class: "button is-primary is-small", style: "width: 100%"
-    = link_to "Show this HTML game", gameable, class: "button is-small is-primary"
+  - case game_compile.status
+  - when "compiling"
+      a.button.is-small.is-primary.is-loading disabled="disabled"
+        | Compiling...
+  - when "pending"
+      a.button.is-small.is-primary.is-loading disabled="disabled"
+        | Compiling...
+  - when "fail"
+      .label.has-text-danger
+        | Compilation failed
+      = link_to "Show log", [game_project, game_compile], class: "button is-small is-primary"
+      = button_to "Recompile this game", build_game_project_path(game_project, compile_type: game_project.compile_type ), class: "button is-primary is-small"
+  - when "success"
+    .is-flex.is-flex-direction-column.is-gap-1
+      = button_to "Recompile this game", build_game_project_path(game_project, compile_type: game_project.compile_type ), class: "button is-primary is-small", style: "width: 100%"
+      = link_to "Show this HTML game", gameable, class: "button is-small is-primary"
+  - when "locked"
+      = link_to "Show this HTML game", gameable, class: "button is-small is-primary"
+  - else
+    - raise "Unknown status: #{game_compile.status}"
