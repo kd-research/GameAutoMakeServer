@@ -6,7 +6,8 @@ module GameGenerator
     def initialize
       channel_args = {
         "grpc.max_send_message_length" => -1,
-        "grpc.max_receive_message_length" => -1
+        "grpc.max_receive_message_length" => -1,
+        "grpc.max_metadata_size" => -1
       }
 
       server_host = ENV.fetch("CREW_GENERATOR_HOST", "localhost:9452")
