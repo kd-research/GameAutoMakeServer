@@ -1,7 +1,7 @@
 require "proto/crewgenerator_services_pb"
 
 module GameGenerator
-  class CrewClient
+  module CrewClientMixin
     include Crewgen
     def initialize
       channel_args = {
@@ -10,7 +10,6 @@ module GameGenerator
         "grpc.max_metadata_size" => -1
       }
 
-      server_host = ENV.fetch("CREW_GENERATOR_HOST", "localhost:9452")
       @stub = CrewGenerator::Stub.new(server_host, :this_channel_is_insecure, channel_args:)
     end
 

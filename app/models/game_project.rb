@@ -12,15 +12,22 @@ class GameProject < ApplicationRecord
   belongs_to :chat_conversation, class_name: "Conversation"
   belongs_to :game_generate_conversation, class_name: "Conversation", optional: true
 
-  enum privacy: %w[public unlisted private].to_h { [_1, _1] }, _prefix: true
-  enum compile_type: %w[html html_demo].to_h { [_1, _1] }, _prefix: true
+  GameCompileTypes = {
+    html: HtmlGameCompile,
+    html_stable: HtmlStableCompile,
+    html_nightly: HtmlNightlyCompile,
+    html_demo: HtmlDemoGameCompile
+  }.stringify_keys.freeze
 
-  def gameklass
-    case compile_type
-    when "unity" then WebglGameCompile
-    when "html" then HtmlGameCompile
-    when "html_demo" then HtmlDemoGameCompile
-    end
+
+  def gameklass = GameCompileTypes[compile_type]
+
+  enum privacy: %w[public unlisted private].to_h { [_1, _1] }, _prefix: true
+  enum compile_type: GameCompileTypes.keys.to_h { [_1, _1] }, _prefix: true
+  def visible_compile_types
+    default_visible_types = %w[html_stable html_nightly].to_set
+    default_visible_types << compile_type
+    self.class.compile_types.slice(*default_visible_types)
   end
 
   def game_compile_data

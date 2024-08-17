@@ -21,17 +21,17 @@ div id="#{dom_id game_project}" class="block my-4"
 
     div class="field is-horizontal"
       .field-label.is-normal
-        = form.label :privacy, class: "label"
+        = form.label :visibility, class: "label"
       .field-body
         .select
           = form.select :privacy, options_for_select(game_project.class.privacies)
 
     div class="field is-horizontal"
       .field-label.is-normal
-        = form.label :compile_type, class: "label"
+        = form.label :game_model, class: "label"
       .field-body
         .select
-          = form.select :compile_type, options_for_select(game_project.class.compile_types)
+          = form.select :compile_type, options_for_select(game_project.visible_compile_types)
 
     - unless game_project.new_record?
       hr
