@@ -23,14 +23,14 @@ div id="#{dom_id game_project}" class="block my-4"
         =< game_project.description
       div
         strong Creator:
-        =< game_project.user.email
+        | #{game_project.user.user_profile.name} (#{game_project.user.email})
       div
-        strong Privacy:
+        strong Visibility:
         =< game_project.privacy.capitalize
 
       div
-        strong Compile Type:
-        =< game_project.compile_type.upcase
+        strong Game Model:
+        span.is-family-monospace.is-size-7.has-background-primary-light =< game_project.compile_type.titleize
 
     .field.is-grouped
       = button_to "Conclude Chat", request_game_spec_game_project_path(game_project), method: :post, class: "button is-ghost"
