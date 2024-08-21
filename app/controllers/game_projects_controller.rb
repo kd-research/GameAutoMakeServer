@@ -130,6 +130,7 @@ class GameProjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_game_project
     @game_project = GameProject.find(params[:id])
+    Current.game_project = @game_project
   end
 
   def validate_game_project_showable
