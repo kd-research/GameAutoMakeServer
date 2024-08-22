@@ -23,10 +23,7 @@ class HtmlGameCompilesController < ApplicationController
   def destroy
     @html_game_compile.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: "Html game compile was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_back fallback_location: game_projects_path, notice: "Html game compile was successfully destroyed."
   end
 
   private

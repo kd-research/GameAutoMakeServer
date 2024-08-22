@@ -1,8 +1,10 @@
-- if gameable.nil?
-  = button_to "Compile HTML game", build_game_project_path(game_project, compile_type: game_project.compile_type), class: "button is-primary is-small"
+- if Current.game_compile.nil?
+  = button_to "Compile HTML game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type), class: "button is-primary is-small"
+- elsif Current.game_compile.status_pending? || Current.game_compile.status_compiling?
+  | Allocating resources...
 - else
-  - unless game_compile.status_locked?
-    = form_for gameable, url: html_game_compile_path(gameable), html: {class: 'is-flex is-flex-direction-column'} do |f|
+  - unless Current.game_compile.status_locked?
+    = form_for Current.game_compile.gameable, url: html_game_compile_path(Current.game_compile.gameable), html: {class: 'is-flex is-flex-direction-column'} do |f|
       .file
         label.file-label
           = f.file_field :html_file, class: "file-input"
@@ -11,4 +13,4 @@
               i.fas.fa-upload
             span.file-label Choose HTML file
       = f.submit "Upload", class: "button is-primary is-small"
-  = link_to "Show this HTML game", html_game_compile_path(gameable), class: "button is-small is-primary"
+  = link_to "Show this HTML game", html_game_compile_path(Current.game_compile.gameable), class: "button is-small is-primary"

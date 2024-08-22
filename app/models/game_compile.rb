@@ -25,6 +25,8 @@ class GameCompile < ApplicationRecord
   private
 
   def broadcast_status_change
+    reload
+
     Current.set(game_project: game_project) do
       broadcast_replace_to game_project,
         partial: "game_projects/game_project_common_controls", target: "gp-common-controls"
