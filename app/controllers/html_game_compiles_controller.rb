@@ -21,9 +21,10 @@ class HtmlGameCompilesController < ApplicationController
 
   # DELETE /html_game_compiles/1 or /html_game_compiles/1.json
   def destroy
+    game_project = @html_game_compile.game_compile.game_project
     @html_game_compile.destroy!
 
-    redirect_back fallback_location: game_projects_path, notice: "Html game compile was successfully destroyed."
+    redirect_to game_project, notice: "Html game compile was successfully destroyed."
   end
 
   private
