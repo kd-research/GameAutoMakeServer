@@ -1,0 +1,11 @@
+#gp-common-controls.field.is-grouped.is-grouped-multiline
+  - case Current.game_project.compile_type
+  - when "html_stable", "html_nightly"
+    = render "html_game_compiles/actions"
+  - when "html_demo"
+    = render "html_game_compiles/actions_demo"
+  - else
+    | Compile type #{Current.game_project.compile_type} not supported.
+
+  = link_to "Edit this game project", edit_game_project_path(Current.game_project), class: "button is-small is-primary"
+  = button_to "Destroy this game project", Current.game_project, method: :delete, class: "button is-small is-warning", form_class: "is-flex"

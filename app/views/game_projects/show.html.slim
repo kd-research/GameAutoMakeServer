@@ -1,13 +1,4 @@
-== render @game_project, show_details: true
+= turbo_stream_from Current.game_project
 
-.field.is-grouped.is-grouped-multiline
-  - case @game_project.compile_type
-  - when "html_stable", "html_nightly"
-    = render "html_game_compiles/actions", game_project: @game_project, game_compile: @game_project.game_compile, gameable: @game_project.gameable
-  - when "html_demo"
-    = render "html_game_compiles/actions_demo", game_project: @game_project, game_compile: @game_project.game_compile, gameable: @game_project.gameable
-  - else
-    | Compile type #{@game_project.compile_type} not supported.
-
-  = link_to "Edit this game project", edit_game_project_path(@game_project), class: "button is-small is-primary"
-  = button_to "Destroy this game project", @game_project, method: :delete, class: "button is-small is-warning", form_class: "is-flex"
+== render "game_project_chat_and_compile"
+== render "game_project_common_controls"

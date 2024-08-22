@@ -3,6 +3,8 @@ class GameCompile < ApplicationRecord
   belongs_to :game_project
   belongs_to :gameable, polymorphic: true, optional: true
 
+  after_update_commit :broadcast_status_change, if: :saved_change_to_status?
+
   enum status: { success: 0, pending: 1, compiling: 2, fail: 3, locked: 4 }, _prefix: true
   delegate :gameklass, :game_compile_data, to: :game_project
 
@@ -18,5 +20,14 @@ class GameCompile < ApplicationRecord
     self.update!(status: :fail, compile_log: reason)
   rescue StandardError => e
     self.update!(status: :fail, compile_log: e.message + "\n" + e.backtrace.join("\n"))
+  end
+
+  private
+
+  def broadcast_status_change
+    Current.set(game_project: game_project) do
+      broadcast_replace_to game_project,
+        partial: "game_projects/game_project_common_controls", target: "gp-common-controls"
+    end
   end
 end
