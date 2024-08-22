@@ -50,6 +50,6 @@ class GameProject < ApplicationRecord
   end
 
   def alter_default_compile_type
-    self.compile_type = "html"
+    self.compile_type = "html_stable"
   end
 end
