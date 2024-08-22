@@ -32,7 +32,10 @@ class GameProjectsController < ApplicationController
     game_compile = @game_project.create_game_compile!(status: "pending")
     CompileJob.perform_later(game_compile.id)
 
-    redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.")
+    respond_to do |format|
+      format.turbo_stream { head :ok }
+      format.html { redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.") }
+    end
   end
 
   def rebuild
