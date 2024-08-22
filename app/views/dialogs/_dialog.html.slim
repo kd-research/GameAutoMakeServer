@@ -6,5 +6,3 @@ div class="content"
   p
     span class="tag is-primary is-light" = dialog.response_role
     div == Commonmarker.to_html(dialog.response_message)
-
-  = link_to 'resume from here', continue_conversation_path(dialog.conversation)

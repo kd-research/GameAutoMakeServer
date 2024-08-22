@@ -1,0 +1,7 @@
+.content
+  pre style="white-space: pre-wrap;"
+    = Current.game_compile.compile_log
+
+div
+  => link_to "Download", download_log_game_project_path(Current.game_project), download: true
+  => link_to "Back", :back

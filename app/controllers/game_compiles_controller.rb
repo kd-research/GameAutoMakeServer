@@ -1,27 +1,23 @@
 class GameCompilesController < ApplicationController
-  before_action :set_game_compile, only: %i[show destroy download_compile_log]
-  # GET /game_compiles or /game_compiles.json
-  def index
-    @game_compiles = GameCompile.all
-  end
+  before_action :set_game_compile, only: %i[show_compile_log destroy download_compile_log]
 
   # GET /game_compiles/1 
   # For compiling log
-  def show; end
+  def show_compile_log; end
 
   def download_compile_log
-    send_data @game_compile.compile_log, filename: 'compile_log.txt'
+    send_data Current.game_compile.compile_log, filename: 'compile_log.txt'
   end
 
   def destroy
-    @game_compile = GameCompile.find(params[:id])
-    @game_compile.destroy
+    Current.game_compile.destroy
     redirect_back(fallback_location: root_path)
   end
 
   private
 
   def set_game_compile
-    @game_compile = GameCompile.find(params[:id])
+    Current.game_project = GameProject.find(params[:id])
+    Current.has_game_compile!
   end
 end

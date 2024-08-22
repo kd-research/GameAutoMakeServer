@@ -20,15 +20,20 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   resources :game_projects do
+
     member do
       post :build
       post :change_compile_type
       post :send_message
       post :reset_conversation
       post :request_game_spec
+
+      get :show_log, to: "game_compiles#show_compile_log"
+      get :download_log, to: "game_compiles#download_compile_log"
+      post :destroy_game_compile, to: "game_compiles#destroy"
     end
+
     resources :dialog, only: %i[edit update]
-    resources :game_compiles, only: %i[index show destroy]
   end
 
   scope :compiled_game do
