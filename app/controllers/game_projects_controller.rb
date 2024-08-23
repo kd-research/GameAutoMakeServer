@@ -1,5 +1,6 @@
 class GameProjectsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
+  before_action :set_game_project, except: %i[index new create]
   before_action :validate_game_project_showable, only: %i[show build build]
   before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
 
@@ -128,6 +129,12 @@ class GameProjectsController < ApplicationController
     end
   end
 
+  def chat_and_conclude
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -137,15 +144,12 @@ class GameProjectsController < ApplicationController
   end
 
   def validate_game_project_showable
-    set_game_project
     authenticate_user! if @game_project.privacy_private?
 
     head :not_found if @game_project.privacy_private? && @game_project.user != current_user
   end
 
   def validate_game_project_owner
-    set_game_project
-
     return if @game_project.user == current_user
 
     respond_to do |format|

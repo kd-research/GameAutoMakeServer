@@ -20,13 +20,14 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   resources :game_projects do
-
     member do
+      get :chat_and_conclude
       post :build
       post :change_compile_type
       post :send_message
       post :reset_conversation
       post :request_game_spec
+
 
       get :show_log, to: "game_compiles#show_compile_log"
       get :download_log, to: "game_compiles#download_compile_log"

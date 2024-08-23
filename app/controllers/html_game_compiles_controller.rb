@@ -1,5 +1,5 @@
 class HtmlGameCompilesController < ApplicationController
-  before_action :set_html_game_compile, only: %i[show destroy]
+  before_action :set_game_project, except: %i[index]
 
   # GET /html_game_compiles or /html_game_compiles.json
   def index
@@ -11,8 +11,11 @@ class HtmlGameCompilesController < ApplicationController
     @html_game_compiles = HtmlGameCompile.all
   end
 
-  # GET /html_game_compiles/1 or /html_game_compiles/1.json
-  def show; end
+  def show
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
 
   def update
     @html_game_compile.update!(html_game_compile_params)
@@ -30,12 +33,9 @@ class HtmlGameCompilesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_html_game_compile
-    @html_game_compile = HtmlGameCompile.find(params[:id])
-  end
-
   def set_game_project
-    @game_project = GameProject.find(params[:game_project_id])
+    @html_game_compile = HtmlGameCompile.find(params[:id])
+    Current.game_project = @html_game_compile.game_project
   end
 
   # Only allow a list of trusted parameters through.

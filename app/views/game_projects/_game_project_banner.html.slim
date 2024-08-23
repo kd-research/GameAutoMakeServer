@@ -1,0 +1,31 @@
+nav class="breadcrumb is-large" aria-label="breadcrumbs"
+  ul
+    li = link_to root_path do
+      span.icon.is-medium
+        i.fas.fa-large.fa-home
+      span.has-text-weight-semibold.is-size-5 Home
+    li = link_to game_projects_path do
+      span.icon.is-medium
+        i.fas.fa-large.fa-list
+      span.has-text-weight-semibold.is-size-5 Game Projects
+    li 
+      = link_to Current.game_project do
+        span.icon.is-medium
+          i.fas.fa-large.fa-gamepad
+        span.has-text-weight-bold
+          = Current.game_project.name.titleize
+
+div class="content"
+  div
+    strong Description:
+    =< Current.game_project.description
+  div
+    strong Creator:
+    | #{Current.game_project.user.user_profile.name} (#{Current.game_project.user.email})
+  div
+    strong Visibility:
+    =< Current.game_project.privacy.capitalize
+
+  div
+    strong Game Model:
+    span.is-family-monospace.is-size-7.has-background-primary-light =< Current.game_project.compile_type.titleize

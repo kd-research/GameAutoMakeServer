@@ -1,9 +1,0 @@
-p style="color: green" = notice
-
-== render @html_game_compile, serving: true
-
-div.field
-  =< link_to "Back to game projects", game_projects_path, class: "button is-small is-info"
-
-  - unless @html_game_compile.game_compile.status_locked?
-    = button_to "Destroy this html game compile", @html_game_compile, method: :delete, class: "button is-small is-danger"
