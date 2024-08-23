@@ -130,9 +130,7 @@ class GameProjectsController < ApplicationController
   end
 
   def chat_and_conclude
-    respond_to do |format|
-      format.turbo_stream
-    end
+    render format: :turbo_stream
   end
 
   private

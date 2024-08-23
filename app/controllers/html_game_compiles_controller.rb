@@ -12,9 +12,7 @@ class HtmlGameCompilesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.turbo_stream
-    end
+    render format: :turbo_stream
   end
 
   def update
