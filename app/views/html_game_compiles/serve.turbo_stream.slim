@@ -3,7 +3,7 @@
 
 = turbo_stream.replace "gp-common-controls" do
   #gp-common-controls.field.is-grouped.is-grouped-multiline
-    =< link_to "Back to chat", chat_and_conclude_game_project_path(Current.game_project), class: "button is-small is-primary", data: { turbo_stream: true }
+    = button_to "Back to chat", chat_and_conclude_game_project_path(Current.game_project), class: "button is-small is-primary"
     - unless @html_game_compile.game_compile.status_locked?
       = button_to "Destroy this html game compile", @html_game_compile, method: :delete, class: "button is-small is-warning"
     = link_to "Edit this game project", edit_game_project_path(Current.game_project), class: "button is-small is-primary"

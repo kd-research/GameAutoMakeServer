@@ -13,4 +13,4 @@
               i.fas.fa-upload
             span.file-label Choose HTML file
       = f.submit "Upload", class: "button is-primary is-small"
-  = link_to "Show this HTML game", html_game_compile_path(Current.game_compile.gameable), class: "button is-small is-primary", data: { turbo_stream: true }
+  = button_to "Show this HTML game", serve_html_game_compile_path(Current.game_compile.gameable), class: "button is-primary is-small", style: "height: 100%"

@@ -16,8 +16,8 @@
   - when "success"
     .is-flex.is-flex-direction-column.is-gap-1
       = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small", style: "width: 100%"
-      = link_to "Show this HTML game", Current.game_compile.gameable, class: "button is-small is-primary", data: { turbo_stream: true }
+      = button_to "Show this HTML game", serve_html_game_compile_path(Current.game_compile.gameable), class: "button is-primary is-small", style: "width: 100%"
   - when "locked"
-    = link_to "Show this HTML game", Current.game_compile.gameable, class: "button is-small is-primary", data: { turbo_stream: true }
+    = button_to "Show this HTML game", serve_html_game_compile_path(Current.game_compile.gameable), class: "button is-primary is-small", style: "width: 100%"
   - else
     - raise "Unknown status: #{Current.game_compile.game_compile.status}"

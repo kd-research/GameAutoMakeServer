@@ -11,7 +11,7 @@ class HtmlGameCompilesController < ApplicationController
     @html_game_compiles = HtmlGameCompile.all
   end
 
-  def show
+  def serve
     render format: :turbo_stream
   end
 
