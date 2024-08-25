@@ -1,0 +1,21 @@
+- @rendered_content = capture do
+  = turbo_frame_tag game_project, :card do
+    = link_to game_project_path(game_project), class: "card fixed-card-width", data: { turbo_frame: "gp-main" } do
+      .card-image
+        figure.image.is-square
+          = image_tag "default-thumbnail.jpg", class: "is-square", alt: "Placeholder image"
+      .card-content
+        p.title.is-4.truncate-name
+          = game_project.name.titleize
+        p.subtitle.is-6.truncate-author
+          By = game_project.user.user_profile.name || "By (#{game_project.user.email})"
+        .content.truncate-description
+          = game_project.description
+        .card-footer
+          small
+            | Date Last Compiled: #{game_project.updated_at.strftime("%B %d, %Y")}
+
+- if defined?(wrapper)
+  = content_tag wrapper, @rendered_content, class: wrapper_class
+- else
+  = @rendered_content

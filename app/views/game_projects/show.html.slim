@@ -1,8 +1,9 @@
 = turbo_stream_from Current.game_project
 
-div class="block my-4"
-  = render "game_project_banner"
-  = render "game_project_chat_and_conclude"
+= turbo_frame_tag "gp-main" do
+  div class="block my-4"
+    = render "game_project_banner"
+    = render "game_project_chat_and_conclude"
 
-.block.my-4.is-flex.is-justify-content-center
-  = render "game_project_common_controls"
+  .block.my-4.is-flex.is-justify-content-center
+    = render "game_project_common_controls"

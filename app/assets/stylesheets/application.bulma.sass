@@ -1,0 +1,28 @@
+@use "bulma/sass"
+@import "@fortawesome/fontawesome-free/scss/fontawesome"
+@import "@fortawesome/fontawesome-free/scss/solid"
+
+:root
+  --bulma-body-family: "Montserrat", sans-serif
+
+
+.fixed-card-width
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  margin: 0 auto
+  overflow: hidden
+  width: 300px
+
+.truncated
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.truncated-multiline
+  display: -webkit-box
+  -webkit-line-clamp: 3
+  -webkit-box-orient: vertical
+  overflow: hidden
+  text-overflow: ellipsis
+  height: 3.6em

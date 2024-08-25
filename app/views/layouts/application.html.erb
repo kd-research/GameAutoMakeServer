@@ -11,28 +11,13 @@
   </head>
 
   <body>
+    <%= render "layouts/header" %>
+    <%= render "layouts/overlays" %>
     <div class="container has-text-info"><%= notice %></div>
     <div class="container has-text-danger"><%= alert %></div>
     <div class="container">
       <%= yield %>
     </div>
-    <div class="footer is-max-desktop">
-      <% if Rails.env.development? %>
-        <p class="has-text-centered title">
-          <strong>Development zone</strong>
-        </p>
-        <div class="columns is-centered">
-          <div class="column is-narrow">
-            <%= button_to "Developer Sign-In", developer_sign_in_path, method: :post, class: "button is-danger is-small is-dark" %>
-          </div>
-          <div class="column is-narrow">
-            <%= button_to "Reset database", reset_all_path, method: :post, class: "button is-danger is-small is-dark" %>
-          </div>
-        </div>
-      <% end %>
-      <p class="has-text-centered">
-        GameAutoMaker &copy; 2024
-      </p>
-    </div>
+    <%= render "layouts/footer" %>
   </body>
 </html>

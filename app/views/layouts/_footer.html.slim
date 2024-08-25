@@ -1,0 +1,12 @@
+.footer.is-max-desktop.has-background-primary
+  - if Rails.env.development?
+    p.has-text-centered.title
+      strong
+        | Development zone
+    .columns.is-centered
+      .column.is-narrow
+        = button_to "Developer Sign-In", developer_sign_in_path, method: :post, class: "button is-danger is-small is-dark"
+      .column.is-narrow
+        = button_to "Reset database", reset_all_path, method: :post, class: "button is-danger is-small is-dark"
+  .content.has-text-centered
+    strong GameAutoMaker © 2024

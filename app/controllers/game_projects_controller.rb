@@ -1,11 +1,30 @@
 class GameProjectsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
-  before_action :set_game_project, except: %i[index new create]
+  before_action :set_game_project, except: %i[index gallary new create]
   before_action :validate_game_project_showable, only: %i[show build build]
   before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
 
-  # GET /game_projects or /game_projects.json
+  # GET /game_projects
+  # Redirect to gallary page based on user sign in status
+  # if user is signed in, show all projects (render gallary/all)
+  # if user is not signed in, show only public projects (render gallary/public)
   def index
+    @target_gallary_page = if user_signed_in?
+                             game_projects_gallary_path(partial: "all")
+                           else
+                             game_projects_gallary_path(partial: "public")
+                           end
+  end
+
+  # GET /game_projects/gallary/:partial
+  # The actual index page for game projects
+  def gallary
+    unless %w[all user public].include?(params[:partial])
+      head :not_found and return
+    end
+
+    authenticate_user! unless params[:partial] == "public"
+
     if user_signed_in?
       @user_projects = current_user.game_projects
       @public_projects = GameProject.privacy_public.where.not(user: current_user)
@@ -14,8 +33,12 @@ class GameProjectsController < ApplicationController
     end
   end
 
-  # GET /game_projects/1 or /game_projects/1.json
-  def show; end
+  # GET /game_projects/1
+  def show
+    if params[:style] == "card"
+      render "show/card_view"
+    end
+  end
 
   # GET /game_projects/new
   def new

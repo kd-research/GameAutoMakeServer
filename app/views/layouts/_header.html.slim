@@ -1,0 +1,21 @@
+header.hero.is-primary
+  .hero-body
+    .container.is-flex.is-justify-content-space-between.is-align-items-center
+      - if user_signed_in?
+        h1.title
+          | GameAutoMaker
+        #auth-section.is-flex.is-flex-direction-column.is-justify-content-center.is-align-items-center
+          p#greeting.mb-2
+            | Hi, #{current_user.email}!
+          #header-buttons.is-flex.is-justify-content-space-between.field.is-grouped.is-grouped-multiline
+            = link_to "Create a Game", new_game_project_path, class: "button is-light is-primary is-small", data: { turbo_frame: "gp-main" }
+            = button_to "Log Out", destroy_user_session_path, method: :delete, class: "button is-light is-primary is-small"
+      - else
+        h1.title
+          | GameAutoMaker
+        #auth-section.is-flex.is-flex-direction-column.is-justify-content-center.is-align-items-center
+          p#greeting.mb-2
+            | Hi, Guest!
+          #header-buttons.is-flex.is-justify-content-space-between.field.is-grouped.is-grouped-multiline
+            = link_to "Sign Up", new_user_registration_path, class: "button is-light is-primary is-small", data: { turbo_frame: "login-overlay" }
+            = link_to "Log In", new_user_session_path, class: "button is-light is-primary is-small", data: { turbo_frame: "login-overlay" }

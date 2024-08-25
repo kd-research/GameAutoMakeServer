@@ -2,12 +2,14 @@ require "test_helper"
 
 class GameProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @game_project = game_projects(:default)
+    #@game_project = game_projects(:default)
   end
 
   test "should get index" do
     get game_projects_url
+    assert_response :success
 
+    get game_projects_path("all")
     assert_response :success
   end
 

@@ -22,8 +22,8 @@ class GameProject < ApplicationRecord
 
   def gameklass = GameCompileTypes[compile_type]
 
-  enum privacy: %w[public unlisted private].to_h { [_1, _1] }, _prefix: true
-  enum compile_type: GameCompileTypes.keys.to_h { [_1, _1] }, _prefix: true
+  enum :privacy, %w[public unlisted private].to_h { [_1, _1] }, prefix: true
+  enum :compile_type, GameCompileTypes.keys.to_h { [_1, _1] }, prefix: true
   def visible_compile_types
     default_visible_types = %w[html_stable html_nightly].to_set
     default_visible_types << compile_type

@@ -1,0 +1,18 @@
+= turbo_frame_tag "gp-main" do
+  main.section.is-flex
+    = render "game_projects/index/side_menu", active: params[:partial]
+    .container.is-fluid
+      - if %w[all user].include? params[:partial]
+        h2.title.is-4 My Games
+        .columns.is-multiline
+          = render partial: "game_projects/show/card_view", 
+            collection: @user_projects, as: :game_project, 
+            locals: { wrapper: "div", wrapper_class: "column is-4" }
+      - if %w[all public].include? params[:partial]
+        h2.title.is-4 Community Games
+        .columns.is-multiline
+          = render partial: "game_projects/show/card_view", 
+            collection: @public_projects, as: :game_project,
+            locals: { wrapper: "div", wrapper_class: "column is-4" }
+
+

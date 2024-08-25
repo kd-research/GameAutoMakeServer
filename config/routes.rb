@@ -19,8 +19,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
+  get "gallary/:partial", to: "game_projects#gallary", as: "game_projects_gallary"
   resources :game_projects do
     member do
+      get ":style", to: "game_projects#show"
       post :chat_and_conclude
       post :build
       post :change_compile_type
@@ -35,6 +37,7 @@ Rails.application.routes.draw do
     end
 
     resources :dialog, only: %i[edit update]
+
   end
 
   scope :compiled_game do
