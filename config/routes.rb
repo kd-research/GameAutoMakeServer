@@ -17,12 +17,13 @@ Rails.application.routes.draw do
     get "dashboard/index"
   end
 
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: { 
+    omniauth_callbacks: "users/omniauth_callbacks",
+  }
 
   get "gallary/:partial", to: "game_projects#gallary", as: "game_projects_gallary"
   resources :game_projects do
     member do
-      get ":style", to: "game_projects#show"
       post :chat_and_conclude
       post :build
       post :change_compile_type
@@ -64,5 +65,6 @@ Rails.application.routes.draw do
   end
 
   # Defines the root path route ("/")
-  root "guests/dashboard#index"
+  # root "guests/dashboard#index"
+  root "game_projects#index"
 end

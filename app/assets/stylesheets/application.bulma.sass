@@ -5,6 +5,13 @@
 :root
   --bulma-body-family: "Montserrat", sans-serif
 
+.breadcrumb button,
+.breadcrumb a
+  align-items: center
+  color: var(--bulma-breadcrumb-item-color)
+  display: flex
+  justify-content: center
+  padding: var(--bulma-breadcrumb-item-padding-vertical) var(--bulma-breadcrumb-item-padding-horizontal)
 
 .fixed-card-width
   display: flex
@@ -26,3 +33,10 @@
   overflow: hidden
   text-overflow: ellipsis
   height: 3.6em
+
+.chat-history
+  height: 100%
+  padding: 1rem
+  overflow-y: auto
+  border: 1px solid #DEDEDE
+  background-color: #F9F9F9

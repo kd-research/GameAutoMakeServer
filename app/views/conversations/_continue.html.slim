@@ -1,7 +1,7 @@
 = form_with url: allow_chat_action, method: :post do |f|
-  div class="field"
-    = f.label :message, class: "label"
-    = f.text_area :message, class: "textarea", rows: 3
+  .field.has-addons.mt-4
+    .control.is-expanded
+      = f.text_field :message, class: "input", placeholder: "Type your message here"
+    .control
+      = f.button "Send", class: "button is-primary"
 
-  div class="field is-grouped"
-    = f.submit "Send", class: "button is-primary"

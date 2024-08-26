@@ -14,6 +14,8 @@ class GameProjectsController < ApplicationController
                            else
                              game_projects_gallary_path(partial: "public")
                            end
+
+    redirect_to @target_gallary_page if turbo_frame_request?
   end
 
   # GET /game_projects/gallary/:partial

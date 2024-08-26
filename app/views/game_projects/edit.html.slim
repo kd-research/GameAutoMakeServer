@@ -1,8 +1,1 @@
-.block
-  h1.title Editing game project
-  == render "form", game_project: @game_project
-
-div
-  => link_to "Show this game project", @game_project
-  '|
-  =< link_to "Back to game projects", game_projects_path
+== render "form", game_project: @game_project

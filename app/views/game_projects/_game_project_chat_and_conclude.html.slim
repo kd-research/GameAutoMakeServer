@@ -3,9 +3,9 @@
     = button_to "Conclude Chat", request_game_spec_game_project_path(Current.game_project), method: :post, class: "button is-ghost"
     = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
   .columns
-    .column
+    .column.is-half
       = render Current.game_project.chat_conversation, allow_chat_action: send_message_game_project_path(Current.game_project)
-    .column
+    .column.is-half
       .box style="max-height: 720px; overflow-y: auto;"
         - if (generator = Current.game_project.game_generate_conversation).present?
           div class="content is-small has-text-monospace"

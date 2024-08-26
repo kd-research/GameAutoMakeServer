@@ -1,0 +1,29 @@
+div data-controller="auth-overlay"
+  .modal.is-active data-auth-overlay-target="overlay"
+    .modal-background data-action="click->auth-overlay#hide"
+    .modal-card
+      header.modal-card-head.has-background-grey-lighter
+        p.modal-card-title
+          | Log in
+        button.delete aria-label="close" data-action="click->auth-overlay#hide"
+      = form_for resource, as: resource_name, url: session_path(resource_name), class: "form" do |f|
+        section.modal-card-body
+          .field
+            = f.label :email, class: "label"
+            .control
+              = f.email_field :email, autofocus: true, autocomplete: "email", class: "input"
+          .field
+            = f.label :password, class: "label"
+            .control
+              = f.password_field :password, autocomplete: "current-password", class: "input"
+          - if devise_mapping.rememberable?
+            .field
+              .control
+                = f.label :remember_me, class: "checkbox"
+                  = f.check_box :remember_me
+                  |< Remember me
+          .field
+            .control
+              = f.submit "Log in", class: "button is-primary is-fullwidth"
+      footer.modal-card-foot.has-background-light
+        = render "devise/shared/links"

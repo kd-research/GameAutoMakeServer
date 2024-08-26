@@ -1,6 +1,6 @@
 nav class="breadcrumb is-large" aria-label="breadcrumbs"
   ul
-    li = link_to root_path, disabled: true do
+    li = link_to root_path, data: { turbo_frame: "_top" } do
       span.icon.is-medium
         i.fas.fa-large.fa-home
       span.has-text-weight-semibold.is-size-5 Home

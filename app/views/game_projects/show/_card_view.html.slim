@@ -1,6 +1,6 @@
 - @rendered_content = capture do
   = turbo_frame_tag game_project, :card do
-    = link_to game_project_path(game_project), class: "card fixed-card-width", data: { turbo_frame: "gp-main" } do
+    = link_to game_project_path(game_project), class: "card fixed-card-width", data: { turbo_frame: "_top" } do
       .card-image
         figure.image.is-square
           = image_tag "default-thumbnail.jpg", class: "is-square", alt: "Placeholder image"

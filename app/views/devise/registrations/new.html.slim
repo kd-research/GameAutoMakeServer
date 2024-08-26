@@ -1,0 +1,28 @@
+= turbo_frame_tag "auth-overlay" do
+  div data-controller="auth-overlay"
+    .modal.is-active data-auth-overlay-target="overlay"
+      .modal-background data-action="click->auth-overlay#hide"
+      .modal-card
+        header.modal-card-head.has-background-grey-lighter
+          p.modal-card-title
+            | Sign up
+          button.delete aria-label="close" data-action="click->auth-overlay#hide"
+        section.modal-card-body
+          = form_for resource, as: resource_name, url: registration_path(resource_name), class: "form" do |f|
+            .field
+              = f.label :email, class: "label"
+              .control
+                = f.email_field :email, autofocus: true, autocomplete: "email", class: "input"
+            .field
+              = f.label :password, class: "label"
+              .control
+                = f.password_field :password, autocomplete: "new-password", class: "input"
+            .field
+              = f.label :password_confirmation, class: "label"
+              .control
+                = f.password_field :password_confirmation, autocomplete: "new-password", class: "input"
+            .field
+              .control
+                = f.submit "Sign up", class: "button is-primary is-fullwidth"
+        footer.modal-card-foot.has-background-light
+          = render "devise/shared/links"

@@ -1,51 +1,61 @@
-div id="#{dom_id game_project}" class="block my-4"
-  = form_with(model: game_project, class: "form") do |form|
-    - if game_project.errors.any?
-      div style="color: red"
-        h2 = "#{pluralize(game_project.errors.count, "error")} prohibited this game_project from being saved:"
-        ul
-          - game_project.errors.each do |error|
-            li = error.full_message
+= turbo_frame_tag "gp-main" do
+  main.section
+    = form_with(model: game_project, class: "form") do |form|
+      - if game_project.errors.any?
+        div style="color: red"
+          h2 = "#{pluralize(game_project.errors.count, "error")} prohibited this game_project from being saved:"
+          ul
+            - game_project.errors.each do |error|
+              li = error.full_message
 
-    div class="field is-horizontal"
-      .field-label.is-normal
-        = form.label :name, class: "label"
-      .field-body
-        = form.text_field :name, class: "input"
+      .field
+        = form.label "Game Name", class: "label"
+        .control
+          = form.text_field :name, class: "input", placeholder: "Enter your game name", required: true, maxlength: 50
+        p.help
+          | Maximum 50 characters.
 
-    div class="field is-horizontal"
-      .field-label.is-normal
-        = form.label :description, class: "label"
-      .field-body
-        = form.text_area :description, class: "textarea", rows: 3
+      .field
+        = form.label "Game Description", class: "label"
+        .control
+          = form.text_area :description, class: "textarea", rows: 5, placeholder: "Enter a brief description of your game", required: true, maxlength: 500
+        p.help
+          | Maximum 500 characters.
 
-    div class="field is-horizontal"
-      .field-label.is-normal
-        = form.label :visibility, class: "label"
-      .field-body
-        .select
-          = form.select :privacy, options_for_select(game_project.class.privacies)
+      .field
+        = form.label "Game Permission", class: "label"
+        .control
+          .select
+            = form.select :privacy, options_for_select(game_project.class.privacies.transform_keys(&:titleize), game_project.privacy)
 
-    div class="field is-horizontal"
-      .field-label.is-normal
-        = form.label :game_model, class: "label"
-      .field-body
-        .select
-          = form.select :compile_type, options_for_select(game_project.visible_compile_types, game_project.compile_type)
+      .field
+        = form.label "Game Type", class: "label"
+        .control
+          .select
+            = form.select :compile_type, options_for_select(game_project.visible_compile_types.transform_keys(&:titleize), game_project.compile_type)
 
-    - unless game_project.new_record?
-      hr
-      div class="field"
-        = form.label :chat_instructions, class: "label"
-        = form.text_area :chat_agent_instruction, class: "textarea", rows: 15
+      - unless game_project.new_record?
+        hr
+        div class="field"
+          = form.label :chat_instructions, class: "label"
+          = form.text_area :chat_agent_instruction, class: "textarea", rows: 15
 
-      div class="field"
-        = form.label :conclude_instructions, class: "label"
-        = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
+        div class="field"
+          = form.label :conclude_instructions, class: "label"
+          = form.text_area :summary_agent_instruction, class: "textarea", rows: 15
 
-      div class="field"
-        = form.label :conclude_start_notion, class: "label"
-        = form.text_area :summary_agent_task, class: "textarea", rows: 15
+        div class="field"
+          = form.label :conclude_start_notion, class: "label"
+          = form.text_area :summary_agent_task, class: "textarea", rows: 15
 
-    div class="field"
-      = form.submit class: "button is-info"
+      .field.is-grouped.is-grouped-centered
+        - if game_project.new_record?
+          .control
+            = form.submit class: "button is-info"
+          .control
+            = link_to "Cancel", game_projects_path, class: "button is-light"
+        - else
+          .control
+            = form.submit class: "button is-info"
+          .control
+            = link_to "Cancel", game_project_path(game_project), class: "button is-light"
