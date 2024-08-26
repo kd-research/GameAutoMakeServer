@@ -37,9 +37,9 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects/1
   def show
-    if params[:style] == "card"
-      render "show/card_view"
-    end
+    return unless params[:style] == "card"
+
+    render "show/card_view"
   end
 
   # GET /game_projects/new
@@ -72,7 +72,6 @@ class GameProjectsController < ApplicationController
 
     redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.")
   end
-
 
   # POST /game_projects or /game_projects.json
   def create
@@ -125,15 +124,15 @@ class GameProjectsController < ApplicationController
     Current.game_project.chat_conversation =
       Current.game_project.chat_conversation.send_message(
         to_send,
-        chat_system_message: Current.game_project.chat_agent_instruction,
+        chat_system_message: Current.game_project.chat_agent_instruction
       )
     Current.game_project.save!
 
     respond_to do |format|
-      format.turbo_stream do 
-        render turbo_stream: turbo_stream.replace("chat", 
-                                                  partial: Current.game_project.chat_conversation, 
-                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) } )
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("chat",
+                                                  partial: Current.game_project.chat_conversation,
+                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) })
       end
       format.html { render "game_projects_chat_and_conclude" }
     end
@@ -143,10 +142,10 @@ class GameProjectsController < ApplicationController
     @game_project.chat_conversation = Conversation.new
     @game_project.save!
     respond_to do |format|
-      format.turbo_stream do 
-        render turbo_stream: turbo_stream.replace("chat", 
-                                                  partial: Current.game_project.chat_conversation, 
-                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) } )
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("chat",
+                                                  partial: Current.game_project.chat_conversation,
+                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) })
       end
       format.html { render "game_projects_chat_and_conclude" }
     end

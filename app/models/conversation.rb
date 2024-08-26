@@ -12,8 +12,8 @@ class Conversation < ApplicationRecord
   def send_message(message, role: nil, chat_system_message: nil, json_mode: false)
     @role = role || "user"
     @chat_system_message = chat_system_message ||
-                          @chat_system_message ||
-                          default_system_message
+                           @chat_system_message ||
+                           default_system_message
 
     client = OpenAI::Client.new
     p = chat_parameters(message)
@@ -45,7 +45,7 @@ class Conversation < ApplicationRecord
     chat_messages << { role: "system", content: @chat_system_message }
     chat_messages.concat(all_messages)
     chat_messages << { role: @role, content: message }
-    chat_messages.reject! { |m| m[:content].nil? || m[:content].empty? }
+    chat_messages.reject! { |m| m[:content].blank? }
 
     {
       model: "gpt-4o",

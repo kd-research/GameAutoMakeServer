@@ -1,5 +1,5 @@
-task :dev do
+task dev: :environment do
   chdir Rails.root do
-    Kernel.exec 'bundle exec ./bin/dev'
+    Kernel.exec "bundle exec ./bin/dev"
   end
 end

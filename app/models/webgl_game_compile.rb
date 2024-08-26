@@ -1,5 +1,5 @@
 class WebglGameCompile < ApplicationRecord
-  def self.build(game_project)
+  def self.build(_game_project)
     raise DeprecationError, "Webgl game type is not supported anymore"
   end
 

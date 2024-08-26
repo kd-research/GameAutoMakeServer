@@ -29,9 +29,7 @@ class HtmlGameCompile < ApplicationRecord
     html_file.download
   end
 
-  def game_project
-    game_compile.game_project
-  end
+  delegate :game_project, to: :game_compile
 
   private
 
@@ -41,7 +39,7 @@ class HtmlGameCompile < ApplicationRecord
       filename: "index.html",
       content_type: "text/html"
     )
-    self.new(html_file:)
+    new(html_file:)
   end
 
   def self.compile_by_llm(name, description)

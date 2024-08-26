@@ -19,7 +19,6 @@ class GameProject < ApplicationRecord
     html_demo: HtmlDemoGameCompile
   }.stringify_keys.freeze
 
-
   def gameklass = GameCompileTypes[compile_type]
 
   enum :privacy, %w[public unlisted private].to_h { [_1, _1] }, prefix: true
@@ -32,7 +31,7 @@ class GameProject < ApplicationRecord
 
   def game_compile_data
     {
-      name: name,
+      name:,
       description: game_generate_conversation.dialog.response_message
     }
   end

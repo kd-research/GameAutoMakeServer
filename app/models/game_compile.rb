@@ -9,17 +9,17 @@ class GameCompile < ApplicationRecord
   delegate :gameklass, :game_compile_data, to: :game_project
 
   def run_compile
-    self.update!(status: :compiling)
+    update!(status: :compiling)
 
     reason = catch(:build_abort) do
       gameable, log = gameklass.build(**game_compile_data)
-      self.update!(status: :success, gameable:, compile_log: log)
+      update!(status: :success, gameable:, compile_log: log)
       return
     end
 
-    self.update!(status: :fail, compile_log: reason)
+    update!(status: :fail, compile_log: reason)
   rescue StandardError => e
-    self.update!(status: :fail, compile_log: e.message + "\n" + e.backtrace.join("\n"))
+    update!(status: :fail, compile_log: "#{e.message}\n#{e.backtrace.join("\n")}")
   end
 
   private
@@ -27,9 +27,9 @@ class GameCompile < ApplicationRecord
   def broadcast_status_change
     reload
 
-    Current.set(game_project: game_project) do
+    Current.set(game_project:) do
       broadcast_replace_to game_project,
-        partial: "game_projects/game_project_common_controls", target: "gp-common-controls"
+                           partial: "game_projects/game_project_common_controls", target: "gp-common-controls"
     end
   end
 end

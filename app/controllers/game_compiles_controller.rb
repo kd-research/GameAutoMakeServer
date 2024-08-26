@@ -1,12 +1,12 @@
 class GameCompilesController < ApplicationController
   before_action :set_game_compile, only: %i[show_compile_log destroy download_compile_log]
 
-  # GET /game_compiles/1 
+  # GET /game_compiles/1
   # For compiling log
   def show_compile_log; end
 
   def download_compile_log
-    send_data Current.game_compile.compile_log, filename: 'compile_log.txt'
+    send_data Current.game_compile.compile_log, filename: "compile_log.txt"
   end
 
   def destroy

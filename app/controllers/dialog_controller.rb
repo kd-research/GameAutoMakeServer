@@ -7,7 +7,7 @@ class DialogController < ApplicationController
 
   def update
     if @dialog.update(dialog_params)
-      redirect_to game_project_path(@game_project), notice: 'Message was successfully updated.'
+      redirect_to game_project_path(@game_project), notice: "Message was successfully updated."
     else
       render :edit
     end

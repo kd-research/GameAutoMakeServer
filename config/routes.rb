@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     get "dashboard/index"
   end
 
-  devise_for :users, controllers: { 
-    omniauth_callbacks: "users/omniauth_callbacks",
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
 
   get "gallary/:partial", to: "game_projects#gallary", as: "game_projects_gallary"
@@ -31,14 +31,12 @@ Rails.application.routes.draw do
       post :reset_conversation
       post :request_game_spec
 
-
       get :show_log, to: "game_compiles#show_compile_log"
       get :download_log, to: "game_compiles#download_compile_log"
       post :destroy_game_compile, to: "game_compiles#destroy"
     end
 
     resources :dialog, only: %i[edit update]
-
   end
 
   scope :compiled_game do
