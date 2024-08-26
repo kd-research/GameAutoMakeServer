@@ -128,17 +128,28 @@ class GameProjectsController < ApplicationController
         chat_system_message: Current.game_project.chat_agent_instruction,
       )
     Current.game_project.save!
-    if turbo_frame_request?
-      render Current.game_project.chat_conversation, allow_chat_action: send_message_game_project_path(Current.game_project)
-    else
-      redirect_back(fallback_location: game_project_url(Current.game_project))
+
+    respond_to do |format|
+      format.turbo_stream do 
+        render turbo_stream: turbo_stream.replace("chat", 
+                                                  partial: Current.game_project.chat_conversation, 
+                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) } )
+      end
+      format.html { render "game_projects_chat_and_conclude" }
     end
   end
 
   def reset_conversation
     @game_project.chat_conversation = Conversation.new
     @game_project.save!
-    redirect_back(fallback_location: game_project_url(@game_project), notice: "Conversation was successfully reset.")
+    respond_to do |format|
+      format.turbo_stream do 
+        render turbo_stream: turbo_stream.replace("chat", 
+                                                  partial: Current.game_project.chat_conversation, 
+                                                  locals: { allow_chat_action: send_message_game_project_path(Current.game_project) } )
+      end
+      format.html { render "game_projects_chat_and_conclude" }
+    end
   end
 
   def request_game_spec
@@ -165,6 +176,7 @@ class GameProjectsController < ApplicationController
   def set_game_project
     @game_project = GameProject.find(params[:id])
     Current.game_project = @game_project
+    Current.user = current_user if user_signed_in?
   end
 
   def validate_game_project_showable
@@ -176,9 +188,7 @@ class GameProjectsController < ApplicationController
   def validate_game_project_owner
     return if @game_project.user == current_user
 
-    respond_to do |format|
-      format.html { redirect_back(fallback_location: game_project_url(@game_project), alert: "Only account owner can perform this action.") }
-    end
+    render status: :forbidden, plain: "Only account owner can perform this action." and return
   end
 
   # Only allow a list of trusted parameters through.

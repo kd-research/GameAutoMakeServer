@@ -1,5 +1,7 @@
 class DialogController < ApplicationController
-  before_action :game_project_dialog, only: %i[edit update]
+  before_action :authenticate_user!
+  before_action :game_project_dialog
+  before_action :validate_game_project_owner
 
   def edit; end
 
@@ -14,8 +16,14 @@ class DialogController < ApplicationController
   private
 
   def game_project_dialog
-    @game_project ||= GameProject.find(params[:game_project_id])
+    Current.game_project = GameProject.find(params[:game_project_id])
     @dialog = Dialog.find(params[:id])
+  end
+
+  def validate_game_project_owner
+    return if Current.game_project.user == current_user
+
+    render head :forbidden
   end
 
   def dialog_params

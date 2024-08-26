@@ -1,8 +1,7 @@
-div class="content"
-  p
-    span class="tag is-primary is-light" = dialog.request_role
-    div == Commonmarker.to_html(dialog.request_message)
+p
+  span class="tag is-primary is-light" = dialog.request_role
+  div == Commonmarker.to_html(dialog.request_message)
 
-  p
-    span class="tag is-primary is-light" = dialog.response_role
-    div == Commonmarker.to_html(dialog.response_message)
+p
+  span class="tag is-primary is-light" = dialog.response_role
+  div == Commonmarker.to_html(dialog.response_message)

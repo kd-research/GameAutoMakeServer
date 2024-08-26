@@ -13,9 +13,10 @@
               div.is-flex.is-justify-content-space-between
                 div.is-flex.is-align-items-center
                   h3.has-text-primary.mb-0 Current Conclusion
-                = link_to edit_game_project_dialog_path(Current.game_project, generator.dialog), class: "button is-small is-ghost" do
-                  span.icon
-                    i.fas.fa-pen
+                - if Current.user_owns_game_project?
+                  = link_to edit_game_project_dialog_path(Current.game_project, generator.dialog), class: "button is-small is-ghost" do
+                    span.icon
+                      i.fas.fa-pen
               p == Commonmarker.to_html generator.dialog.response_message
           - else
             div class="content is-small has-text-monospace"

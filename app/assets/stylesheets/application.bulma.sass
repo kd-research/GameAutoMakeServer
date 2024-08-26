@@ -4,6 +4,17 @@
 
 :root
   --bulma-body-family: "Montserrat", sans-serif
+  --chat-history-border-color: #DEDEDE
+  --chat-history-background-color: #F9F9F9
+
+@media (prefer-color-scheme: dark) 
+  :root
+    --chat-history-border-color: #4A4A4A
+    --chat-history-background-color: #333333
+
+[data-theme="dark"]
+  --chat-history-border-color: #4A4A4A
+  --chat-history-background-color: #333333
 
 .breadcrumb button,
 .breadcrumb a
@@ -41,5 +52,6 @@
   height: 100%
   padding: 1rem
   overflow-y: auto
-  border: 1px solid #DEDEDE
-  background-color: #F9F9F9
+  border: 1px solid var(--chat-history-border-color)
+  background-color: var(--chat-history-background-color)
+
