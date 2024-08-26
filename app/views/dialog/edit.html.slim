@@ -1,10 +1,15 @@
-.section
-  .title
-    h1 Overriding Message
-  = form_for [@game_project, @dialog], class: 'form' do |f|
-    .field 
-      = f.label :response_message, class: 'label'
-      = f.text_area :response_message, class: 'textarea', rows: 15
-    .field.is-grouped 
-      = f.submit 'Override!', class: 'button is-warning'
-      = link_to 'Cancel', game_project_path(@game_project), class: 'button is-text-90'
+= turbo_frame_tag "conclusion" do
+  .box style="max-height: 720px; overflow-y: auto;"
+    div class="content is-small has-text-monospace"
+      = form_for [@game_project, @dialog], class: 'form' do |f|
+        div.is-flex.is-justify-content-space-between.mb-2
+          div.is-flex.is-align-items-center
+            h3.has-text-primary.mb-0 Current Conclusion (editing)
+          = f.button nil, class: 'button is-small is-primary'
+            span.icon
+              i.fas.fa-pen
+        .field.has-text-small
+          = f.text_area :response_message, class: 'is-small textarea', rows: 15, style: "field-sizing: content;"
+        .field.is-grouped 
+          = f.submit 'Override!', class: 'button is-warning is-small'
+          = link_to 'Cancel', game_project_path(@game_project), class: 'button is-text-90 is-small'

@@ -122,15 +122,16 @@ class GameProjectsController < ApplicationController
 
   def send_message
     to_send = params[:message]
-    @game_project.chat_conversation =
-      @game_project.chat_conversation.send_message(
+    Current.game_project.chat_conversation =
+      Current.game_project.chat_conversation.send_message(
         to_send,
-        chat_system_message: @game_project.chat_agent_instruction,
+        chat_system_message: Current.game_project.chat_agent_instruction,
       )
-    @game_project.save!
-    respond_to do |format|
-      format.html { redirect_back(fallback_location: game_project_url(@game_project)) }
-      format.js { render json: @game_project }
+    Current.game_project.save!
+    if turbo_frame_request?
+      render Current.game_project.chat_conversation, allow_chat_action: send_message_game_project_path(Current.game_project)
+    else
+      redirect_back(fallback_location: game_project_url(Current.game_project))
     end
   end
 

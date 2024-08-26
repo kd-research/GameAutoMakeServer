@@ -1,15 +1,18 @@
 - @rendered_content = capture do
   = turbo_frame_tag game_project, :card do
-    = link_to game_project_path(game_project), class: "card fixed-card-width", data: { turbo_frame: "_top" } do
+    = link_to game_project_path(game_project), class: "card fixed-card-width", style: "height: 100%;", data: { turbo_frame: "_top" } do
       .card-image
         figure.image.is-square
           = image_tag "default-thumbnail.jpg", class: "is-square", alt: "Placeholder image"
       .card-content
-        p.title.is-4.truncate-name
+        p.title.is-4.truncated
           = game_project.name.titleize
-        p.subtitle.is-6.truncate-author
-          By = game_project.user.user_profile.name || "By (#{game_project.user.email})"
-        .content.truncate-description
+        p.subtitle.is-6.truncated.mb-1
+          - if game_project.user.user_profile.name.present?
+            | By #{game_project.user.user_profile.name}
+          - else
+            | By (#{game_project.user.email})
+        p.content.truncated-multiline
           = game_project.description
         .card-footer
           small

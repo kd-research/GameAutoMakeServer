@@ -1,22 +1,23 @@
 = turbo_frame_tag "gp-main-board"
   .field.is-grouped
-    = button_to "Conclude Chat", request_game_spec_game_project_path(Current.game_project), method: :post, class: "button is-ghost"
+    = button_to "Conclude Chat", request_game_spec_game_project_path(Current.game_project), method: :post, class: "button is-ghost", data: { turbo_frame: "conclusion" }
     = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
   .columns
     .column.is-half
       = render Current.game_project.chat_conversation, allow_chat_action: send_message_game_project_path(Current.game_project)
     .column.is-half
-      .box style="max-height: 720px; overflow-y: auto;"
-        - if (generator = Current.game_project.game_generate_conversation).present?
-          div class="content is-small has-text-monospace"
-            div.is-flex.is-justify-content-space-between
-              div.is-flex.is-align-items-center
-                h3.has-text-primary.mb-0 Current Conclusion
-              = link_to edit_game_project_dialog_path(Current.game_project, generator.dialog), class: "button is-small is-ghost" do
-                span.icon
-                  i.fas.fa-pen
-            p == Commonmarker.to_html generator.dialog.response_message
-        - else
-          div class="content is-small has-text-monospace"
-            h3.has-text-primary Current Conclusion
-            p.has-text-text-80 == "Your conclusion will be displayed here."
+      = turbo_frame_tag "conclusion" do
+        .box style="max-height: 720px; overflow-y: auto;"
+          - if (generator = Current.game_project.game_generate_conversation).present?
+            div class="content is-small has-text-monospace"
+              div.is-flex.is-justify-content-space-between
+                div.is-flex.is-align-items-center
+                  h3.has-text-primary.mb-0 Current Conclusion
+                = link_to edit_game_project_dialog_path(Current.game_project, generator.dialog), class: "button is-small is-ghost" do
+                  span.icon
+                    i.fas.fa-pen
+              p == Commonmarker.to_html generator.dialog.response_message
+          - else
+            div class="content is-small has-text-monospace"
+              h3.has-text-primary Current Conclusion
+              p.has-text-text-80 == "Your conclusion will be displayed here."

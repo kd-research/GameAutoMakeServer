@@ -1,10 +1,11 @@
-div id="#{dom_id conversation}" class="box content is-small is-flex is-flex-direction-column is-justify-content-space-between is-flex-grow-1" style="height: 100%;"
-  div class="chat-history is-flex is-flex-direction-column"
-    p Hi there! What can I help you with today?
+= turbo_frame_tag "chat" do
+  div id="#{dom_id conversation}" class="box content is-small is-flex is-flex-direction-column is-justify-content-space-between is-flex-grow-1" style="height: 100%; max-height: 720px;"
+    div class="chat-history is-flex is-flex-direction-column"
+      p Hi there! What can I help you with today?
 
-    - if conversation.dialog.present?
-      = render conversation.dialogs
-      = render conversation.dialog
+      - if conversation.dialog.present?
+        = render conversation.dialogs
+        = render conversation.dialog
 
-  - if (allow_chat_action = local_assigns[:allow_chat_action])
-    = render 'conversations/continue', conversation: conversation, allow_chat_action: allow_chat_action
+    - if (allow_chat_action = local_assigns[:allow_chat_action])
+      = render 'conversations/continue', conversation: conversation, allow_chat_action: allow_chat_action
