@@ -134,7 +134,7 @@ class GameProjectsController < ApplicationController
                                                   partial: Current.game_project.chat_conversation,
                                                   locals: { allow_chat_action: send_message_game_project_path(Current.game_project) })
       end
-      format.html { render "game_projects_chat_and_conclude" }
+      format.html { render partial: "game_projects/game_project_chat_and_conclude" }
     end
   end
 
@@ -147,7 +147,7 @@ class GameProjectsController < ApplicationController
                                                   partial: Current.game_project.chat_conversation,
                                                   locals: { allow_chat_action: send_message_game_project_path(Current.game_project) })
       end
-      format.html { render "game_projects_chat_and_conclude" }
+      format.html { render partial: "game_projects/game_project_chat_and_conclude" }
     end
   end
 
@@ -160,8 +160,7 @@ class GameProjectsController < ApplicationController
       )
     @game_project.save!
     respond_to do |format|
-      format.html { redirect_back(fallback_location: game_project_url(@game_project)) }
-      format.js { render json: @game_project }
+      format.html { render partial: "game_projects/game_project_chat_and_conclude" }
     end
   end
 
