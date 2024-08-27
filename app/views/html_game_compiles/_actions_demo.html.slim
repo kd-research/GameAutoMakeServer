@@ -1,5 +1,7 @@
 - if Current.game_compile.nil?
   = button_to "Compile HTML game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type), class: "button is-primary is-small"
+- elsif Current.game_compile.status_fail?
+  | Failed to demo. Please contact the administrator.
 - elsif Current.game_compile.status_pending? || Current.game_compile.status_compiling?
   | Allocating resources...
 - else
