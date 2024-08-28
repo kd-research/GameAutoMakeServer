@@ -11,7 +11,7 @@
   - when "fail"
       .label.has-text-danger
         | Compilation failed
-      = link_to "Show log", show_log_game_project_path(Current.game_project), class: "button is-small is-primary"
+      = link_to "Show log", show_log_game_project_path(Current.game_project), class: "button is-small is-primary", data: { turbo_frame: "_top" }
       = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small"
   - when "success"
     .is-flex.is-flex-direction-column.is-gap-1

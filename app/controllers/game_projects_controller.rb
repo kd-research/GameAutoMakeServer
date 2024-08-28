@@ -52,7 +52,8 @@ class GameProjectsController < ApplicationController
 
   # POST /game_projects/1/build
   def build
-    return if @game_project.game_compile&.status_pending? || @game_project.game_compile&.status_compiling?
+    render status: :forbidden and return if Current.game_project.game_generate_conversation.nil? && Current.game_project.compile_type_html_demo?.!
+    render status: :ok and return if @game_project.game_compile&.status_pending? || @game_project.game_compile&.status_compiling?
 
     @game_project.game_compile&.destroy!
     game_compile = @game_project.create_game_compile!(status: "pending")

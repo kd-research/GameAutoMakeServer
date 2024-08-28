@@ -5,9 +5,9 @@ module GameGenerator
     include Crewgen
     def initialize
       channel_args = {
-        "grpc.max_send_message_length" => -1,
-        "grpc.max_receive_message_length" => -1,
-        "grpc.max_metadata_size" => -1
+        "grpc.max_send_message_length" => 2**20,
+        "grpc.max_receive_message_length" => 2**20,
+        "grpc.max_metadata_size" => 2**20,
       }
 
       @stub = CrewGenerator::Stub.new(server_host, :this_channel_is_insecure, channel_args:)
