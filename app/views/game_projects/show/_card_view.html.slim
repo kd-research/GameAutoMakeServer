@@ -16,7 +16,12 @@
           = game_project.description
         .card-footer
           small
-            | Date Last Compiled: #{game_project.updated_at.strftime("%B %d, %Y")}
+            - if game_project.game_compile&.status_success? || game_project.game_compile&.status_locked?
+              | Date Last Compiled: #{game_project.game_compile.updated_at.strftime("%B %d, %Y")}
+            - elsif game_project.game_compile&.status_pending? || game_project.game_compile&.status_compiling?
+              | Compile in progress...
+            - else
+              | Date Last Compiled: N/A
 
 - if defined?(wrapper)
   = content_tag wrapper, @rendered_content, class: wrapper_class
