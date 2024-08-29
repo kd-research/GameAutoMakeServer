@@ -5,7 +5,7 @@ class GameCompile < ApplicationRecord
 
   after_update_commit :broadcast_status_change, if: :saved_change_to_status?
 
-  enum :status, { success: 0, pending: 1, compiling: 2, fail: 3, locked: 4 }, prefix: true
+  enum :status, { success: 0, pending: 1, compiling: 2, fail: 3, locked: 4, stale: 5 }, prefix: true
   delegate :gameklass, :game_compile_data, to: :game_project
 
   def run_compile

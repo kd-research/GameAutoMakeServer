@@ -1,4 +1,4 @@
-- if Current.game_compile.nil?
+- if Current.game_compile.nil? || Current.game_compile.status_stale?
   = button_to "Compile HTML game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type), class: "button is-primary is-small"
 - else
   - case Current.game_compile.status
