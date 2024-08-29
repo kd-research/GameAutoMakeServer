@@ -105,4 +105,4 @@ gem "ruby-openai", "~> 7.1"
 
 gem "commonmarker", "~> 1.1"
 
-gem "resque", "~> 2.6"
+gem "resque", "~> 2.6", require: "resque/server"
