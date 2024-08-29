@@ -1,3 +1,4 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server
+job: env QUEUE='*' COUNT=8 bin/rails resque:workers
 js: yarn build --watch
 css: yarn build:css --watch
