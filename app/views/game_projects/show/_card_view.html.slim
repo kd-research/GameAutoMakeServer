@@ -17,11 +17,14 @@
         .card-footer
           small
             - if game_project.game_compile&.status_success? || game_project.game_compile&.status_locked?
-              | Date Last Compiled: #{game_project.game_compile.updated_at.strftime("%B %d, %Y")}
+              - if (@update_at = game_project.game_compile.updated_at) > 1.day.ago
+                | Compiled #{time_ago_in_words(@update_at).titleize} Ago
+              - else
+                | Date Last Compiled: #{@update_at.strftime("%B %d, %Y")}
             - elsif game_project.game_compile&.status_pending? || game_project.game_compile&.status_compiling?
               | Compile in progress...
             - else
-              | Date Last Compiled: N/A
+              | Not Compiled Yet
 
 - if defined?(wrapper)
   = content_tag wrapper, @rendered_content, class: wrapper_class
