@@ -44,7 +44,7 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects/new
   def new
-    @game_project = GameProject.new
+    Current.game_project = GameProject.new
   end
 
   # GET /game_projects/1/edit
@@ -53,39 +53,39 @@ class GameProjectsController < ApplicationController
   # POST /game_projects/1/build
   def build
     render status: :forbidden and return if Current.game_project.game_generate_conversation.nil? && Current.game_project.compile_type_html_demo?.!
-    render status: :ok and return if @game_project.game_compile&.status_pending? || @game_project.game_compile&.status_compiling?
+    render status: :ok and return if Current.game_project.game_compile&.status_pending? || Current.game_project.game_compile&.status_compiling?
 
-    @game_project.game_compile&.destroy!
-    game_compile = @game_project.create_game_compile!(status: "pending")
+    Current.game_project.game_compile&.destroy!
+    game_compile = Current.game_project.create_game_compile!(status: "pending")
     CompileJob.perform_later(game_compile.id)
 
     respond_to do |format|
       format.turbo_stream { head :ok }
-      format.html { redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.") }
+      format.html { redirect_back(fallback_location: game_project_url(Current.game_project), notice: "Game build is on the way. You will be notified once it is ready.") }
     end
   end
 
   def rebuild
-    @game_project.game_compile&.destroy!
+    Current.game_project.game_compile&.destroy!
 
-    game_compile = @game_project.create_game_compile!(status: "pending")
+    game_compile = Current.game_project.create_game_compile!(status: "pending")
     CompileJob.perform_later(game_compile.id)
 
-    redirect_back(fallback_location: game_project_url(@game_project), notice: "Game build is on the way. You will be notified once it is ready.")
+    redirect_back(fallback_location: game_project_url(Current.game_project), notice: "Game build is on the way. You will be notified once it is ready.")
   end
 
   # POST /game_projects or /game_projects.json
   def create
-    @game_project = GameProject.new(game_project_params)
-    @game_project.user = current_user
+    Current.game_project = GameProject.new(game_project_params)
+    Current.game_project.user = current_user
 
     respond_to do |format|
-      if @game_project.save
-        format.html { redirect_to game_project_url(@game_project), notice: "Game project was successfully created." }
-        format.json { render :show, status: :created, location: @game_project }
+      if Current.game_project.save
+        format.html { redirect_to game_project_url(Current.game_project), notice: "Game project was successfully created." }
+        format.json { render :show, status: :created, location: Current.game_project }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @game_project.errors, status: :unprocessable_entity }
+        format.json { render json: Current.game_project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -93,19 +93,19 @@ class GameProjectsController < ApplicationController
   # PATCH/PUT /game_projects/1 or /game_projects/1.json
   def update
     respond_to do |format|
-      if @game_project.update(game_project_params)
-        format.html { redirect_to game_project_url(@game_project), notice: "Game project was successfully updated." }
-        format.json { render :show, status: :ok, location: @game_project }
+      if Current.game_project.update(game_project_params)
+        format.html { redirect_to game_project_url(Current.game_project), notice: "Game project was successfully updated." }
+        format.json { render :show, status: :ok, location: Current.game_project }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @game_project.errors, status: :unprocessable_entity }
+        format.json { render json: Current.game_project.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /game_projects/1 or /game_projects/1.json
   def destroy
-    @game_project.destroy!
+    Current.game_project.destroy!
 
     respond_to do |format|
       format.html { redirect_to game_projects_url, notice: "Game project was successfully destroyed." }
@@ -114,10 +114,10 @@ class GameProjectsController < ApplicationController
   end
 
   def change_compile_type
-    @game_project.compile_type = params[:compile_type]
-    @game_project.save!
+    Current.game_project.compile_type = params[:compile_type]
+    Current.game_project.save!
 
-    redirect_back(fallback_location: game_project_url(@game_project), notice: "Compile type was successfully changed.")
+    redirect_back(fallback_location: game_project_url(Current.game_project), notice: "Compile type was successfully changed.")
   end
 
   def send_message
@@ -140,8 +140,8 @@ class GameProjectsController < ApplicationController
   end
 
   def reset_conversation
-    @game_project.chat_conversation = Conversation.new
-    @game_project.save!
+    Current.game_project.chat_conversation = Conversation.new
+    Current.game_project.save!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace("chat",
@@ -153,13 +153,13 @@ class GameProjectsController < ApplicationController
   end
 
   def request_game_spec
-    @game_project.game_generate_conversation =
-      @game_project.chat_conversation.send_message(
-        @game_project.summary_agent_task,
-        chat_system_message: @game_project.summary_agent_instruction,
+    Current.game_project.game_generate_conversation =
+      Current.game_project.chat_conversation.send_message(
+        Current.game_project.summary_agent_task,
+        chat_system_message: Current.game_project.summary_agent_instruction,
         role: "system"
       )
-    @game_project.save!
+    Current.game_project.save!
     respond_to do |format|
       format.html { render partial: "game_projects/game_project_chat_and_conclude" }
     end
@@ -173,19 +173,18 @@ class GameProjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_game_project
-    @game_project = GameProject.find(params[:id])
-    Current.game_project = @game_project
+    Current.game_project = GameProject.find(params[:id])
     Current.user = current_user if user_signed_in?
   end
 
   def validate_game_project_showable
-    authenticate_user! if @game_project.privacy_private?
+    authenticate_user! if Current.game_project.privacy_private?
 
-    head :not_found if @game_project.privacy_private? && @game_project.user != current_user
+    head :not_found if Current.game_project.privacy_private? && Current.game_project.user != current_user
   end
 
   def validate_game_project_owner
-    return if @game_project.user == current_user
+    return if Current.game_project.user == current_user
 
     render status: :forbidden, plain: "Only account owner can perform this action." and return
   end
