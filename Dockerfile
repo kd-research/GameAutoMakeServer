@@ -24,7 +24,14 @@ RUN apt-get update -qq && \
 # Install JavaScript dependencies
 ARG NODE_VERSION=22.2.0
 ARG YARN_VERSION=1.22.22
-ENV PATH=/usr/local/node/bin:$PATH
+ARG POSTGRES_HOST
+ARG RAILS_MASTER_KEY
+
+ENV PATH=/usr/local/node/bin:$PATH \
+    NODE_ENV=production \
+    POSTGRES_HOST=$POSTGRES_HOST \
+    RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
     /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
     npm install -g yarn@$YARN_VERSION && \

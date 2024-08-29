@@ -38,6 +38,6 @@ production:
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: 5000
   database: server_production
-  host: <%= ENV.fetch("POSTGRES_HOST", nil) %>
-  username: rails-master
-  password: <%= Rails.application.credentials.google_sql&.password %>
+  host: <%= ENV.fetch("POSTGRES_HOST") %>
+  username: <%= ENV.fetch("POSTGRES_USER", "rails-master") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", Rails.application.credentials.google_sql&.password) %>
