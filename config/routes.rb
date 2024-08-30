@@ -62,6 +62,10 @@ Rails.application.routes.draw do
     post "reset_all", to: "development#reset_all"
   end
 
+  authenticate :user, ->(u) { u.admin? } do
+    mount Resque::Server.new, at: "/resque"
+  end
+
   # Defines the root path route ("/")
   # root "guests/dashboard#index"
   root "game_projects#index"
