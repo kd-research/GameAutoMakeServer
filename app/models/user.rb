@@ -18,6 +18,10 @@ class User < ApplicationRecord
     roles.split(',').include?('admin')
   end
 
+  def researcher?
+    roles.split(',').include?('researcher')
+  end
+
   private
 
   def create_user_profile

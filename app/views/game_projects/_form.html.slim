@@ -34,7 +34,7 @@
           .select
             = form.select :compile_type, options_for_select(game_project.visible_compile_types.transform_keys(&:titleize), game_project.compile_type)
 
-      - unless game_project.new_record?
+      - if game_project.new_record?.! && Current.user.researcher?
         hr
         div class="field"
           = form.label :chat_instructions, class: "label"
