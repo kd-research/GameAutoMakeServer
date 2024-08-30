@@ -14,5 +14,11 @@
           = render partial: "game_projects/show/card_view", 
             collection: @public_projects, as: :game_project,
             locals: { wrapper: "div", wrapper_class: "column is-4" }
+      - if %w[demo].include? params[:partial]
+        h2.title.is-4 Demo Games
+        .columns.is-multiline
+          = render partial: "game_projects/show/card_view", 
+            collection: @demo_projects, as: :game_project,
+            locals: { wrapper: "div", wrapper_class: "column is-4" }
 
 

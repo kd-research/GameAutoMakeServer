@@ -21,11 +21,13 @@ class GameProjectsController < ApplicationController
   # GET /game_projects/gallary/:partial
   # The actual index page for game projects
   def gallary
-    unless %w[all user public].include?(params[:partial])
+    unless %w[all user public demo].include?(params[:partial])
       head :not_found and return
     end
 
-    authenticate_user! unless params[:partial] == "public"
+    authenticate_user! unless %w[public demo].include?(params[:partial])
+
+    @demo_projects = GameProject.privacy_public.where(compile_type: "html_demo")
 
     if user_signed_in?
       @user_projects = current_user.game_projects

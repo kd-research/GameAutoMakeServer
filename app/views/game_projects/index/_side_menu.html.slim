@@ -1,6 +1,6 @@
 aside.menu.is-hidden-touch
   p.menu-label
-    | Games #{active}
+    | Game Gallary
   ul.menu-list
     - if user_signed_in?
       li
@@ -9,6 +9,8 @@ aside.menu.is-hidden-touch
         = link_to "My Games", game_projects_gallary_path(partial: :user), class: "sidebar-link #{active == "user" ? 'is-active' : ''}"
       li
         = link_to "Community Games", game_projects_gallary_path(partial: :public), class: "sidebar-link #{active == "public" ? 'is-active' : ''}"
+      li
+        = link_to "Demo Games", game_projects_gallary_path(partial: :demo), class: "sidebar-link #{active == "demo" ? 'is-active' : ''}"
     - else
       li
         = link_to "All Games", new_user_session_path, class: "sidebar-link #{active == "all" ? 'is-active' : ''}", data: { turbo_frame: "auth-overlay" }
@@ -16,4 +18,6 @@ aside.menu.is-hidden-touch
         = link_to "My Games", new_user_session_path, class: "sidebar-link #{active == "user" ? 'is-active' : ''}", data: { turbo_frame: "auth-overlay" }
       li
         = link_to "Community Games", game_projects_gallary_path(partial: :public), class: "sidebar-link #{active == "public" ? 'is-active' : ''}"
+      li
+        = link_to "Demo Games", game_projects_gallary_path(partial: :demo), class: "sidebar-link #{active == "demo" ? 'is-active' : ''}"
 
