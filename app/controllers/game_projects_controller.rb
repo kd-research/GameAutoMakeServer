@@ -60,7 +60,7 @@ class GameProjectsController < ApplicationController
     CompileJob.perform_later(game_compile.id)
 
     respond_to do |format|
-      format.turbo_stream { head :ok }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("gp-common-controls", partial: "game_projects/game_project_common_controls") }
       format.html { redirect_back(fallback_location: game_project_url(Current.game_project), notice: "Game build is on the way. You will be notified once it is ready.") }
     end
   end
