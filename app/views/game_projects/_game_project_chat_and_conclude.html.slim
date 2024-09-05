@@ -1,7 +1,7 @@
 = turbo_frame_tag "gp-main-board"
   .field.is-grouped
-    = button_to "Conclude Chat", request_game_spec_game_project_path(Current.game_project), method: :post, class: "button is-ghost", data: { turbo_frame: "conclusion" }
-    = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger"
+    = button_to "Conclude Chat", request_game_spec_game_project_path(Current.game_project), method: :post, class: "button is-ghost", data: { turbo_frame: "conclusion" }, disabled: (Current.user_can_manage_game_project? ? nil : 'disabled')
+    = button_to "Reset Chat", reset_conversation_game_project_path, class: "button is-ghost has-text-danger", disabled: (Current.user_can_manage_game_project? ? nil : 'disabled')
   .columns
     .column.is-half
       = render Current.game_project.chat_conversation, allow_chat_action: send_message_game_project_path(Current.game_project)

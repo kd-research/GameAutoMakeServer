@@ -1,5 +1,5 @@
 - if Current.game_compile.nil? || Current.game_compile.status_stale?
-  = button_to "Compile HTML game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type), class: "button is-primary is-small"
+  = button_to "Compile HTML game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type), class: "button is-primary is-small", disabled: (Current.user_can_manage_game_project? ? nil : "disabled")
 - else
   - case Current.game_compile.status
   - when "compiling"
@@ -12,10 +12,10 @@
       .label.has-text-danger
         | Compilation failed
       = link_to "Show log", show_log_game_project_path(Current.game_project), class: "button is-small is-primary", data: { turbo_frame: "_top" }
-      = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small"
+      = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small", disabled: (Current.user_can_manage_game_project? ? nil : "disabled")
   - when "success"
     .is-flex.is-flex-direction-column.is-gap-1
-      = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small", style: "width: 100%"
+      = button_to "Recompile this game", build_game_project_path(Current.game_project, compile_type: Current.game_project.compile_type ), class: "button is-primary is-small", style: "width: 100%", disabled: (Current.user_can_manage_game_project? ? nil : "disabled")
       = button_to "Show this HTML game", serve_html_game_compile_path(Current.game_compile.gameable), class: "button is-primary is-small", style: "width: 100%"
   - when "locked"
     = button_to "Show this HTML game", serve_html_game_compile_path(Current.game_compile.gameable), class: "button is-primary is-small", style: "width: 100%"
