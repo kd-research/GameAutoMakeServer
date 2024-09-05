@@ -1,8 +1,8 @@
 class GameProjectsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
   before_action :set_game_project, except: %i[index gallary new create]
-  before_action :validate_game_project_showable, only: %i[show build build]
-  before_action :validate_game_project_owner, only: %i[edit update destroy send_message request_game_spec change_compile_type reset_conversation]
+  before_action :validate_game_project_showable, only: %i[show]
+  before_action :validate_game_project_owner, only: %i[edit build update destroy send_message request_game_spec change_compile_type reset_conversation]
 
   # GET /game_projects
   # Redirect to gallary page based on user sign in status
@@ -186,7 +186,7 @@ class GameProjectsController < ApplicationController
   end
 
   def validate_game_project_owner
-    return if Current.game_project.user == current_user
+    return if Current.user_can_manage_game_project?
 
     render status: :forbidden, plain: "Only account owner can perform this action." and return
   end
