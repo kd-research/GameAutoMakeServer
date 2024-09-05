@@ -7,5 +7,5 @@
   - else
     | Compile type #{Current.game_project.compile_type} not supported.
 
-  = link_to "Edit this game project", edit_game_project_path(Current.game_project), class: "button is-small is-primary", disabled: (Current.user_can_modify_game_project? ? nil : "disabled")
-  = button_to "Destroy this game project", Current.game_project, method: :delete, class: "button is-small is-warning", form_class: "is-flex", disabled: (Current.user_can_modify_game_project? ? nil : "disabled")
+  = link_to "Edit this game project", edit_game_project_path(Current.game_project), class: "button is-small is-primary", disabled: (Current.user_can_manage_game_project? ? nil : "disabled")
+  = button_to "Destroy this game project", Current.game_project, method: :delete, class: "button is-small is-warning", form_class: "is-flex", disabled: (Current.user_can_manage_game_project? ? nil : "disabled")
