@@ -46,7 +46,7 @@ class GameProjectsController < ApplicationController
 
   # GET /game_projects/new
   def new
-    Current.game_project = GameProject.new
+    Current.game_project = GameProject.new(compile_type: "html_nightly")
   end
 
   # GET /game_projects/1/edit
