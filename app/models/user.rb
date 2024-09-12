@@ -19,7 +19,7 @@ class User < ApplicationRecord
   end
 
   def researcher?
-    roles.split(',').include?('researcher')
+    roles.split(',').include?('researcher') || admin?
   end
 
   private
