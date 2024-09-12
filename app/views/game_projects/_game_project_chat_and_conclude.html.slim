@@ -13,7 +13,7 @@
               div.is-flex.is-justify-content-space-between
                 div.is-flex.is-align-items-center
                   h3.has-text-primary.mb-0 Current Conclusion
-                - if Current.user_owns_game_project? && Current.user.researcher?
+                - if Current.user_can_manage_game_project? && Current.user.researcher?
                   = link_to edit_game_project_dialog_path(Current.game_project, generator.dialog), class: "button is-small is-ghost" do
                     span.icon
                       i.fas.fa-pen
