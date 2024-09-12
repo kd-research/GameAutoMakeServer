@@ -17,13 +17,14 @@ class DialogController < ApplicationController
 
   def game_project_dialog
     Current.game_project = GameProject.find(params[:game_project_id])
+    Current.user = current_user if user_signed_in?
     @dialog = Dialog.find(params[:id])
   end
 
   def validate_game_project_owner
-    return if Current.game_project.user == current_user
+    return if Current.user_can_manage_game_project?
 
-    render head :forbidden
+    render status: :forbidden, plain: "Only account owner can perform this action." and return
   end
 
   def dialog_params
