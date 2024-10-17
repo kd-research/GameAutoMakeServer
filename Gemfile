@@ -108,3 +108,5 @@ gem "commonmarker", "~> 1.1"
 gem "resque", "~> 2.6", require: "resque/server"
 
 gem "anyflake", "~> 0.0.1"
+
+gem "grape", "~> 2.2"

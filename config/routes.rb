@@ -67,6 +67,8 @@ Rails.application.routes.draw do
     mount Resque::Server.new, at: "/resque"
   end
 
+  mount QuickPlayArcade::API => "/"
+
   # Defines the root path route ("/")
   # root "guests/dashboard#index"
   root "game_projects#index"
