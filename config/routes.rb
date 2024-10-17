@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :published_games
   resources :conversations do
     member do
       get :continue

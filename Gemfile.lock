@@ -73,6 +73,7 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    anyflake (0.0.1)
     appengine (0.3.0)
       stackdriver (~> 0.4, >= 0.4.1)
     ast (2.4.2)
@@ -545,6 +546,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  anyflake (~> 0.0.1)
   appengine (~> 0.3.0)
   bootsnap
   capybara

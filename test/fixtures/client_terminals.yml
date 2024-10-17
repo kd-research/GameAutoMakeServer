@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% @anyflake_generator = AnyFlake.new(Time.now.strftime("%s%L").to_i, 1) %>
+
+one: 
+  snowflake_id: <%= @anyflake_generator.next_id %>
+
+two:
+  snowflake_id: <%= @anyflake_generator.next_id %>

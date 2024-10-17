@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_30_135111) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_17_200800) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_135111) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "client_terminals", force: :cascade do |t|
+    t.bigint "snowflake_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["snowflake_id"], name: "index_client_terminals_on_snowflake_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -98,6 +105,22 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_135111) do
     t.string "model_type"
   end
 
+  create_table "published_games", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "score_board_scores", force: :cascade do |t|
+    t.integer "client_terminal_id", null: false
+    t.integer "published_game_id", null: false
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_terminal_id"], name: "index_score_board_scores_on_client_terminal_id"
+    t.index ["published_game_id"], name: "index_score_board_scores_on_published_game_id"
+  end
+
   create_table "user_oauths", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
@@ -141,6 +164,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_135111) do
   add_foreign_key "game_projects", "conversations", column: "chat_conversation_id"
   add_foreign_key "game_projects", "conversations", column: "game_generate_conversation_id"
   add_foreign_key "game_projects", "users"
+  add_foreign_key "score_board_scores", "client_terminals"
+  add_foreign_key "score_board_scores", "published_games"
   add_foreign_key "user_oauths", "users"
   add_foreign_key "user_profiles", "users"
 end

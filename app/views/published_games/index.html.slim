@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Published games
+
+#published_games
+  - @published_games.each do |published_game|
+    == render published_game
+    p
+      = link_to "Show this published game", published_game
+
+= link_to "New published game", new_published_game_path

@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @published_game
+
+div
+  => link_to "Edit this published game", edit_published_game_path(@published_game)
+  '|
+  =< link_to "Back to published games", published_games_path
+
+  = button_to "Destroy this published game", @published_game, method: :delete
