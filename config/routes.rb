@@ -69,6 +69,8 @@ Rails.application.routes.draw do
 
   mount QuickPlayArcade::API => "/"
 
+  mount PatchPlatform.new("/utils/game-patcher") => "/utils/game-patcher"
+
   # Defines the root path route ("/")
   # root "guests/dashboard#index"
   root "game_projects#index"

@@ -110,3 +110,7 @@ gem "resque", "~> 2.6", require: "resque/server"
 gem "anyflake", "~> 0.0.1"
 
 gem "grape", "~> 2.2"
+
+gem "sinatra", "~> 4.0", require: false
+
+gem "sinatra-contrib", "~> 4.0"
