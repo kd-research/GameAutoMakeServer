@@ -495,6 +495,12 @@ GEM
       rack-protection (= 4.0.0)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
+    sinatra-contrib (4.0.0)
+      multi_json (>= 0.0.2)
+      mustermann (~> 3.0)
+      rack-protection (= 4.0.0)
+      sinatra (= 4.0.0)
+      tilt (~> 2.0)
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
@@ -598,6 +604,8 @@ DEPENDENCIES
   ruby-openai (~> 7.1)
   sass-embedded (~> 1.77)
   selenium-webdriver
+  sinatra (~> 4.0)
+  sinatra-contrib (~> 4.0)
   slim-rails (~> 3.6)
   sprockets-rails
   sqlite3 (~> 1.4)
