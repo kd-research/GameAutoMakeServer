@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :android do
+    resources :hot_patch_games
+  end
   resources :published_games
   resources :conversations do
     member do

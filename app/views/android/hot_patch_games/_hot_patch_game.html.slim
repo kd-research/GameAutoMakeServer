@@ -1,0 +1,35 @@
+- default_layout = capture do
+  div id="#{dom_id hot_patch_game}"
+    p
+      strong Name:
+      =< hot_patch_game.name
+    p
+      strong Icon:
+      = link_to hot_patch_game.icon.filename, hot_patch_game.icon if hot_patch_game.icon.attached?
+    p
+      strong Splash:
+      = link_to hot_patch_game.splash.filename, hot_patch_game.splash if hot_patch_game.splash.attached?
+    p
+      strong Html:
+      = link_to hot_patch_game.html.filename, hot_patch_game.html if hot_patch_game.html.attached?
+
+- unless defined?(variant)
+  = default_layout
+- else
+  - case variant
+  - when :table_row
+    tr id="#{dom_id hot_patch_game}"
+      td = hot_patch_game.id
+      td = hot_patch_game.name
+      td == hot_patch_game.icon.attached? ? "<span>✔</span>" : ""
+      td == hot_patch_game.splash.attached? ? "<span>✔</span>" : ""
+      td == hot_patch_game.html.attached? ? "<span>✔</span>" : ""
+      td = link_to "Show", hot_patch_game
+      td = link_to "Edit", edit_android_hot_patch_game_path(hot_patch_game)
+      td = link_to "Destroy", hot_patch_game, method: :delete, data: { confirm: 'Are you sure?' }
+  - else
+    = default_layout
+      
+
+
+

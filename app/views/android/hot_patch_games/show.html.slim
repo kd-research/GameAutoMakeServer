@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @android_hot_patch_game
+
+div
+  => link_to "Edit this hot patch game", edit_android_hot_patch_game_path(@android_hot_patch_game)
+  '|
+  =< link_to "Back to hot patch games", android_hot_patch_games_path
+
+  = button_to "Destroy this hot patch game", @android_hot_patch_game, method: :delete

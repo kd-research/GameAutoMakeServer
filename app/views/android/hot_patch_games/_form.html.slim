@@ -1,0 +1,26 @@
+= form_with(model: android_hot_patch_game) do |form|
+  - if android_hot_patch_game.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(android_hot_patch_game.errors.count, "error")} prohibited this android_hot_patch_game from being saved:"
+      ul
+        - android_hot_patch_game.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :name, style: "display: block"
+    = form.text_field :name
+
+  div
+    = form.label :icon, style: "display: block"
+    = form.file_field :icon
+
+  div
+    = form.label :splash, style: "display: block"
+    = form.file_field :splash
+
+  div
+    = form.label :html, style: "display: block"
+    = form.file_field :html
+
+  div
+    = form.submit

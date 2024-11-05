@@ -1,0 +1,21 @@
+p style="color: green" = notice
+
+p.title Android Hot-patch Management
+
+#android_hot_patch_games
+  table.table.is-striped.is-hoverable.is-fullwidth
+    thead
+      tr
+        th id
+        th Name
+        th Icon?
+        th Splash?
+        th Html?
+        th Actions
+        th
+        th
+    tbody
+      - @android_hot_patch_games.each do |android_hot_patch_game|
+        == render android_hot_patch_game, variant: :table_row
+
+= link_to "New hot patch game", new_android_hot_patch_game_path

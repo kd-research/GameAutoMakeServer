@@ -15,11 +15,11 @@ class User < ApplicationRecord
   after_create :create_user_profile
 
   def admin?
-    roles.split(',').include?('admin')
+    roles.split(",").include?("admin")
   end
 
   def researcher?
-    roles.split(',').include?('researcher') || admin?
+    roles.split(",").include?("researcher") || admin?
   end
 
   private

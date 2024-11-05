@@ -1,5 +1,5 @@
 # test/models/published_game_test.rb
-require 'test_helper'
+require "test_helper"
 
 class PublishedGameTest < ActiveSupport::TestCase
   def setup
@@ -32,12 +32,13 @@ class PublishedGameTest < ActiveSupport::TestCase
 
   test "leaderboard should return top scores ordered by value descending" do
     leaderboard = @published_game.leaderboard
+
     assert_equal [@score1, @score2, @score3], leaderboard.to_a
   end
 
   test "leaderboard limit works" do
     leaderboard = @published_game.leaderboard(limit: 2)
+
     assert_equal [@score1, @score2], leaderboard.to_a
   end
 end
-

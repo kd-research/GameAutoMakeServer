@@ -1,6 +1,6 @@
 namespace :grape do
   desc "Print out routes"
-  task :routes => :environment do
+  task routes: :environment do
     QuickPlayArcade::API.routes.each do |route|
       info = route.instance_variable_get :@options
       description = "%-40s..." % info[:description][0..39]
@@ -8,5 +8,4 @@ namespace :grape do
       puts "#{description}  #{method}#{info[:path]}"
     end
   end
-
 end
