@@ -29,10 +29,10 @@ class GameProject < ApplicationRecord
   end
 
   def game_compile_data
-    return { name: name, description: "Demo of #{name}" } if compile_type_html_demo?
+    return { name:, description: "Demo of #{name}" } if compile_type_html_demo?
 
     {
-      name: name,
+      name:,
       description: game_generate_conversation.dialog.response_message
     }
   end

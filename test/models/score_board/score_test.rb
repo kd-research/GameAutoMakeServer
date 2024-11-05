@@ -21,16 +21,17 @@ module ScoreBoard
     end
 
     test "should have only the 'value' attribute" do
-      expected_attributes = ["id", "value", "client_terminal_id", "published_game_id", "created_at", "updated_at"]
+      expected_attributes = %w[id value client_terminal_id published_game_id created_at updated_at]
       actual_attributes = @score.attributes.keys
       unexpected_attributes = actual_attributes - expected_attributes
+
       assert_empty unexpected_attributes, "Unexpected attributes found: #{unexpected_attributes.join(', ')}"
     end
 
     test "value should be present" do
       @score.value = nil
+
       assert_not @score.valid?, "Score is valid without a value"
     end
   end
 end
-
