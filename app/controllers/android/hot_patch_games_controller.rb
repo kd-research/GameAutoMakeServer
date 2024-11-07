@@ -1,6 +1,7 @@
 module Android
   class HotPatchGamesController < ApplicationController
     before_action :set_android_hot_patch_game, only: %i[show edit update destroy]
+    before_action :ensure_admin!, except: %i[index show]
 
     # GET /android/hot_patch_games or /android/hot_patch_games.json
     def index
@@ -66,6 +67,11 @@ module Android
     # Only allow a list of trusted parameters through.
     def android_hot_patch_game_params
       params.require(:android_hot_patch_game).permit(:name, :icon, :splash, :html)
+    end
+
+    def ensure_admin!
+      authenticate_user!
+      redirect_to root_path, alert: "You are not authorized to access this page." unless current_user.admin?
     end
   end
 end

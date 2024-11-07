@@ -4,4 +4,3 @@ json.icon url_for(android_hot_patch_game.icon)
 if android_hot_patch_game.splash.present?
   json.splash url_for(android_hot_patch_game.splash)
 end
-json.html url_for(android_hot_patch_game.html)
