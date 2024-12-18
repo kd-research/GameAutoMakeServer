@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   namespace :android do
     resources :hot_patch_games
+    get "service_test", to: "service_test#index"
+    post "service_test/customize_game"
   end
   resources :published_games
   resources :conversations do

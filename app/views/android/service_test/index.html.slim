@@ -1,0 +1,48 @@
+section.hero
+  .hero-body
+    p.title 
+      | Android Service Test
+    hr.hr
+
+section.section
+  p.title.is-4 Customize Game
+  = form_with url: android_service_test_customize_game_path, method: :post, class: "field", html: { target: "_blank" } do |f|
+    .field
+      .file.has-name#form-file-input
+        label.file-label
+          = f.file_field :game_file, class: "file-input"
+          span.file-cta
+            span.file-icon
+              i.fas.fa-upload
+            span.file-label Select Game
+        span.file-name Game-File-Html
+    .field
+      = f.label :request, class: "label"
+      = f.text_area :request, class: "textarea"
+    .field
+      = f.label :system_prompt, class: "label"
+      = f.text_area :system_prompt, class: "textarea"
+    .field
+      = f.label :model, class: "label"
+      .select
+        = f.select :model, options_for_select(%w[gpt-4o o1-mini o1-preview].to_h { |x| [x, x] })
+    .field
+      .control
+        = f.submit "Submit", class: "button is-primary"
+
+sass:
+  .hr
+    background-color: var(--theme-color, var(--bulma-primary))
+    border-radius: 9999px
+    height: .25rem
+    margin: 1em 0
+    width: 3rem
+
+javascript:
+  const fileInput = document.querySelector("#form-file-input input[type=file]");
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector("#form-file-input .file-name");
+      fileName.textContent = fileInput.files[0].name;
+    }
+  };

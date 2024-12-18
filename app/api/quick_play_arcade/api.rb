@@ -46,7 +46,6 @@ module QuickPlayArcade
         optional :limit, type: Integer, default: 3
       end
       post "/scores" do
-        puts params
         device = ClientTerminal.find_by_token(params[:device_token])
         game = PublishedGame.find_or_create_by!(id: params[:game_id])
         total_score_size = ScoreBoard::Score.where(published_game: game).count
@@ -54,6 +53,19 @@ module QuickPlayArcade
           { score: score.value, rank: score.rank, percentage: (1 - score.rank.to_f / total_score_size.to_f) * 100 }
         end
       end
+    end
+
+    desc "It will receive a game html source file, and a natural language request to
+    modify this game (ui, playing machenism etc), and it will return a new html
+    game that will fulfill this requirement."
+    params do
+      requires :game_html, type: String
+      requires :request, type: String
+      optional :system_prompt, type: String, default: "Follow the request and modify the given game html"
+      optional :model, type: String
+    end
+    post "/customize_game" do
+      CustomizeGameService.customize_game(params)
     end
   end
 end
