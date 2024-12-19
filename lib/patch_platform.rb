@@ -34,7 +34,7 @@ class PatchPlatform < Sinatra::Base
       buffer = tmpfile.read
       result = modify_buffer(buffer)
       token = add_file({ name:, buffer: result })
-      "Download it <a href='#{@base_url}/#{token.to_s(36)}'>here</a>" \
+      "Download it <a href='#{@base_url}/#{token.to_s(36)}'>here</a>" +
         "<br>Link will expire in 2 hours"
 
     else

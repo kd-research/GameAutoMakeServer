@@ -37,9 +37,6 @@ Style/IfWithBooleanLiteralBranches:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
-Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
-
 Layout/LineLength:
   Enabled: false
 
