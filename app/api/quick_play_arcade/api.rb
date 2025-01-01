@@ -65,7 +65,7 @@ module QuickPlayArcade
       optional :model, type: String
     end
     post "/customize_game" do
-      CustomizeGameService.customize_game(params)
+      CustomizeGameService.customize_game(params).fetch(:parsed)
     end
   end
 end
