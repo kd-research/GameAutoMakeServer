@@ -1,0 +1,3 @@
+files/* -diff
+mocks/* -diff
+game_customize.json -diff

@@ -70,14 +70,16 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-  gem "pry", "~> 0.14.2"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
 end
+
+gem "pry", "~> 0.14.2", group: [:development, :test]
 
 gem "slim-rails", "~> 3.6"
 
@@ -114,3 +116,5 @@ gem "grape", "~> 2.2"
 gem "sinatra", "~> 4.0", require: false
 
 gem "sinatra-contrib", "~> 4.0"
+
+gem "mocha", "~> 2.7", :group => :test

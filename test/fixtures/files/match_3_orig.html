@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--BEGIN You must not change anything in head tag, use them as reference only-->
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
+    <title>Generated Game</title>
+    <style>
+      /* Base resets */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #1a1a2e;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      /* All screens fill entire viewport; now scrollable if content is too tall */
+      .screen {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto; /* Allow vertical scrolling on smaller screens */
+      }
+
+      /* Screens become visible with .active */
+      .screen.active {
+        display: flex !important;
+      }
+
+      /* Generic container styling */
+      .container {
+        max-width: 600px;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+        box-sizing: border-box;
+        color: #fff;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Buttons */
+      button {
+        background: linear-gradient(135deg, #283c86 0%, #45a247 100%);
+        border: 2px solid #fff;
+        border-radius: 8px;
+        color: #fff;
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(14px, 3vw, 20px);
+        text-transform: uppercase;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        margin: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 30px);
+      }
+      button:hover {
+        background: linear-gradient(135deg, #45a247 0%, #283c86 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      button:active {
+        transform: scale(0.95);
+      }
+
+      /* START MENU SCREEN (Active by default) */
+      #start-menu-screen .container {
+        background-image: url("./images/start-screen-background-mobile.png");
+        background-size: cover;
+        background-position: center;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      @media (min-aspect-ratio: 3/4) {
+        #start-menu-screen .container {
+          background-image: url("./images/start-screen-background-tablet.png");
+        }
+      }
+      #game-title {
+        font-size: 48px;
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 4px #000000;
+      }
+
+      /* INSTRUCTIONS SCREEN */
+      #instructions-screen .container {
+        background-image: url("./images/instructions-background-mobile.png");
+        background-size: cover;
+        background-position: center;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        position: relative;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
+      }
+      @media (min-aspect-ratio: 3/4) {
+        #instructions-screen .container {
+          background-image: url("./images/instructions-background-tablet.png");
+        }
+      }
+      #instructions-screen .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+      #instructions-screen .container > * {
+        position: relative;
+        z-index: 2;
+      }
+      .instructions-content {
+        flex: 1;
+        width: 100%;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding-right: 10px;
+        box-sizing: border-box;
+      }
+      #instructions-screen h2 {
+        font-size: 48px;
+        margin-bottom: 30px;
+      }
+
+      /* SETTINGS SCREEN */
+      #settings-screen .container {
+        background-image: url("./images/settings-background-mobile.png");
+        background-size: cover;
+        background-position: center;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        position: relative;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      @media (min-aspect-ratio: 3/4) {
+        #settings-screen .container {
+          background-image: url("./images/settings-background-tablet.png");
+        }
+      }
+      #settings-screen .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+      #settings-screen .container > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* GAME SCREEN */
+      #game-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-image: url("./images/splash-background-mobile.png");
+        background-size: cover;
+        background-position: center;
+      }
+      @media (min-aspect-ratio: 3/4) {
+        #game-container {
+          background-image: url("./images/splash-background-tablet.png");
+        }
+      }
+      /* The HUD (score) at top */
+      #hud {
+        display: none;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #1a1a2e;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        padding: 8px 20px;
+        border-radius: 8px;
+        text-align: center;
+      }
+      #hud-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      #hud-content span {
+        margin: 5px 15px;
+      }
+
+      /* The main container for the game canvas, centered between HUD and bottom bar */
+      #game-container .container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 600px;
+        width: 100%;
+      }
+      #game-canvas {
+        background-color: #333;
+        border: 10px solid #555;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #000;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
+
+      /* Bottom bar with menu, instructions, restart */
+      #game-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      /* GAME OVER SCREEN */
+      #game-over-screen .container {
+        background-image: url("./images/game-over-screen-background-mobile.png");
+        background-size: cover;
+        background-position: center;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      @media (min-aspect-ratio: 3/4) {
+        #game-over-screen .container {
+          background-image: url("./images/game-over-screen-background-tablet.png");
+        }
+      }
+      #game-over-message {
+        font-size: clamp(24px, 6vw, 40px);
+        color: #e94560;
+        margin-bottom: 40px;
+      }
+    </style>
+
+    <!-- Here is the integrated Platform setup -->
+    <script>
+      if (typeof Platform === "undefined") {
+        // Mock Platform API for local testing
+        var Platform = {
+          majorVersion: function () {
+            return 1;
+          },
+          minorVersion: function () {
+            return 0;
+          },
+          setHighestScore: function (score) {
+            localStorage.setItem("triviaHighScore", score);
+          },
+          getHighestScore: function () {
+            return parseInt(localStorage.getItem("triviaHighScore")) || 0;
+          },
+          getSoundVolume: function () {
+            const stored = localStorage.getItem("triviaVolume");
+            if (stored === null) {
+              // If no volume in storage yet, default to 50
+              return 50;
+            }
+            const vol = parseInt(stored, 10);
+            if (isNaN(vol) || vol < 0 || vol > 100) {
+              // If the parsed value is invalid or out of 0-100, fallback
+              return 50;
+            }
+            return vol; // Even if vol = 0, we return 0 properly
+          },
+          setSoundVolume: function (volume) {
+            localStorage.setItem("triviaVolume", volume);
+          },
+          getPreferredDifficulty: function () {
+            return 3; // Default to medium
+          },
+        };
+      }
+
+      if (Platform.majorVersion() != 1) {
+        throw "This script requires Platform version 1.x";
+      }
+      // Provided by Platform v1.x:
+      //  - Platform.majorVersion() => number
+      //  - Platform.minorVersion() => number
+      //  - Platform.setHighestScore(score: number) => void
+      //  - Platform.getHighestScore() => number
+      //  - Platform.getSoundVolume() => number  // 0-100
+      //  - Platform.getPreferredDifficulty() => number  // 0=easy,1=medium,2=hard,3=default
+    </script>
+    <!--END You must not change anything in head tag, use them as reference only-->
+  </head>
+  <body>
+    <!-- The ONLY screen that is active on load is the Start Menu -->
+    <div class="screen active" id="start-menu-screen">
+      <div class="container">
+        <h1 id="game-title">Retro Match 3 Puzzle</h1>
+        <button id="play-button">Play</button>
+        <button id="settings-button">Settings</button>
+        <button id="instructions-button">Instructions</button>
+      </div>
+    </div>
+
+    <!-- SETTINGS SCREEN -->
+    <div class="screen" id="settings-screen">
+      <div class="container">
+        <h2>Settings</h2>
+        <label for="volume-range">Volume:</label>
+        <input
+          type="range"
+          id="volume-range"
+          min="0"
+          max="100"
+          step="1"
+          value="100"
+        />
+        <button class="main-menu-button" id="settings-back-button">Back</button>
+      </div>
+    </div>
+
+    <!-- INSTRUCTIONS SCREEN -->
+    <div class="screen" id="instructions-screen">
+      <div class="container">
+        <div class="instructions-content">
+          <h2>Instructions</h2>
+          <p>
+            Welcome to the Retro Match 3 Puzzle! Swap adjacent tiles to align
+            three or more identical items and clear them from the grid.
+          </p>
+          <p><strong>How to Play:</strong></p>
+          <ul>
+            <li>
+              Swap adjacent tiles horizontally or vertically by dragging or
+              clicking.
+            </li>
+            <li>
+              Align three or more identical items to clear them and earn points.
+            </li>
+            <li>
+              Create larger matches to trigger special power-ups:
+              <ul>
+                <li>
+                  <strong>Bomb Block (B):</strong> Match exactly 4 tiles to
+                  create a Bomb. It clears itself and the 8 surrounding tiles.
+                </li>
+                <li>
+                  <strong>Lightning Block (L):</strong> Match exactly 5 tiles to
+                  create Lightning. It clears 9 tiles of the same color.
+                </li>
+                <li>
+                  <strong>Firecracker Block (F):</strong> Match 6 or more tiles
+                  to create a Firecracker. It clears all tiles in the same row
+                  and column.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Special blocks can be activated by matching them, swapping them
+              with any adjacent tile, or triggering them with other special
+              blocks.
+            </li>
+            <li>
+              When blocks are cleared, any adjacent blocks of the same color are
+              also cleared, creating chain reactions.
+            </li>
+            <li>
+              Complete level objectives within the limited number of moves.
+            </li>
+          </ul>
+        </div>
+        <button class="main-menu-button" id="instructions-back-button">
+          Back
+        </button>
+      </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div class="screen" id="game-container">
+      <!-- HUD at top -->
+      <div id="hud">
+        <div id="hud-content">
+          <span id="score-display">Score: 0</span>
+          <span id="moves-display">Moves Left: 30</span>
+          <span id="high-score-display">High Score: 0</span>
+        </div>
+      </div>
+
+      <!-- Canvas container in the center -->
+      <div class="container">
+        <canvas id="game-canvas"></canvas>
+      </div>
+
+      <!-- Buttons at the bottom -->
+      <div id="game-controls">
+        <button id="game-menu-button">Menu</button>
+        <button id="game-restart-button">Restart</button>
+        <button id="game-instructions-button">Instructions</button>
+      </div>
+    </div>
+
+    <!-- GAME OVER SCREEN -->
+    <div class="screen" id="game-over-screen">
+      <div class="container">
+        <div id="game-over-message">Game Over!</div>
+        <div id="final-score">
+          Your Score: <span id="final-score-value">0</span>
+        </div>
+        <div id="final-high-score">
+          High Score: <span id="final-high-score-value">0</span>
+        </div>
+        <button id="play-again-button">Play Again</button>
+        <button class="main-menu-button" id="game-over-main-menu-button">
+          Main Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- AUDIO -->
+    <audio id="background-music" loop>
+      <source src="./audio/background-music.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="start-game-sound">
+      <source src="./audio/start-game-sound.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="end-game-sound">
+      <source src="./audio/end-game-sound.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="powerup-sound">
+      <source src="./audio/retro_powerup_sound.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="clear-tiles-sound">
+      <source src="./audio/retro_clear_sound.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- MAIN SCRIPT -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        class GameUI {
+          constructor(game) {
+            this.game = game;
+            this.screens = {
+              startMenu: document.getElementById("start-menu-screen"),
+              settings: document.getElementById("settings-screen"),
+              instructions: document.getElementById("instructions-screen"),
+              game: document.getElementById("game-container"),
+              gameOver: document.getElementById("game-over-screen"),
+            };
+            this.hud = document.getElementById("hud");
+            this.gameControls = document.getElementById("game-controls");
+            this.scoreDisplay = document.getElementById("score-display");
+            this.movesDisplay = document.getElementById("moves-display");
+            this.highScoreDisplay =
+              document.getElementById("high-score-display");
+            this.finalScoreValue = document.getElementById("final-score-value");
+            this.finalHighScoreValue = document.getElementById(
+              "final-high-score-value"
+            );
+
+            // Settings
+            this.volumeRange = document.getElementById("volume-range");
+
+            // Audio
+            this.backgroundMusic = document.getElementById("background-music");
+            this.powerupSound = document.getElementById("powerup-sound");
+            this.startGameSound = document.getElementById("start-game-sound");
+            this.endGameSound = document.getElementById("end-game-sound");
+            this.clearTilesSound = document.getElementById("clear-tiles-sound");
+
+            // Initialize volume
+            const initialVolume = Platform.getSoundVolume() / 100;
+            this.setVolume(initialVolume);
+            this.volumeRange.value = initialVolume * 100;
+
+            // Listen for volume change
+            this.volumeRange.addEventListener("input", (e) => {
+              const volume = e.target.value / 100;
+              this.setVolume(volume);
+              Platform.setSoundVolume(e.target.value); // persist new volume
+            });
+          }
+
+          setVolume(volume) {
+            this.backgroundMusic.volume = volume;
+            this.powerupSound.volume = volume;
+            this.startGameSound.volume = volume;
+            this.endGameSound.volume = volume;
+            this.clearTilesSound.volume = volume;
+          }
+
+          swapToScreen(screenName) {
+            // console.log(`swapToScreen called for: ${screenName}`);
+            // Hide all screens
+            Object.values(this.screens).forEach((scr) =>
+              scr.classList.remove("active")
+            );
+            // Show the requested screen
+            this.screens[screenName].classList.add("active");
+
+            if (screenName === "game") {
+              this.hud.style.display = "block";
+              // Ensure canvas reinitialized
+              this.game.logic.initCanvasSize();
+              this.game.logic.draw();
+            } else {
+              this.hud.style.display = "none";
+            }
+          }
+
+          startGame() {
+            // console.log("startGame clicked");
+            this.swapToScreen("game");
+            this.updateHUD();
+            if (this.backgroundMusic) {
+              this.backgroundMusic.play();
+            }
+          }
+
+          endGame() {
+            // console.log("endGame triggered");
+            this.playEndGameSound();
+            if (this.backgroundMusic) {
+              this.backgroundMusic.pause();
+              this.backgroundMusic.currentTime = 0;
+            }
+            this.swapToScreen("gameOver");
+            this.finalScoreValue.textContent = this.game.score;
+            this.finalHighScoreValue.textContent = this.game.highScore;
+          }
+
+          mainMenu() {
+            // console.log("Returning to main menu");
+            if (this.backgroundMusic) {
+              this.backgroundMusic.pause();
+              this.backgroundMusic.currentTime = 0;
+            }
+            this.swapToScreen("startMenu");
+          }
+
+          playAgain() {
+            // console.log("Play Again clicked");
+            this.game.resetGame();
+            this.swapToScreen("game");
+          }
+
+          settings() {
+            // console.log("Settings clicked");
+            this.swapToScreen("settings");
+          }
+
+          instructions() {
+            // console.log("Instructions clicked");
+            this.swapToScreen("instructions");
+          }
+
+          updateHUD() {
+            // console.log("HUD update");
+            this.scoreDisplay.textContent = "Score: " + this.game.score;
+            this.movesDisplay.textContent =
+              "Moves Left: " + this.game.logic.movesLeft;
+            this.highScoreDisplay.textContent =
+              "High Score: " + this.game.highScore;
+          }
+
+          playPowerupSound() {
+            this.powerupSound.currentTime = 0;
+            this.powerupSound.play();
+          }
+
+          playStartGameSound() {
+            this.startGameSound.currentTime = 0;
+            this.startGameSound.play();
+          }
+
+          playEndGameSound() {
+            this.endGameSound.currentTime = 0;
+            this.endGameSound.play();
+          }
+
+          playClearTilesSound() {
+            this.clearTilesSound.currentTime = 0;
+            this.clearTilesSound.play();
+          }
+        }
+
+        class GameLogic {
+          constructor(game) {
+            // console.log("GameLogic constructor called");
+            this.game = game;
+            this.canvas = document.getElementById("game-canvas");
+            this.context = this.canvas.getContext("2d");
+            this.gridSize = 10;
+            this.tileTypes = 6;
+            this.tileSize = null;
+            this.grid = [];
+            this.selectedTile = null;
+            this.animations = [];
+            this.score = 0;
+            this.highScore = 0;
+            this.movesLeft = 30;
+            this.isAnimating = false;
+            this.pendingSpecialTiles = [];
+            this.lastSwappedTile = null;
+            this.delayCounter = 0;
+            this.pendingAnimations = null;
+
+            this.specialBlocks = ["BOMB", "LIGHTNING", "FIRECRACKER"];
+            this.initCanvasSize();
+            window.addEventListener("resize", () => {
+              this.initCanvasSize();
+              this.draw();
+            });
+            this.init();
+          }
+
+          initCanvasSize() {
+            const container = document.querySelector(
+              "#game-container .container"
+            );
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+            const canvasSize = Math.min(containerWidth, containerHeight);
+
+            this.canvas.width = canvasSize;
+            this.canvas.height = canvasSize;
+            this.tileSize = canvasSize / this.gridSize;
+          }
+
+          init() {
+            // console.log("GameLogic init()");
+            this.generateGrid();
+            this.bindEvents();
+            this.update();
+            this.draw();
+          }
+
+          resetGame() {
+            // console.log("GameLogic resetGame()");
+            this.score = 0;
+            this.movesLeft = 30;
+            this.grid = [];
+            this.selectedTile = null;
+            this.animations = [];
+            this.isAnimating = false;
+            this.pendingSpecialTiles = [];
+            this.lastSwappedTile = null;
+            this.delayCounter = 0;
+            this.pendingAnimations = null;
+            this.generateGrid();
+            this.game.ui.updateHUD();
+          }
+
+          generateGrid() {
+            // console.log("generateGrid()");
+            for (let x = 0; x < this.gridSize; x++) {
+              this.grid[x] = [];
+              for (let y = 0; y < this.gridSize; y++) {
+                this.grid[x][y] = this.getRandomTile();
+              }
+            }
+            this.removeInitialMatches();
+          }
+
+          getRandomTile() {
+            return {
+              type: Math.floor(Math.random() * this.tileTypes),
+              special: null,
+              x: 0,
+              y: 0,
+              isMoving: false,
+              moveTo: null,
+            };
+          }
+
+          removeInitialMatches() {
+            let matches = this.findAllMatches();
+            while (matches.length > 0) {
+              for (let match of matches) {
+                for (let tile of match.tiles) {
+                  this.grid[tile.x][tile.y] = this.getRandomTile();
+                }
+              }
+              matches = this.findAllMatches();
+            }
+          }
+
+          bindEvents() {
+            // console.log("bindEvents()");
+            let isTouchDevice =
+              "ontouchstart" in window || navigator.msMaxTouchPoints;
+
+            if (isTouchDevice) {
+              // Use passive: false so we can call preventDefault() conditionally
+              this.canvas.addEventListener(
+                "touchstart",
+                this.onTouchStart.bind(this),
+                { passive: false }
+              );
+              this.canvas.addEventListener(
+                "touchmove",
+                this.onTouchMove.bind(this),
+                { passive: false }
+              );
+              this.canvas.addEventListener(
+                "touchend",
+                this.onTouchEnd.bind(this),
+                { passive: false }
+              );
+            } else {
+              this.canvas.addEventListener(
+                "mousedown",
+                this.onMouseDown.bind(this)
+              );
+              this.canvas.addEventListener(
+                "mousemove",
+                this.onMouseMove.bind(this)
+              );
+              this.canvas.addEventListener(
+                "mouseup",
+                this.onMouseUp.bind(this)
+              );
+            }
+          }
+
+          /**
+           * Helper to detect if a touch is within the canvas area.
+           */
+          isTouchInCanvas(touch) {
+            let rect = this.canvas.getBoundingClientRect();
+            let x = touch.clientX - rect.left;
+            let y = touch.clientY - rect.top;
+            return x >= 0 && x < rect.width && y >= 0 && y < rect.height;
+          }
+
+          getTileUnderCursor(event) {
+            let rect = this.canvas.getBoundingClientRect();
+            let posX =
+              (event.clientX - rect.left) * (this.canvas.width / rect.width);
+            let posY =
+              (event.clientY - rect.top) * (this.canvas.height / rect.height);
+            let tileX = Math.floor(posX / this.tileSize);
+            let tileY = Math.floor(posY / this.tileSize);
+            return { x: tileX, y: tileY };
+          }
+
+          onMouseDown(e) {
+            // console.log("onMouseDown");
+            if (this.isAnimating) return;
+            let pos = this.getTileUnderCursor(e);
+            if (this.isValidTile(pos)) {
+              this.selectedTile = pos;
+            }
+          }
+
+          onMouseMove(e) {
+            if (!this.selectedTile || this.isAnimating) return;
+            let pos = this.getTileUnderCursor(e);
+            // Prevent swap if out of bounds:
+            if (!this.isValidTile(pos)) return;
+
+            if (this.isAdjacent(pos, this.selectedTile)) {
+              // console.log("Swapping tiles by drag");
+              this.swapTiles(this.selectedTile, pos);
+              this.selectedTile = null;
+            }
+          }
+
+          onMouseUp(e) {
+            // console.log("onMouseUp");
+            this.selectedTile = null;
+          }
+
+          onTouchStart(e) {
+            // console.log("onTouchStart");
+            if (this.isAnimating) return;
+
+            let touch = e.touches[0];
+            // If the touch is within the canvas, prevent scrolling here as well
+            if (this.isTouchInCanvas(touch)) {
+              e.preventDefault();
+            }
+            let pos = this.getTileUnderCursor(touch);
+            if (this.isValidTile(pos)) {
+              this.selectedTile = pos;
+            }
+          }
+
+          onTouchMove(e) {
+            if (this.isAnimating) {
+              return;
+            }
+            let touch = e.touches[0];
+            // If the user is moving within the canvas, don't scroll:
+            if (this.isTouchInCanvas(touch)) {
+              e.preventDefault();
+            }
+
+            if (!this.selectedTile) {
+              // If we have no selected tile, do nothing further
+              return;
+            }
+
+            let pos = this.getTileUnderCursor(touch);
+            // Prevent swap if out of bounds:
+            if (!this.isValidTile(pos)) return;
+
+            if (this.isAdjacent(pos, this.selectedTile)) {
+              // console.log("Swapping tiles by touch drag");
+              this.swapTiles(this.selectedTile, pos);
+              this.selectedTile = null;
+            }
+          }
+
+          onTouchEnd(e) {
+            // console.log("onTouchEnd");
+            this.selectedTile = null;
+          }
+
+          isValidTile(pos) {
+            return (
+              pos.x >= 0 &&
+              pos.x < this.gridSize &&
+              pos.y >= 0 &&
+              pos.y < this.gridSize
+            );
+          }
+
+          isAdjacent(pos1, pos2) {
+            return (
+              (Math.abs(pos1.x - pos2.x) === 1 && pos1.y === pos2.y) ||
+              (Math.abs(pos1.y - pos2.y) === 1 && pos1.x === pos2.x)
+            );
+          }
+
+          swapTiles(tile1, tile2) {
+            // console.log("swapTiles triggered");
+            this.isAnimating = true;
+            this.lastSwappedTile = tile1;
+            this.animations.push({
+              type: "swap",
+              tiles: [
+                { from: tile1, to: tile2 },
+                { from: tile2, to: tile1 },
+              ],
+              progress: 0,
+              duration: 15,
+            });
+          }
+
+          processSwap(tile1, tile2) {
+            let temp = this.grid[tile1.x][tile1.y];
+            this.grid[tile1.x][tile1.y] = this.grid[tile2.x][tile2.y];
+            this.grid[tile2.x][tile2.y] = temp;
+
+            let tile1Special = this.grid[tile1.x][tile1.y].special;
+            let tile2Special = this.grid[tile2.x][tile2.y].special;
+
+            if (tile1Special || tile2Special) {
+              if (tile1Special) this.activateSpecialTile(tile1.x, tile1.y);
+              if (tile2Special) this.activateSpecialTile(tile2.x, tile2.y);
+
+              this.movesLeft--;
+              this.game.ui.updateHUD();
+
+              let newMatches = this.findAllMatches();
+              if (newMatches.length > 0) {
+                this.processMatches(newMatches);
+              } else {
+                this.isAnimating = false;
+                if (this.movesLeft <= 0) {
+                  this.game.endGame();
+                }
+              }
+            } else {
+              let matches = this.findAllMatches();
+              if (matches.length > 0) {
+                this.movesLeft--;
+                this.game.ui.updateHUD();
+                this.processMatches(matches);
+              } else {
+                // If no match, swap back
+                this.animations.push({
+                  type: "swap",
+                  tiles: [
+                    { from: tile1, to: tile2 },
+                    { from: tile2, to: tile1 },
+                  ],
+                  progress: 0,
+                  duration: 15,
+                  reverse: true,
+                });
+              }
+            }
+            this.lastSwappedTile = null;
+          }
+
+          activateSpecialTile(x, y) {
+            let tile = this.grid[x][y];
+            if (tile && tile.special) {
+              this.game.ui.playPowerupSound();
+              if (tile.special === "BOMB") {
+                this.activateBomb(x, y);
+              } else if (tile.special === "LIGHTNING") {
+                this.activateLightning(x, y, tile.type);
+              } else if (tile.special === "FIRECRACKER") {
+                this.activateFirecracker(x, y);
+              }
+              this.grid[x][y] = null;
+            }
+          }
+
+          findAllMatches() {
+            let matches = [];
+
+            // Horizontal
+            for (let y = 0; y < this.gridSize; y++) {
+              let matchLength = 1;
+              for (let x = 0; x < this.gridSize; x++) {
+                if (x < this.gridSize - 1) {
+                  let currentTile = this.grid[x][y];
+                  let nextTile = this.grid[x + 1][y];
+                  if (
+                    currentTile &&
+                    nextTile &&
+                    currentTile.type === nextTile.type
+                  ) {
+                    matchLength++;
+                  } else {
+                    if (matchLength >= 3) {
+                      let tiles = [];
+                      for (let i = x - matchLength + 1; i <= x; i++) {
+                        tiles.push({ x: i, y: y });
+                      }
+                      matches.push({
+                        type: this.grid[x][y].type,
+                        tiles: tiles,
+                      });
+                    }
+                    matchLength = 1;
+                  }
+                } else {
+                  if (matchLength >= 3) {
+                    let tiles = [];
+                    for (let i = x - matchLength + 1; i <= x; i++) {
+                      tiles.push({ x: i, y: y });
+                    }
+                    matches.push({
+                      type: this.grid[x][y].type,
+                      tiles: tiles,
+                    });
+                  }
+                  matchLength = 1;
+                }
+              }
+            }
+
+            // Vertical
+            for (let x = 0; x < this.gridSize; x++) {
+              let matchLength = 1;
+              for (let y = 0; y < this.gridSize; y++) {
+                if (y < this.gridSize - 1) {
+                  let currentTile = this.grid[x][y];
+                  let nextTile = this.grid[x][y + 1];
+                  if (
+                    currentTile &&
+                    nextTile &&
+                    currentTile.type === nextTile.type
+                  ) {
+                    matchLength++;
+                  } else {
+                    if (matchLength >= 3) {
+                      let tiles = [];
+                      for (let i = y - matchLength + 1; i <= y; i++) {
+                        tiles.push({ x: x, y: i });
+                      }
+                      matches.push({
+                        type: this.grid[x][y].type,
+                        tiles: tiles,
+                      });
+                    }
+                    matchLength = 1;
+                  }
+                } else {
+                  if (matchLength >= 3) {
+                    let tiles = [];
+                    for (let i = y - matchLength + 1; i <= y; i++) {
+                      tiles.push({ x: x, y: i });
+                    }
+                    matches.push({
+                      type: this.grid[x][y].type,
+                      tiles: tiles,
+                    });
+                  }
+                  matchLength = 1;
+                }
+              }
+            }
+            return matches;
+          }
+
+          mergeOverlappingMatches(matches) {
+            let mergedMatches = [];
+
+            for (let match of matches) {
+              let merged = false;
+              for (let existingMatch of mergedMatches) {
+                if (this.matchesOverlap(existingMatch, match)) {
+                  existingMatch.tiles = existingMatch.tiles.concat(
+                    match.tiles.filter(
+                      (t) =>
+                        !existingMatch.tiles.some(
+                          (et) => et.x === t.x && et.y === t.y
+                        )
+                    )
+                  );
+                  merged = true;
+                  break;
+                }
+              }
+              if (!merged) {
+                mergedMatches.push({
+                  type: match.type,
+                  tiles: [...match.tiles],
+                });
+              }
+            }
+
+            let hasMerged = true;
+            while (hasMerged) {
+              hasMerged = false;
+              for (let i = 0; i < mergedMatches.length; i++) {
+                for (let j = i + 1; j < mergedMatches.length; j++) {
+                  if (this.matchesOverlap(mergedMatches[i], mergedMatches[j])) {
+                    mergedMatches[i].tiles = mergedMatches[i].tiles.concat(
+                      mergedMatches[j].tiles.filter(
+                        (t) =>
+                          !mergedMatches[i].tiles.some(
+                            (et) => et.x === t.x && et.y === t.y
+                          )
+                      )
+                    );
+                    mergedMatches.splice(j, 1);
+                    hasMerged = true;
+                    break;
+                  }
+                }
+                if (hasMerged) break;
+              }
+            }
+            return mergedMatches;
+          }
+
+          matchesOverlap(a, b) {
+            for (let tile1 of a.tiles) {
+              for (let tile2 of b.tiles) {
+                if (tile1.x === tile2.x && tile1.y === tile2.y) {
+                  return true;
+                }
+              }
+            }
+            return false;
+          }
+
+          processMatches(matches) {
+            let mergedMatches = this.mergeOverlappingMatches(matches);
+            let tilesToClear = [];
+
+            for (let match of mergedMatches) {
+              let tiles = match.tiles;
+              let matchLength = tiles.length;
+
+              for (let tile of tiles) {
+                if (
+                  !tilesToClear.some((t) => t.x === tile.x && t.y === tile.y)
+                ) {
+                  tilesToClear.push({ x: tile.x, y: tile.y });
+                }
+              }
+
+              // Potential special block
+              if (matchLength >= 4) {
+                let specialType = null;
+                if (matchLength === 4) specialType = "BOMB";
+                else if (matchLength === 5) specialType = "LIGHTNING";
+                else if (matchLength >= 6) specialType = "FIRECRACKER";
+
+                if (specialType) {
+                  let specialTile = this.getSpecialTilePosition(tiles);
+                  this.pendingSpecialTiles.push({
+                    x: specialTile.x,
+                    y: specialTile.y,
+                    type: specialType,
+                    colorType: this.grid[specialTile.x][specialTile.y].type,
+                  });
+                }
+              }
+              this.game.score += tiles.length * 10;
+              this.game.ui.updateHUD();
+            }
+
+            this.game.ui.playClearTilesSound();
+            this.isAnimating = true;
+            this.delayCounter = 30; // short delay
+
+            this.pendingAnimations = {
+              type: "fade",
+              tiles: tilesToClear,
+              progress: 0,
+              duration: 15,
+            };
+          }
+
+          getSpecialTilePosition(tiles) {
+            if (this.lastSwappedTile) {
+              for (let tile of tiles) {
+                if (
+                  tile.x === this.lastSwappedTile.x &&
+                  tile.y === this.lastSwappedTile.y
+                ) {
+                  return tile;
+                }
+              }
+            }
+            return tiles[Math.floor(tiles.length / 2)];
+          }
+
+          clearTiles(tiles) {
+            for (let tile of tiles) {
+              let x = tile.x;
+              let y = tile.y;
+              let currentTile = this.grid[x][y];
+              if (currentTile) {
+                if (currentTile.special) {
+                  this.activateSpecialTile(x, y);
+                }
+                this.grid[x][y] = null;
+              }
+            }
+          }
+
+          activateBomb(x, y) {
+            let tilesToClear = [];
+            for (let i = x - 1; i <= x + 1; i++) {
+              for (let j = y - 1; j <= y + 1; j++) {
+                if (this.isValidTile({ x: i, y: j }) && this.grid[i][j]) {
+                  tilesToClear.push({ x: i, y: j });
+                }
+              }
+            }
+            this.game.score += tilesToClear.length * 10;
+            this.game.ui.updateHUD();
+
+            this.animations.push({
+              type: "fade",
+              tiles: tilesToClear,
+              progress: 0,
+              duration: 15,
+            });
+          }
+
+          activateLightning(x, y, type) {
+            let tilesToClear = [];
+            let cleared = 0;
+            for (let i = 0; i < this.gridSize; i++) {
+              for (let j = 0; j < this.gridSize; j++) {
+                if (this.grid[i][j] && this.grid[i][j].type === type) {
+                  tilesToClear.push({ x: i, y: j });
+                  cleared++;
+                  if (cleared >= 9) break;
+                }
+              }
+              if (cleared >= 9) break;
+            }
+            this.game.score += tilesToClear.length * 10;
+            this.game.ui.updateHUD();
+
+            this.animations.push({
+              type: "fade",
+              tiles: tilesToClear,
+              progress: 0,
+              duration: 15,
+            });
+          }
+
+          activateFirecracker(x, y) {
+            let tilesToClear = [];
+            for (let i = 0; i < this.gridSize; i++) {
+              if (this.grid[i][y]) {
+                tilesToClear.push({ x: i, y: y });
+              }
+            }
+            for (let j = 0; j < this.gridSize; j++) {
+              if (this.grid[x][j]) {
+                tilesToClear.push({ x: x, y: j });
+              }
+            }
+            tilesToClear = tilesToClear.filter(
+              (tile, index, self) =>
+                index ===
+                self.findIndex((t) => t.x === tile.x && t.y === tile.y)
+            );
+            this.game.score += tilesToClear.length * 10;
+            this.game.ui.updateHUD();
+
+            this.animations.push({
+              type: "fade",
+              tiles: tilesToClear,
+              progress: 0,
+              duration: 15,
+            });
+          }
+
+          fillEmptySpaces() {
+            let moved = false;
+            for (let x = 0; x < this.gridSize; x++) {
+              for (let y = this.gridSize - 1; y >= 0; y--) {
+                if (this.grid[x][y] === null) {
+                  for (let yy = y - 1; yy >= 0; yy--) {
+                    if (this.grid[x][yy] !== null) {
+                      this.grid[x][yy].isMoving = true;
+                      this.grid[x][yy].moveTo = { x: x, y: y };
+                      this.animations.push({
+                        type: "fall",
+                        tile: this.grid[x][yy],
+                        from: { x: x, y: yy },
+                        to: { x: x, y: y },
+                        progress: 0,
+                        duration: (yy - y) * 5,
+                      });
+                      this.grid[x][y] = this.grid[x][yy];
+                      this.grid[x][yy] = null;
+                      moved = true;
+                      break;
+                    }
+                  }
+                  if (this.grid[x][y] === null) {
+                    let newTile = this.getRandomTile();
+                    newTile.isMoving = true;
+                    newTile.moveTo = { x: x, y: y };
+                    this.grid[x][y] = newTile;
+                    this.animations.push({
+                      type: "fall",
+                      tile: newTile,
+                      from: { x: x, y: y - this.gridSize },
+                      to: { x: x, y: y },
+                      progress: 0,
+                      duration: (this.gridSize + y) * 5,
+                    });
+                    moved = true;
+                  }
+                }
+              }
+            }
+
+            if (this.pendingSpecialTiles.length > 0) {
+              for (let specialTileInfo of this.pendingSpecialTiles) {
+                let x = specialTileInfo.x;
+                let y = specialTileInfo.y;
+                this.grid[x][y] = {
+                  type: specialTileInfo.colorType,
+                  special: specialTileInfo.type,
+                  x: 0,
+                  y: 0,
+                  isMoving: false,
+                  moveTo: null,
+                };
+              }
+              this.pendingSpecialTiles = [];
+            }
+            return moved;
+          }
+
+          update() {
+            if (this.delayCounter > 0) {
+              this.delayCounter--;
+              if (this.delayCounter === 0 && this.pendingAnimations) {
+                this.animations.push(this.pendingAnimations);
+                this.pendingAnimations = null;
+              }
+            } else {
+              if (this.animations.length > 0) {
+                for (let i = this.animations.length - 1; i >= 0; i--) {
+                  let anim = this.animations[i];
+                  anim.progress++;
+                  if (anim.progress >= anim.duration) {
+                    this.animations.splice(i, 1);
+                    if (anim.type === "swap") {
+                      if (anim.reverse) {
+                        let temp =
+                          this.grid[anim.tiles[0].from.x][anim.tiles[0].from.y];
+                        this.grid[anim.tiles[0].from.x][anim.tiles[0].from.y] =
+                          this.grid[anim.tiles[1].from.x][anim.tiles[1].from.y];
+                        this.grid[anim.tiles[1].from.x][anim.tiles[1].from.y] =
+                          temp;
+                        this.isAnimating = false;
+                      } else {
+                        this.processSwap(anim.tiles[0].from, anim.tiles[0].to);
+                      }
+                    } else if (anim.type === "fade") {
+                      this.clearTiles(anim.tiles);
+                      if (!this.fillEmptySpaces()) {
+                        let newMatches = this.findAllMatches();
+                        if (newMatches.length > 0) {
+                          this.processMatches(newMatches);
+                        } else {
+                          this.isAnimating = false;
+                          if (this.movesLeft <= 0) {
+                            this.game.endGame();
+                          }
+                        }
+                      }
+                    } else if (anim.type === "fall") {
+                      anim.tile.isMoving = false;
+                      anim.tile.moveTo = null;
+                      if (this.animations.length === 0) {
+                        let newMatches = this.findAllMatches();
+                        if (newMatches.length > 0) {
+                          this.processMatches(newMatches);
+                        } else {
+                          this.isAnimating = false;
+                          if (this.movesLeft <= 0) {
+                            this.game.endGame();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            this.draw();
+            requestAnimationFrame(this.update.bind(this));
+          }
+
+          draw() {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            for (let x = 0; x < this.gridSize; x++) {
+              for (let y = 0; y < this.gridSize; y++) {
+                let tile = this.grid[x][y];
+                if (tile) {
+                  this.drawTile(x, y, tile);
+                }
+              }
+            }
+            if (this.selectedTile) {
+              this.context.strokeStyle = "#FFD700";
+              this.context.lineWidth = 5;
+              this.context.strokeRect(
+                this.selectedTile.x * this.tileSize,
+                this.selectedTile.y * this.tileSize,
+                this.tileSize,
+                this.tileSize
+              );
+            }
+          }
+
+          drawTile(x, y, tile) {
+            let drawX = x;
+            let drawY = y;
+            for (let anim of this.animations) {
+              if (anim.type === "swap") {
+                for (let t of anim.tiles) {
+                  if (t.from.x === x && t.from.y === y) {
+                    let progress = anim.progress / anim.duration;
+                    if (anim.reverse) progress = 1 - progress;
+                    drawX = t.from.x + (t.to.x - t.from.x) * progress;
+                    drawY = t.from.y + (t.to.y - t.from.y) * progress;
+                  }
+                }
+              } else if (anim.type === "fall" && tile.isMoving) {
+                if (tile.moveTo) {
+                  let progress = anim.progress / anim.duration;
+                  drawX = anim.from.x;
+                  drawY = anim.from.y + (anim.to.y - anim.from.y) * progress;
+                }
+              } else if (anim.type === "fade") {
+                for (let fadeTile of anim.tiles) {
+                  if (fadeTile.x === x && fadeTile.y === y) {
+                    let alpha = 1 - anim.progress / anim.duration;
+                    this.context.globalAlpha = alpha;
+                  }
+                }
+              }
+            }
+            let colors = [
+              "#FF0000",
+              "#00FF00",
+              "#0000FF",
+              "#FFFF00",
+              "#FF00FF",
+              "#00FFFF",
+            ];
+            this.context.fillStyle = colors[tile.type];
+            this.context.fillRect(
+              drawX * this.tileSize,
+              drawY * this.tileSize,
+              this.tileSize,
+              this.tileSize
+            );
+            if (tile.special) {
+              this.context.fillStyle = "#999999";
+              this.context.font = `${this.tileSize / 2}px Arial`;
+              this.context.textAlign = "center";
+              this.context.textBaseline = "middle";
+              let text = "";
+              if (tile.special === "BOMB") text = "B";
+              else if (tile.special === "LIGHTNING") text = "L";
+              else if (tile.special === "FIRECRACKER") text = "F";
+              this.context.fillText(
+                text,
+                drawX * this.tileSize + this.tileSize / 2,
+                drawY * this.tileSize + this.tileSize / 2
+              );
+            }
+            this.context.globalAlpha = 1;
+            this.context.strokeStyle = "#000";
+            this.context.lineWidth = 2;
+            this.context.strokeRect(
+              drawX * this.tileSize,
+              drawY * this.tileSize,
+              this.tileSize,
+              this.tileSize
+            );
+          }
+        } // end GameLogic
+
+        class Game {
+          constructor() {
+            // console.log("Game constructor");
+            this.score = 0;
+            this.highScore = Platform.getHighestScore() || 0;
+            this.ui = new GameUI(this);
+            this.logic = null;
+          }
+
+          startGame() {
+            // console.log("Game startGame()");
+            this.score = 0;
+            if (this.logic) {
+              this.logic.resetGame();
+            } else {
+              this.logic = new GameLogic(this);
+            }
+            switch (Platform.getPreferredDifficulty()) {
+              case 0:
+                this.logic.movesLeft = 50;
+                break;
+              case 1:
+                this.logic.movesLeft = 30;
+                break;
+              case 2:
+                this.logic.movesLeft = 20;
+                break;
+              default:
+                this.logic.movesLeft = 30;
+                break;
+            }
+            this.ui.startGame();
+            this.ui.updateHUD();
+          }
+
+          endGame() {
+            // console.log("Game endGame()");
+            this.ui.playEndGameSound();
+            if (this.score > this.highScore) {
+              this.highScore = this.score;
+              Platform.setHighestScore(this.highScore);
+            }
+            this.ui.endGame();
+          }
+
+          resetGame() {
+            // console.log("Game resetGame()");
+            this.score = 0;
+            this.ui.updateHUD();
+            this.logic.resetGame();
+          }
+
+          assignButtons() {
+            // console.log("assignButtons() called");
+            const playButton = document.getElementById("play-button");
+            const settingsButton = document.getElementById("settings-button");
+            const instructionsButton = document.getElementById(
+              "instructions-button"
+            );
+            const playAgainButton =
+              document.getElementById("play-again-button");
+            const mainMenuButtons =
+              document.querySelectorAll(".main-menu-button");
+            const gameMenuButton = document.getElementById("game-menu-button");
+            const gameRestartButton = document.getElementById(
+              "game-restart-button"
+            );
+            const gameInstructionsButton = document.getElementById(
+              "game-instructions-button"
+            );
+            const instructionsBackButton = document.getElementById(
+              "instructions-back-button"
+            );
+            const settingsBackButton = document.getElementById(
+              "settings-back-button"
+            );
+
+            playButton.addEventListener("click", () => {
+              // console.log("Play button clicked");
+              this.startGame();
+            });
+            settingsButton.addEventListener("click", () => {
+              // console.log("Settings button clicked");
+              this.ui.settings();
+            });
+            instructionsButton.addEventListener("click", () => {
+              // console.log("Instructions button clicked");
+              this.ui.instructions();
+            });
+            playAgainButton.addEventListener("click", () => {
+              // console.log("Play Again button clicked");
+              this.startGame();
+            });
+            mainMenuButtons.forEach((button) =>
+              button.addEventListener("click", () => {
+                // console.log("Main menu button clicked");
+                this.ui.mainMenu();
+              })
+            );
+            gameMenuButton.addEventListener("click", () => {
+              // console.log("In-game Menu button clicked");
+              this.endGame();
+              this.ui.mainMenu();
+            });
+            gameRestartButton.addEventListener("click", () => {
+              // console.log("In-game Restart button clicked");
+              this.startGame();
+            });
+            gameInstructionsButton.addEventListener("click", () => {
+              // console.log("In-game Instructions button clicked");
+              this.ui.instructions();
+            });
+            instructionsBackButton.addEventListener("click", () => {
+              // console.log("Instructions back button clicked");
+              // If currently in game screen, return to game
+              if (this.ui.screens.game.classList.contains("active")) {
+                this.ui.swapToScreen("game");
+              } else {
+                // Otherwise go main menu
+                this.ui.mainMenu();
+              }
+            });
+            settingsBackButton.addEventListener("click", () => {
+              // console.log("Settings back button clicked");
+              this.ui.mainMenu();
+            });
+          }
+
+          prepareGame() {
+            // console.log("prepareGame() called");
+            this.assignButtons();
+            this.ui.highScoreDisplay.textContent =
+              "High Score: " + this.highScore;
+          }
+        }
+
+        const game = new Game();
+        game.prepareGame();
+      });
+    </script>
+  </body>
+</html>
