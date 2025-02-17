@@ -32,7 +32,7 @@ module QuickPlayArcade
         requires :score, type: Integer
       end
       post "/upload_score" do
-        device = ClientTerminal.find_by_token(params[:device_token])
+        device = ClientTerminal.find_by_token(params[:device_token])  # rubocop:disable Rails/DynamicFindBy
         game = PublishedGame.find_or_create_by!(id: params[:game_id])
 
         score = ScoreBoard::Score.create!(client_terminal: device, published_game: game, value: params[:score])
@@ -46,11 +46,11 @@ module QuickPlayArcade
         optional :limit, type: Integer, default: 3
       end
       post "/scores" do
-        device = ClientTerminal.find_by_token(params[:device_token])
+        device = ClientTerminal.find_by_token(params[:device_token])  # rubocop:disable Rails/DynamicFindBy
         game = PublishedGame.find_or_create_by!(id: params[:game_id])
         total_score_size = ScoreBoard::Score.where(published_game: game).count
         ScoreBoard::Score.ranked_device_game_score(device, game, limit: params[:limit]).map do |score|
-          { score: score.value, rank: score.rank, percentage: (1 - score.rank.to_f / total_score_size.to_f) * 100 }
+          { score: score.value, rank: score.rank, percentage: (1 - (score.rank.to_f / total_score_size.to_f)) * 100 }
         end
       end
     end
