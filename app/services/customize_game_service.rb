@@ -41,6 +41,53 @@ class CustomizeGameService
     @model = model
   end
 
+  # Integrated workflow that follows the service graph in File #1.
+  #
+  # Inputs:
+  #   html: (String) the original html game file (A)
+  #   modification_request: (String) the modification request (B)
+  #
+  # Returns:
+  #   A Hash with keys:
+  #     :suggested_name (E) - suggested game name from reconstruction.
+  #     :modified_html (H) - modified html game file from exporter.
+  #     :game_icon_image (Q) - generated game icon image.
+  #     :game_splash_image (R) - TODO item (currently nil).
+  #
+  def integrated_customization(html, modification_request)
+    # Step 1: Reconstruct game design document
+    reconstruction = game_design_document_reconstruction(html, modification_request)
+    suggested_name = reconstruction[:suggested_name]
+    modified_doc = reconstruction[:modified_doc]
+
+    # Step 2: Export the modified html game file
+    export_response = html5_game_modification_export(html, modified_doc)
+    unless export_response[:success]
+      raise "HTML Export Failed: #{export_response[:reason]}"
+    end
+    modified_html = export_response[:html]
+
+    # Step 3: Generate theme design document (Styler)
+    theme_response = theme_design_generate(modified_doc)
+    theme_design = theme_response[:theme_design]
+
+    # Step 4: Generate game icon prompt (Prompter)
+    prompt_response = game_icon_prompt_generate(theme_design)
+    game_icon_prompt = prompt_response[:game_icon_prompt]
+
+    # Step 5: Generate game icon image (DallE Generator)
+    icon_response = game_icon_generate(game_icon_prompt)
+    game_icon_image = icon_response[:image]
+
+    # R: game splash image is a todo item (currently nil)
+    {
+      suggested_name: suggested_name,
+      modified_html: modified_html,
+      game_icon_image: game_icon_image,
+      game_splash_image: nil
+    }
+  end
+
   def game_design_document_reconstruction(html, new_concept, orig_doc: "None")
     client = OpenAIChatClient.new(model: @model)
 

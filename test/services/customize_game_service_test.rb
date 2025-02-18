@@ -70,6 +70,49 @@ class CustomizeGameServiceTest < ActiveSupport::TestCase
     binding.pry
   end
 
+  test "should complete integrated customization workflow" do
+    mod_request = @customization_messages.dig("match3", 0)
+    html_content = get_match3_html
+
+    # To ensure a full integration, we assume each sub-service works as expected.
+    assume_game_design_document_reconstruction_success(html_content, mod_request)
+    reconstruction = @service.game_design_document_reconstruction(html_content, mod_request)
+    suggested_name = reconstruction[:suggested_name]
+    modified_doc = reconstruction[:modified_doc]
+
+    assume_html5_game_modification_export_success(html_content, modified_doc)
+    export_response = @service.html5_game_modification_export(html_content, modified_doc)
+    assert export_response[:success], "Expected HTML export to succeed"
+
+    assume_theme_design_generate_success(modified_doc)
+    theme_response = @service.theme_design_generate(modified_doc)
+    theme_design = theme_response[:theme_design]
+
+    assume_game_icon_prompt_generate_success(theme_design)
+    prompt_response = @service.game_icon_prompt_generate(theme_design)
+    game_icon_prompt = prompt_response[:game_icon_prompt]
+
+    # For game icon generation, we may optionally stub to avoid actual image generation.
+    # Uncomment the line below if you wish to stub game_icon_generate.
+    @service.stubs(:game_icon_generate).with(game_icon_prompt).returns({ image: "fake_image_data", raw: {} })
+
+    icon_response = @service.game_icon_generate(game_icon_prompt)
+    assert icon_response[:image].present?, "Expected a generated game icon image"
+
+    # Call the integrated workflow
+    integrated_response = @service.integrated_customization(html_content, mod_request)
+
+    # Log a short preview of the outputs
+    puts integrated_response.transform_values { |v| v.is_a?(String) ? v[0..100] : v.inspect }
+
+    # Assertions for integrated response
+    assert integrated_response[:suggested_name].present?, "Expected a suggested game name"
+    assert integrated_response[:modified_html].present?, "Expected modified html content"
+    assert integrated_response[:game_icon_image].present?, "Expected a game icon image"
+    # game_splash_image is still a TODO
+    assert_nil integrated_response[:game_splash_image], "Expected game splash image to be nil (TODO)"
+  end
+
   private
 
   def get_match3_html
