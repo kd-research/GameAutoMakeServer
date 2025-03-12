@@ -41,6 +41,47 @@ class CustomizeGameService
     @model = model
   end
 
+  # Generate a game from a template game.
+  # Currently, this method loads the template game and then
+  # replicates the integrated_customization method.
+  def game_generation_with_internal_template(creation_request)
+    # Before we start, we need to load the template game.
+    html = load_game_template
+    modification_request = creation_request
+
+    # Step 1: Reconstruct game design document
+    reconstruction = game_design_document_reconstruction(html, modification_request)
+    suggested_name = reconstruction[:suggested_name]
+    modified_doc = reconstruction[:modified_doc]
+
+    # Step 2: Export the modified html game file
+    export_response = html5_game_modification_export(html, modified_doc)
+    unless export_response[:success]
+      raise "HTML Export Failed: #{export_response[:reason]}"
+    end
+    modified_html = export_response[:html]
+
+    # Step 3: Generate theme design document (Styler)
+    theme_response = theme_design_generate(modified_doc)
+    theme_design = theme_response[:theme_design]
+
+    # Step 4: Generate game icon prompt (Prompter)
+    prompt_response = game_icon_prompt_generate(theme_design)
+    game_icon_prompt = prompt_response[:game_icon_prompt]
+
+    # Step 5: Generate game icon image (DallE Generator)
+    icon_response = game_icon_generate(game_icon_prompt)
+    game_icon_image = icon_response[:image]
+
+    # R: game splash image is a todo item (currently nil)
+    {
+      suggested_name: suggested_name,
+      modified_html: modified_html,
+      game_icon_image: game_icon_image,
+      game_splash_image: nil
+    }
+  end
+
   # Integrated workflow that follows the service graph in File #1.
   #
   # Inputs:
@@ -202,6 +243,10 @@ class CustomizeGameService
   end
 
   private
+
+  def load_game_template
+    Faraday.get("https://raw.githubusercontent.com/kd-research/Techies/refs/heads/main/techies/refs/build/game.html").body
+  end
 
   # return a regex pattern that matches the content of the tag
   # eg: encapsuled_pattern(:html_content) => /HTML-CONTENT-BEGIN\s*(?<html_content>.*?)\s*HTML-CONTENT-END/m

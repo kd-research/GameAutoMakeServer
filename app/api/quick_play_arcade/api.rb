@@ -67,5 +67,13 @@ module QuickPlayArcade
     post "/customize_game" do
       CustomizeGameService.new.integrated_customization(params[:game_html], params[:request])
     end
+
+    desc "It will receive a natural language request to generate a game, and it will return a new html game that will fulfill this requirement."
+    params do
+      requires :request, type: String
+    end
+    post "/generate_game" do
+      CustomizeGameService.new.game_generation_with_internal_template(params[:request])
+    end
   end
 end
