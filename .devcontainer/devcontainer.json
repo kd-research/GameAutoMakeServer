@@ -1,15 +1,18 @@
 {
     "name": "API Development Environment",
-    "image": "mcr.microsoft.com/vscode/devcontainers/base:bullseye",
+    "image": "mcr.microsoft.com/vscode/devcontainers/ruby:3.3-bullseye",
     "remoteEnv": {
         "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
         "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}",
         "AGENTOPS_API_KEY": "${localEnv:AGENTOPS_API_KEY}",
-        "BUNDLE_WITHOUT": "production"
+        "GOOGLE_CLOUD_KEYFILE": "/home/vscode/config/gcloud.key",
+        "BUNDLE_WITHOUT": "production",
+        "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0"
     },
     "customizations": {
         "vscode": {
             "extensions": [
+                "ms-vscode.ruby",
                 "ms-vscode.vscode-node-azure-pack"
             ]
         }
@@ -19,17 +22,15 @@
             "installZsh": true,
             "configureZshAsDefaultShell": true,
             "installOhMyZsh": true,
-            "installOhMyZshConfig": true,
+            "installOhMyZshConfig": true
         },
-
         // "ghcr.io/devcontainers/features/python:1": { "version": "3.10.16" },
-        "ghcr.io/devcontainers/features/node:1": { "version": "22.2.0" },
-        "ghcr.io/rails/devcontainer/features/ruby": { 
-            "version": "3.3.0",
-        },
-        "ghcr.io/hukaidong/devcontainer/neovim-kickstart:1": { }
-        "ghcr.io/hukaidong/devcontainer/kd-utils:1": { }
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/hukaidong/devcontainer/neovim-kickstart:1.0.1": { },
+        "ghcr.io/hukaidong/devcontainer/kd-utils:1.0.1": { },
+        "ghcr.io/itsmechlark/features/redis-server:1": { }
     },
-    "postCreateCommand": "echo 'Development container created successfully!' && bundle install",
-    "runArgs": [],
+    "postCreateCommand": "echo 'Development container created successfully!' && bundle install && corepack enable && yarn install",
+    "forwardPorts": [3000],
+    "runArgs": []
 }
