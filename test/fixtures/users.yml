@@ -1,0 +1,8 @@
+admin:
+  email: admin@example.com
+  roles: admin
+
+user:
+  email: user@example.com
+  roles: ""
+

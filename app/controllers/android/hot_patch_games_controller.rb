@@ -5,7 +5,12 @@ module Android
 
     # GET /android/hot_patch_games or /android/hot_patch_games.json
     def index
-      @android_hot_patch_games = Android::HotPatchGame.all
+      @android_hot_patch_games = if current_user&.admin?
+                                   Android::HotPatchGame.all
+                                 else
+                                   # Filter out games with pending-review status for non-admin users
+                                   Android::HotPatchGame.where("groups NOT LIKE ?", "%pending-review%")
+                                 end
     end
 
     # GET /android/hot_patch_games/1 or /android/hot_patch_games/1.json

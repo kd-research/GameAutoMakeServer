@@ -37,3 +37,23 @@ webgl_game_compile_2_loader:
   name: loader_file
   record: two (WebglGameCompile)
   blob: webGL_build_2_loader
+
+hot_patch_game_1_icon:
+  name: icon
+  record: one (Android::HotPatchGame)
+  blob: placeholder_blob
+
+hot_patch_game_1_html:
+  name: html
+  record: one (Android::HotPatchGame)
+  blob: placeholder_blob
+
+hot_patch_game_2_icon:
+  name: icon
+  record: two (Android::HotPatchGame)
+  blob: placeholder_blob
+
+hot_patch_game_2_html:
+  name: html
+  record: two (Android::HotPatchGame)
+  blob: placeholder_blob

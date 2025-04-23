@@ -7,3 +7,5 @@ webGL_build_2_data: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColl
 webGL_build_2_framework: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.framework.js.unityweb", metadata: {content_type: 'application/javascript', identify: false, custom: { content_encoding: 'gzip' }}) %>
 webGL_build_2_loader: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.loader.js") %>
 webGL_build_2_code: <%= ActiveStorage::FixtureSet.blob(filename: "TriggerAndColliderWebGLBuild-Build.wasm.unityweb", metadata: {content_type: 'application/wasm', identify: false, custom: { content_encoding: 'gzip' }}) %>
+
+placeholder_blob: <%= ActiveStorage::FixtureSet.blob(filename: "index.html") %>

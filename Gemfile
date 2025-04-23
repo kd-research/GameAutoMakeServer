@@ -116,3 +116,5 @@ gem "sinatra", "~> 4.0", require: false
 gem "sinatra-contrib", "~> 4.0"
 
 gem "mocha", "~> 2.7", group: :test
+
+gem "rails-controller-testing", "~> 1.0"
