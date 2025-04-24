@@ -1,7 +1,9 @@
 module Android
   class HotPatchGamesController < ApplicationController
+    protect_from_forgery with: :null_session, if: -> { request.format.json? }, only: %i[create]
+
     before_action :set_android_hot_patch_game, only: %i[show edit update destroy reviewed]
-    before_action :ensure_admin!, except: %i[index show reviewed]
+    before_action :ensure_admin!, except: %i[index create show reviewed]
 
     # GET /android/hot_patch_games or /android/hot_patch_games.json
     def index
@@ -27,6 +29,10 @@ module Android
     # POST /android/hot_patch_games or /android/hot_patch_games.json
     def create
       @android_hot_patch_game = Android::HotPatchGame.new(android_hot_patch_game_params)
+
+      unless current_user&.admin?
+        @android_hot_patch_game.groups = "pending-review"
+      end
 
       respond_to do |format|
         if @android_hot_patch_game.save
