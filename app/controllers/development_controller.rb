@@ -12,6 +12,7 @@ class DevelopmentController < ApplicationController
   def developer_sign_in
     user = User.find_or_create_by!(email: "develop@me") do |u|
       u.password = "password"
+      u.roles = "developer,admin"
     end
 
     sign_in(user)

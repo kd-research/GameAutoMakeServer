@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   namespace :android do
-    resources :hot_patch_games
+    resources :hot_patch_games do
+      member do
+        post :reviewed
+      end
+    end
     get "service_test", to: "service_test#index"
     post "service_test/customize_game"
   end

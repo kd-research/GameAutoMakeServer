@@ -1,7 +1,7 @@
 module Android
   class HotPatchGamesController < ApplicationController
-    before_action :set_android_hot_patch_game, only: %i[show edit update destroy]
-    before_action :ensure_admin!, except: %i[index show]
+    before_action :set_android_hot_patch_game, only: %i[show edit update destroy reviewed]
+    before_action :ensure_admin!, except: %i[index show reviewed]
 
     # GET /android/hot_patch_games or /android/hot_patch_games.json
     def index
@@ -60,6 +60,11 @@ module Android
         format.html { redirect_to android_hot_patch_games_url, notice: "Hot patch game was successfully destroyed." }
         format.json { head :no_content }
       end
+    end
+
+    def reviewed
+      @android_hot_patch_game.reviewed!
+      redirect_to android_hot_patch_game_url(@android_hot_patch_game), notice: "Hot patch game was successfully reviewed."
     end
 
     private

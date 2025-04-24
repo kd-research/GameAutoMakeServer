@@ -3,6 +3,9 @@ p style="color: green" = notice
 == render @android_hot_patch_game
 
 div
+  - if current_user&.admin? and @android_hot_patch_game.need_review?
+    => button_to "Approve this game", reviewed_android_hot_patch_game_path(@android_hot_patch_game), class: "btn-link", form_class: "is-inline"
+    '|
   => link_to "Edit this hot patch game", edit_android_hot_patch_game_path(@android_hot_patch_game)
   '|
   =< link_to "Back to hot patch games", android_hot_patch_games_path
