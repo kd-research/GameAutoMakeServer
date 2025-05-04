@@ -31,6 +31,6 @@
         "ghcr.io/itsmechlark/features/redis-server:1": { }
     },
     "postCreateCommand": "echo 'Development container created successfully!' && bundle install && corepack enable && yarn install",
-    "forwardPorts": [3000],
+    "forwardPorts": ["3000:3000"],
     "runArgs": []
 }

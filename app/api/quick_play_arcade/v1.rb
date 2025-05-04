@@ -1,6 +1,6 @@
 module QuickPlayArcade
-  class API < Grape::API
-    version "v1", using: :path
+  class V1 < Grape::API
+    version %w[v1 v2], using: :path
     format :json
 
     desc "Register a new android device (installed app) and get a token for the device"

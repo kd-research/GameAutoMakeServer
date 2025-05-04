@@ -76,7 +76,7 @@ Rails.application.routes.draw do
     mount Resque::Server.new, at: "/resque"
   end
 
-  mount QuickPlayArcade::API => "/"
+  mount QuickPlayArcade::App => "/"
 
   mount PatchPlatform.new("/utils/game-patcher") => "/utils/game-patcher"
 
