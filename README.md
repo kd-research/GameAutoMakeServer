@@ -93,9 +93,15 @@ The application is built around several key data models:
 
 ### Quick Play Arcade API
 
-The Quick Play Arcade API is built using the Grape framework and is mounted at the root path with a `/v1` prefix. The API interacts with several key data models including `ClientTerminal`, `ScoreBoard::Score`, and `PublishedGame`.
+The Quick Play Arcade API is built using the Grape framework and is mounted at the root path with `/v1` and `/v2` prefixes. The API interacts with several key data models including `ClientTerminal`, `ScoreBoard::Score`, and `PublishedGame`.
 
-#### Key API Endpoints
+#### V2 API Endpoints
+
+##### Game Customization and Generation
+- `POST /v2/customize_game`: Modifies an existing game based on uploaded assets and a natural language request
+- `POST /v2/generate_game`: Creates a new game based on a natural language description
+
+#### V1 API Endpoints
 
 ##### Device Registration
 - `GET /v1/register_device`: Registers a new device and returns a token for subsequent API calls
@@ -104,10 +110,6 @@ The Quick Play Arcade API is built using the Grape framework and is mounted at t
 - `GET /v1/top_scores/:game_id`: Retrieves the top 10 scores for a specific game
 - `POST /v1/device/upload_score`: Records a new score for a game from a specific device
 - `POST /v1/device/scores`: Retrieves a device's personal scores for a specific game
-
-##### Game Customization
-- `POST /v1/customize_game`: Modifies an existing game based on a natural language request
-- `POST /v1/generate_game`: Creates a new game based on a natural language request
 
 ## Platform Support
 
