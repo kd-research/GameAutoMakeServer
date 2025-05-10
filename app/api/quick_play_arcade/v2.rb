@@ -14,7 +14,7 @@ module QuickPlayArcade
     end
     post "/customize_game" do
       # Create a Faraday connection to the Flask game generator service
-      conn = Faraday.new(url: "http://flask-game-generator:5001") do |f|
+      conn = Faraday.new(url: "http://#{ENV['FLASK_GAME_HOST'] || 'flask-game-generator:5001'}") do |f|
         f.request :multipart
         f.adapter Faraday.default_adapter
       end
@@ -98,7 +98,7 @@ module QuickPlayArcade
     end
     post "/generate_game" do
       # Create a Faraday connection to the Flask game generator service
-      conn = Faraday.new(url: "http://flask-game-generator:5001") do |f|
+      conn = Faraday.new(url: "http://#{ENV['FLASK_GAME_HOST'] || 'flask-game-generator:5001'}") do |f|
         f.request :json
         f.response :json
         f.adapter Faraday.default_adapter
